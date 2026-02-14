@@ -1,0 +1,17 @@
+# 환경 변수
+.env
+
+# Python
+venv/
+__pycache__/
+*.pyc
+
+# 런타임 데이터
+kakao_tokens.json
+execute_log.txt
+
+# 레거시 (삭제됨, 혹시 남아있을 경우 무시)
+*.db
+cloudflared.exe
+dashboard_url.txt
+image.JPG
