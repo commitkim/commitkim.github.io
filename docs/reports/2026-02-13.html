@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ news.video_title }} - CommitKim Dashboard</title>
+    <title>한국경제신문 30분 만에 읽기 | 20260213🌞#모닝루틴 | 아침 8시 라이브 - CommitKim Dashboard</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap"
         rel="stylesheet">
@@ -22,37 +22,38 @@
             <a href="../index.html" class="flex items-center text-gray-600 hover:text-gray-900 transition">
                 <span class="mr-2">←</span> Home
             </a>
-            <span class="text-sm text-gray-500">{{ news.video_date }}</span>
+            <span class="text-sm text-gray-500">2026-02-13</span>
         </div>
 
         <article class="bg-white rounded-2xl shadow-sm p-8">
-            <h1 class="text-3xl font-bold text-gray-900 mb-4">{{ news.video_title }}</h1>
+            <h1 class="text-3xl font-bold text-gray-900 mb-4">한국경제신문 30분 만에 읽기 | 20260213🌞#모닝루틴 | 아침 8시 라이브</h1>
 
-            {% if news.youtube_url %}
-            <div class="mb-6">
-                <a href="{{ news.youtube_url }}" target="_blank"
-                    class="text-indigo-600 hover:underline flex items-center">
-                    <span class="mr-2">📺</span> Watch on YouTube
-                </a>
-            </div>
-            {% endif %}
+            
 
             <div class="prose prose-lg max-w-none text-gray-700">
                 <!-- Key Insights -->
-                {% if news.key_insights %}
+                
                 <div class="bg-indigo-50 p-6 rounded-xl mb-8">
                     <h3 class="font-bold text-indigo-800 mb-4 text-xl">Key Insights</h3>
                     <ul class="list-disc list-inside space-y-2">
-                        {% for insight in news.key_insights %}
-                        <li>{{ insight }}</li>
-                        {% endfor %}
+                        
+                        <li>코스닥 시장의 부실 기업 정리 기대와 투자 심리 위축 우려 공존</li>
+                        
+                        <li>퇴직연금의 국채 투자 허용으로 개인 투자자 선택지 확대 및 정부 재정 부담 완화 기대</li>
+                        
+                        <li>AI 기술 발전의 양면성: 관련 기업 성장 vs 기존 산업 위협</li>
+                        
+                        <li>개인 정보 보호의 중요성 부각 및 기업의 보안 투자 필요성 증대</li>
+                        
+                        <li>지정학적 리스크 완화 기대에 따른 유가 하락</li>
+                        
                     </ul>
                 </div>
-                {% endif %}
+                
 
                 <!-- Full Summary -->
                 <div class="whitespace-pre-line leading-relaxed">
-                    {{ news.summary_content | default(news.kakao_summary) }}
+                    None
                 </div>
             </div>
         </article>
