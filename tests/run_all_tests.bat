@@ -5,8 +5,8 @@ echo 🧪 CommitKim Project Test Suite
 echo ========================================================
 
 echo.
-echo [1/2] Testing Summariser...
-call "%~dp0test_summariser.bat"
+echo [1/2] Testing Summariser (Skipping Gemini API)...
+call "%~dp0test_summariser.bat" --skip-ai
 if %ERRORLEVEL% NEQ 0 (
     echo ❌ Summariser Test Failed!
     exit /b 1

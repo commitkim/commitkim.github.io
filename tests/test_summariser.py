@@ -24,7 +24,13 @@ from unittest.mock import patch
 import config
 from modules import collector, summarizer, generator
 
+import argparse
+
 def run_test():
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--skip-ai', action='store_true', help='Skip actual Gemini API calls and use mock data')
+    args = parser.parse_args()
+    
     with tempfile.TemporaryDirectory() as temp_dir:
         temp_data_dir = os.path.join(temp_dir, 'data')
         temp_docs_dir = os.path.join(temp_dir, 'docs')
@@ -33,6 +39,10 @@ def run_test():
         
         print(f"\n{'='*50}")
         print(f"🧪 Summariser Integration Test (Isolated)")
+        if args.skip_ai:
+             print(f"⏩ MODE: SKIP AI (Using Mock Summaries)")
+        else:
+             print(f"🤖 MODE: LIVE AI (Calling Gemini API)")
         print(f"📂 Temp Dir: {temp_dir}")
         print(f"{'='*50}")
 
@@ -115,9 +125,19 @@ def run_test():
                 
                 print(f"  ✅ 자막 추출 성공 ({len(transcript)}자)")
                 
-                # 3. 요약 (테스트용이므로 실제 Gemini 호출)
-                print(f"\n🤖 Step 3: AI 요약 생성 (Gemini 호출)...")
-                summary = summarizer.summarize(transcript, video_id)
+                # 3. 요약 (테스트 옵션에 따라 분기)
+                if args.skip_ai:
+                    print(f"\n⏩ Step 3: AI 요약 생성 (SKIPPED - Mock 데이터 사용)...")
+                    summary = {
+                        "main_topics": ["테스트 주제 1", "테스트 주제 2"],
+                        "market_summary": {"KOSPI": "2,500 (+1.2%)", "USD/KRW": "1,350 (-5)"},
+                        "key_insights": ["인사이트 1: 이것은 테스트입니다.", "인사이트 2: 제미나이 호출을 건너뛰었습니다."],
+                        "kakao_summary": "[MOCK] 오늘의 경제 뉴스 요약입니다.\n1. 테스트1\n2. 테스트2",
+                        "web_report": "## [MOCK] 웹 리포트 상세\n- 테스트용 데이터입니다.\n- 실제 AI 호출이 발생하지 않았습니다."
+                    }
+                else:
+                    print(f"\n🤖 Step 3: AI 요약 생성 (Gemini 호출)...")
+                    summary = summarizer.summarize(transcript, video_id)
                 
                 if not summary:
                     print("❌ 요약 실패")
