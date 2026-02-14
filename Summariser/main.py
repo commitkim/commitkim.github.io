@@ -13,6 +13,9 @@ import sys
 import json
 from datetime import datetime
 
+# Set encoding for Windows console
+sys.stdout.reconfigure(encoding='utf-8')
+
 import config
 from modules import collector, summarizer, kakao, generator, deployer
 
