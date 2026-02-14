@@ -17,13 +17,27 @@
 
 <body class="bg-gray-100 min-h-screen flex">
 
+    <!-- Background Overlay for Mobile -->
+    <div id="sidebar-overlay"
+        class="fixed inset-0 bg-black/50 z-40 hidden transition-opacity duration-300 opacity-0 md:hidden"></div>
+
     <!-- Sidebar -->
-    <aside class="w-64 bg-slate-900 text-white flex-shrink-0 hidden md:flex flex-col">
-        <div class="p-6 border-b border-slate-800">
-            <h1 class="text-2xl font-bold bg-gradient-to-r from-indigo-400 to-cyan-400 bg-clip-text text-transparent">
-                CommitKim
-            </h1>
-            <p class="text-xs text-slate-400 mt-1">Project Hub</p>
+    <aside id="sidebar"
+        class="w-64 bg-slate-900 text-white flex-shrink-0 fixed inset-y-0 left-0 z-50 transform -translate-x-full transition-transform duration-300 ease-in-out md:relative md:translate-x-0 md:flex flex-col">
+        <div class="p-6 border-b border-slate-800 flex justify-between items-center">
+            <div>
+                <h1
+                    class="text-2xl font-bold bg-gradient-to-r from-indigo-400 to-cyan-400 bg-clip-text text-transparent">
+                    CommitKim
+                </h1>
+                <p class="text-xs text-slate-400 mt-1">Project Hub</p>
+            </div>
+            <!-- Close button for mobile -->
+            <button id="menu-close" class="md:hidden text-slate-400 hover:text-white">
+                <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+            </button>
         </div>
 
         <nav class="flex-1 p-4 space-y-6">
@@ -69,7 +83,13 @@
     <!-- Mobile Header -->
     <div
         class="md:hidden fixed top-0 w-full bg-slate-900 text-white z-50 p-4 flex justify-between items-center shadow-md">
+        <button id="menu-toggle" class="p-2 hover:bg-slate-800 rounded-lg transition">
+            <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+            </svg>
+        </button>
         <h1 class="font-bold">CommitKim Hub</h1>
+        <div class="w-10"></div> <!-- Spacer for balance -->
     </div>
 
     <!-- Main Content -->
@@ -103,7 +123,7 @@
                 <div class="bg-gray-50 px-6 py-4 flex justify-between items-center">
                     <span class="text-sm text-gray-500">더 자세한 분석이 필요하신가요?</span>
                     <a href="./report.html"
-                        class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-6 rounded-lg transition shadow-md no-underline flex items-center gap-2">
+                        class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-6 rounded-lg transition shadow-md no-underline flex items-center gap-2 text-sm md:text-base">
                         상세 리포트 보기 <span>→</span>
                     </a>
                 </div>
@@ -112,6 +132,35 @@
         
 
     </main>
+
+    <script>
+        const menuToggle = document.getElementById('menu-toggle');
+        const menuClose = document.getElementById('menu-close');
+        const sidebar = document.getElementById('sidebar');
+        const overlay = document.getElementById('sidebar-overlay');
+
+        function openSidebar() {
+            sidebar.classList.remove('-translate-x-full');
+            overlay.classList.remove('hidden');
+            setTimeout(() => {
+                overlay.classList.add('opacity-100');
+                overlay.classList.remove('opacity-0');
+            }, 10);
+        }
+
+        function closeSidebar() {
+            sidebar.classList.add('-translate-x-full');
+            overlay.classList.add('opacity-0');
+            overlay.classList.remove('opacity-100');
+            setTimeout(() => {
+                overlay.classList.add('hidden');
+            }, 300);
+        }
+
+        menuToggle.addEventListener('click', openSidebar);
+        menuClose.addEventListener('click', closeSidebar);
+        overlay.addEventListener('click', closeSidebar);
+    </script>
 
 </body>
 
