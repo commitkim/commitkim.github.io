@@ -89,9 +89,9 @@ def run_daily_job(no_deploy=False):
     print("\n💾 Step 4: JSON 데이터 저장...")
     save_data(video_id, title, date, target_transcript, summary)
     
-    # ── 5. HTML 빌드 (Deprecated: Dashboard에서 처리) ──
-    # print("\n🔨 Step 5: 정적 사이트 빌드...")
-    # generator.build_all()
+    # ── 5. HTML 빌드 (Sub-site generation) ──
+    print("\n🔨 Step 5: summariser 서브사이트 빌드...")
+    generator.build_all()
     
     # ── 6. Git 배포 (Deprecated: Dashboard에서 처리) ──
     # if no_deploy:

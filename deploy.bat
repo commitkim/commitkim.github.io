@@ -24,12 +24,14 @@ if not exist Dashboard\venv (
     echo [0/4] Setting up virtual environment...
     python -m venv Dashboard\venv
     Dashboard\venv\Scripts\pip install -r Dashboard\requirements.txt
+    Dashboard\venv\Scripts\pip install -r Summariser\requirements.txt
 )
 
 :: 1. Run the builder script
 echo.
 echo [1/4] Building static site...
 Dashboard\venv\Scripts\python Dashboard\builder.py
+Dashboard\venv\Scripts\python Summariser\main.py build
 if %ERRORLEVEL% NEQ 0 (
     echo ❌ Build failed!
     pause

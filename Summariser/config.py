@@ -6,16 +6,18 @@
 import os
 from dotenv import load_dotenv
 
-# .env 파일 로드
-# .env 파일 로드 (Project 루트)
-load_dotenv(os.path.join(PROJECT_DIR, "../.env"))
-
 # =============================================================================
 # 📂 프로젝트 경로
 # =============================================================================
 PROJECT_DIR = os.path.dirname(os.path.abspath(__file__))
+
+# .env 파일 로드
+# .env 파일 로드 (Project 루트)
+load_dotenv(os.path.join(PROJECT_DIR, "../.env"))
+
 DATA_DIR = os.path.abspath(os.path.join(PROJECT_DIR, "../Dashboard/data/news"))
-DOCS_DIR = os.path.join(PROJECT_DIR, "docs")
+# HTML/JSON 출력 경로 (Project/docs/summariser)
+DOCS_DIR = os.path.abspath(os.path.join(PROJECT_DIR, "../docs/summariser"))
 TEMPLATES_DIR = os.path.join(PROJECT_DIR, "templates")
 
 # =============================================================================
