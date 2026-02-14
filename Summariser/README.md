@@ -1,65 +1,36 @@
-# 📈 모닝루틴 경제 브리핑
+# AI News Summariser 🤖
 
-> **🌐 웹사이트**: [https://commitkim.github.io](https://commitkim.github.io/)
+**매일 아침, 경제 뉴스를 AI가 요약해줍니다.**
+*This project is generated and maintained by Google's Agentic AI.*
 
-YouTube 경제 뉴스(한국경제신문 모닝루틴)를 AI가 분석하여 카카오톡 요약 + 웹 리포트를 자동 생성하는 봇입니다.
+---
 
-### 🤖 Built with AI
-코드 설계부터 구현, 디버깅까지 대부분의 개발 과정에서 AI의 도움을 받았습니다.
-- **Claude Opus 4.6 Thinking** (Antigravity) — 프로젝트 전반의 아키텍처 설계, 코드 구현, 디버깅을 주도적으로 담당
-- **Gemini 3 Pro High** (Antigravity) — 아키텍처 설계, 구현 및 디버깅 보조
-- **Gemini 3 Flash** — 매일 경제 유튜브 영상을 요약·분석하는 AI 엔진
+## 📝 개요
+유튜브 채널(한국경제신문)의 '모닝루틴' 라이브 영상을 텍스트로 변환하고, **Google Gemini**를 사용하여 핵심 내용, 시장 동향, 인사이트를 요약합니다. 요약된 내용은 카카오톡으로 전송되며, 웹사이트에도 게시됩니다.
 
-## 🏗️ 아키텍처
+## ⚙️ 주요 기능
+1.  **자동 수집**: YouTube RSS 피드를 모니터링하여 최신 '모닝루틴' 영상을 감지합니다.
+2.  **자막 추출**: `youtube-transcript-api`를 사용하여 영상의 자막을 추출합니다.
+3.  **AI 요약**: Gemini 2.0 Flash 모델이 자막을 분석하여 구조화된 요약(JSON)을 생성합니다.
+4.  **카카오톡 전송**: 요약된 내용을 보기 좋게 포맷팅하여 카카오톡 '나에게 보내기'로 전송합니다.
+5.  **웹 리포트**: 상세 분석 내용을 마크다운 형태로 저장하고 대시보드 사이트에 통합합니다.
 
-```
-평일 09:00 (Windows Task Scheduler)
-    → YouTube RSS에서 오늘자 영상 검색
-    → 자막 추출 & Gemini 듀얼 요약 생성
-    → JSON 저장 (data/YYYY-MM-DD.json)
-    → Jinja2 → HTML 정적 사이트 빌드 (docs/)
-    → Git push → GitHub Pages 배포
-    → 카카오톡 메시지 전송 (🌐 자세히보기 → 웹 리포트)
-```
+## 🛠️ 기술 스택
+- **Language**: Python 3.12+ (venv)
+- **AI Model**: Google Gemini 2.0 Flash
+- **APIs**: YouTube Data API (RSS), KakaoTalk REST API
+- **Scheduling**: Windows Task Scheduler
 
-## 📂 프로젝트 구조
+## 🧪 테스트
+- **Mock 테스트**: 외부 API 호출 없이 로직을 검증합니다.
+    ```bash
+    ..\tests\test_summariser.bat
+    ```
+- **Live 테스트**: 실제 API를 호출하여 전체 파이프라인을 검증합니다.
+    ```bash
+    ..\tests\test_live.bat
+    ```
 
-```
-Summariser/
-├── main.py                 # 7단계 파이프라인 오케스트레이터
-├── config.py               # 설정 중앙 관리
-├── modules/
-│   ├── collector.py        # YouTube RSS 수집 + 자막 추출
-│   ├── summarizer.py       # Gemini 듀얼 요약 (카톡 + 웹)
-│   ├── kakao.py            # 카카오톡 토큰 관리 & 메시지 전송
-│   ├── generator.py        # Jinja2 → HTML 빌드
-│   └── deployer.py         # Git 자동 배포
-├── templates/              # Jinja2 HTML 템플릿
-├── data/                   # 일별 요약 JSON
-├── docs/                   # GitHub Pages 정적 사이트 (빌드 결과)
-├── tests/                  # 테스트 스크립트
-├── run_auto.bat            # 스케줄러용 실행 스크립트
-├── register_schedule.bat   # Windows 작업 스케줄러 등록
-├── setup_kakao.bat         # 카카오 인증 설정
-└── requirements.txt
-```
-
-## 🚀 실행 방법
-
-```bash
-python main.py run              # 전체 파이프라인 실행
-python main.py run --no-deploy  # Git push 제외
-python main.py build            # HTML 빌드만
-python main.py setup            # 카카오 인증 설정
-```
-
-## ⚙️ 설정 (.env)
-
-```
-GEMINI_API_KEY=...
-KAKAO_REST_API_KEY=...
-KAKAO_CLIENT_SECRET=...
-GITHUB_TOKEN=ghp_...
-GITHUB_REPO_URL=https://github.com/username/repo.git
-GIT_EXECUTABLE=C:\Program Files\Git\cmd\git.exe
-```
+## ⚠️ 주의사항
+- **API Quota**: Gemini API 및 YouTube 수집량에 제한이 있을 수 있습니다.
+- **Kakao Token**: 카카오톡 토큰은 만료될 수 있으며, `kakao_auth.py`로 갱신이 필요할 수 있습니다.
