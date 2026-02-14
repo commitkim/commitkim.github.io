@@ -13,7 +13,7 @@ for /d %%D in (*) do (
         echo.
         echo [1/3] Running automation for: %%D
         pushd "%%D"
-        call automation.bat
+        call automation.bat %1
         popd
     )
 )

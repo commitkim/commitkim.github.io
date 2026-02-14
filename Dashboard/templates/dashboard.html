@@ -93,13 +93,13 @@
             <!-- News Bot Section -->
             <div>
                 <div class="px-4 mb-3 text-[10px] font-bold text-slate-500 uppercase tracking-widest">
-                    모닝루틴 경제 뉴스
+                    📰 경제 뉴스 요약
                 </div>
                 <div class="space-y-1">
                     <a href="./report.html"
                         class="group flex items-center space-x-3 px-4 py-2.5 text-indigo-400 bg-slate-800/40 border border-slate-700/50 rounded-xl transition-all hover:bg-slate-800/80">
-                        <span class="text-lg">☀️</span>
-                        <span class="font-bold text-sm">상세 리포트 보기</span>
+                        <span class="text-lg">📄</span>
+                        <span class="font-bold text-sm">최신 리포트 보기</span>
                     </a>
                     <a href="./archive.html"
                         class="group flex items-center space-x-3 px-4 py-2.5 text-slate-400 hover:text-white hover:bg-slate-800/50 rounded-xl transition-all">
@@ -185,7 +185,8 @@
                     Latest Briefing
                 </div>
                 <h2 class="text-xl md:text-2xl font-bold text-slate-900 tracking-tight leading-tight">
-                    {{ news.video_date }} <br class="md:hidden"> 모닝루틴 요약
+                    {{ news.video_date }} <br class="md:hidden">
+                    {% if "퇴근요정" in news.video_title %}퇴근요정{% else %}모닝루틴{% endif %} 브리핑
                 </h2>
                 <div class="w-12 h-1 bg-primary-600 mx-auto mt-6 rounded-full opacity-20"></div>
             </div>

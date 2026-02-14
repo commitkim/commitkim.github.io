@@ -30,6 +30,11 @@ def get_mondays_date():
     return monday.strftime("%Y-%m-%d")
 
 def run_live_test():
+    import argparse
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--mode', choices=['morning', 'evening'], default='morning', help='Test mode: morning or evening')
+    args = parser.parse_args()
+
     target_date = get_mondays_date()
     
     with tempfile.TemporaryDirectory() as temp_dir:
@@ -77,6 +82,10 @@ def run_live_test():
                 
                 print(f"  🔍 Searching for video from {target_date}...")
                 
+                # Get mode configuration
+                mode_config = config.SEARCH_MODES.get(args.mode, config.SEARCH_MODES["morning"])
+                keyword = mode_config["keyword"]
+                
                 for entry in root.findall('atom:entry', ns):
                     title = entry.find('atom:title', ns).text
                     video_id = entry.find('yt:videoId', ns).text
@@ -93,7 +102,7 @@ def run_live_test():
                     print(f"  - Found: [{video_date_kst}] {title} (Raw: {published})")
                     
                     # Strictly check keyword AND date
-                    if config.SEARCH_KEYWORD not in title:
+                    if keyword not in title:
                         continue
 
                     if video_date_kst == target_date:
@@ -147,7 +156,7 @@ def run_live_test():
                     "is_test": True 
                 }
                 
-                filepath = os.path.join(config.DATA_DIR, f"{date}.json")
+                filepath = os.path.join(config.DATA_DIR, f"{date}_{args.mode}.json")
                 with open(filepath, 'w', encoding='utf-8') as f:
                     json.dump(data, f, ensure_ascii=False, indent=2)
                 

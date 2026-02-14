@@ -29,6 +29,7 @@ import argparse
 def run_test():
     parser = argparse.ArgumentParser()
     parser.add_argument('--skip-ai', action='store_true', help='Skip actual Gemini API calls and use mock data')
+    parser.add_argument('--mode', choices=['morning', 'evening'], default='morning', help='Test mode: morning or evening')
     args = parser.parse_args()
     
     with tempfile.TemporaryDirectory() as temp_dir:
@@ -56,7 +57,7 @@ def run_test():
             # ---------------------------------------------------------
             # Mock RSS Response with a known VALID video (from 2026-02-13 Data)
             # This ensures the test passes even if local network blocks RSS.
-            mock_rss_content = """<?xml version="1.0" encoding="UTF-8"?>
+            mock_rss_content = f"""<?xml version="1.0" encoding="UTF-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom" xmlns:yt="http://www.youtube.com/xml/schemas/2015">
     <entry>
         <id>yt:video:bCpktl7dHv8</id>
@@ -64,6 +65,13 @@ def run_test():
         <title>한국경제신문 30분 만에 읽기 | 20260213🌞#모닝루틴 | 아침 8시 라이브</title>
         <link rel="alternate" href="https://www.youtube.com/watch?v=bCpktl7dHv8"/>
         <published>2026-02-13T08:00:00+00:00</published>
+    </entry>
+    <entry>
+        <id>yt:video:owrxxdw9BwY</id>
+        <yt:videoId>owrxxdw9BwY</yt:videoId>
+        <title>LG전자 희망고문, 하루 만인가요? [2월13일 #퇴근요정]</title>
+        <link rel="alternate" href="https://www.youtube.com/watch?v=owrxxdw9BwY"/>
+        <published>2026-02-13T18:00:00+00:00</published>
     </entry>
 </feed>
 """
@@ -93,7 +101,11 @@ def run_test():
                 
                 target_video = None
                 
-                # 가장 최근 영상 1개만 선택
+                # Get mode configuration
+                mode_config = config.SEARCH_MODES.get(args.mode, config.SEARCH_MODES["morning"])
+                keyword = mode_config["keyword"]
+                
+                # 가장 최근 영상 1개만 선택 (키워드 매칭)
                 for entry in root.findall('atom:entry', ns):
                     title = entry.find('atom:title', ns).text
                     video_id = entry.find('yt:videoId', ns).text
@@ -102,13 +114,13 @@ def run_test():
                     
                     print(f"  🔍 검사 중: [{date_str}] {title}")
                     
-                    if config.SEARCH_KEYWORD in title:
-                        print(f"  ✅ 키워드 '{config.SEARCH_KEYWORD}' 매칭 성공!")
+                    if keyword in title:
+                        print(f"  ✅ 키워드 '{keyword}' 매칭 성공!")
                         target_video = (video_id, title, date_str)
                         break
                 
                 if not target_video:
-                    print(f"❌ '{config.SEARCH_KEYWORD}' 키워드가 포함된 최신 영상을 찾을 수 없습니다.")
+                    print(f"❌ '{keyword}' 키워드가 포함된 최신 영상을 찾을 수 없습니다.")
                     sys.exit(1)
 
                 video_id, title, date = target_video
@@ -160,7 +172,7 @@ def run_test():
                     "is_test": True 
                 }
                 
-                filepath = os.path.join(config.DATA_DIR, f"{date}.json")
+                filepath = os.path.join(config.DATA_DIR, f"{date}_{args.mode}.json")
                 
                 with open(filepath, 'w', encoding='utf-8') as f:
                     json.dump(data, f, ensure_ascii=False, indent=2)

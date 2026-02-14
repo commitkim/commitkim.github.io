@@ -15,20 +15,27 @@ DOCS_DIR = os.path.join(PROJECT_ROOT, 'docs')
 TEMPLATES_DIR = os.path.join(BASE_DIR, 'templates')
 
 def load_latest_news():
-    """Loads the most recent news JSON from data/news/."""
-    news_files = glob.glob(os.path.join(DATA_DIR, 'news', '*.json'))
+    """Loads the most recent news JSON from data/news/ subdirectories."""
+    # Search recursively for JSON files
+    news_files = glob.glob(os.path.join(DATA_DIR, 'news', '**', '*.json'), recursive=True)
     if not news_files:
         return None
     
-    # Sort by filename (assuming YYYY-MM-DD.json format) or modification time
-    latest_file = max(news_files, key=os.path.getctime)
-    
-    try:
-        with open(latest_file, 'r', encoding='utf-8') as f:
-            return json.load(f)
-    except Exception as e:
-        print(f"Error loading news file {latest_file}: {e}")
+    all_news = []
+    for f_path in news_files:
+        try:
+            with open(f_path, 'r', encoding='utf-8') as f:
+                data = json.load(f)
+                all_news.append(data)
+        except:
+            continue
+            
+    if not all_news:
         return None
+        
+    # Sort by created_at descending
+    all_news.sort(key=lambda x: x.get('created_at', ''), reverse=True)
+    return all_news[0]
 
 def build(output_dir=None):
     """Renders the dashboard and saves it to docs/index.html (or custom output_dir)."""

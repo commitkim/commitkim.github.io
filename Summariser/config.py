@@ -40,7 +40,18 @@ GITHUB_PAGES_URL = os.getenv("GITHUB_PAGES_URL", "https://commitkim.github.io") 
 # 📺 유튜브 수집 설정
 # =============================================================================
 YOUTUBE_CHANNEL_ID = "UCGCGxsbmG_9nincyI7xypow"
-SEARCH_KEYWORD = "모닝루틴"
+SEARCH_MODES = {
+    "morning": {
+        "keyword": "모닝루틴",
+        "title_prefix": "모닝루틴 요약"
+    },
+    "evening": {
+        "keyword": "퇴근요정",
+        "title_prefix": "퇴근요정 요약"
+    }
+}
+# Default keyword for backward compatibility (if needed)
+SEARCH_KEYWORD = SEARCH_MODES["morning"]["keyword"]
 
 # =============================================================================
 # 🤖 AI 설정

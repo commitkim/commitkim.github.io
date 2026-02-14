@@ -20,9 +20,10 @@ import config
 from modules import collector, summarizer, kakao, generator, deployer
 
 
-def save_data(video_id, video_title, video_date, transcript, summary_json):
-    """요약 결과를 data/YYYY-MM-DD.json으로 저장합니다."""
-    os.makedirs(config.DATA_DIR, exist_ok=True)
+def save_data(video_id, video_title, video_date, transcript, summary_json, mode="morning"):
+    """요약 결과를 data/mode/YYYY-MM-DD.json으로 저장합니다."""
+    mode_dir = os.path.join(config.DATA_DIR, mode)
+    os.makedirs(mode_dir, exist_ok=True)
     
     data = {
         "video_id": video_id,
@@ -37,25 +38,31 @@ def save_data(video_id, video_title, video_date, transcript, summary_json):
         "created_at": datetime.now().isoformat()
     }
     
-    filepath = os.path.join(config.DATA_DIR, f"{video_date}.json")
+    filepath = os.path.join(mode_dir, f"{video_date}.json")
     with open(filepath, 'w', encoding='utf-8') as f:
         json.dump(data, f, ensure_ascii=False, indent=2)
     
-    print(f"✅ 데이터 저장: data/{video_date}.json")
+    print(f"✅ 데이터 저장: {mode}/{video_date}.json")
     return filepath
 
 
-def run_daily_job(no_deploy=False):
+def run_daily_job(mode="morning", no_deploy=False):
     """전체 파이프라인을 실행합니다."""
     print(f"\n{'='*50}")
-    print(f"🚀 작업 시작: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
+    print(f"🚀 작업 시작 ({mode}): {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
     print(f"{'='*50}")
     
     # ── 1. YouTube 영상 수집 ──
-    print("\n📡 Step 1: YouTube 영상 검색...")
-    candidates = collector.find_todays_videos()
+    print(f"\n📡 Step 1: YouTube 영상 검색 ({mode})...")
+    
+    # Get mode configuration
+    mode_config = config.SEARCH_MODES.get(mode, config.SEARCH_MODES["morning"])
+    keyword = mode_config["keyword"]
+    title_prefix = mode_config["title_prefix"]
+
+    candidates = collector.find_todays_videos(keyword=keyword)
     if not candidates:
-        print("❌ 오늘자 '모닝루틴' 영상을 찾을 수 없습니다.")
+        print(f"❌ 오늘자 '{keyword}' 영상을 찾을 수 없습니다.")
         return
     
     # ── 2. 자막 추출 ──
@@ -90,7 +97,7 @@ def run_daily_job(no_deploy=False):
     
     # ── 4. JSON 저장 ──
     print("\n💾 Step 4: JSON 데이터 저장...")
-    save_data(video_id, title, date, target_transcript, summary)
+    save_data(video_id, title, date, target_transcript, summary, mode=mode)
     
     # ── 5. HTML 빌드 (Sub-site generation) ──
     print("\n🔨 Step 5: summariser 서브사이트 빌드...")
@@ -108,7 +115,7 @@ def run_daily_job(no_deploy=False):
     kakao_text = summary.get('kakao_summary', '')
     # 카카오 '자세히보기' 링크를 GitHub Pages 웹 리포트로 연결
     pages_url = config.GITHUB_PAGES_URL.rstrip('/')
-    message = f"📰 [모닝루틴 요약]\n{date}\n\n{kakao_text}"
+    message = f"📰 [{title_prefix}]\n{date}\n\n{kakao_text}"
     kakao.send_message(message, link_url=pages_url)
     
     print(f"\n{'='*50}")
@@ -124,8 +131,15 @@ if __name__ == "__main__":
             kakao.setup_auth()
         
         elif command == "run":
+            mode = "morning"
+            # Command could be: python main.py run evening --no-deploy
+            for arg in sys.argv[2:]:
+                if arg in config.SEARCH_MODES:
+                    mode = arg
+                    break
+            
             no_deploy = "--no-deploy" in sys.argv
-            run_daily_job(no_deploy=no_deploy)
+            run_daily_job(mode=mode, no_deploy=no_deploy)
         
         elif command == "build":
             print("🔨 HTML 빌드만 실행합니다...")
@@ -137,6 +151,6 @@ if __name__ == "__main__":
     else:
         print("사용법:")
         print("  python main.py setup         - 카카오 인증 설정")
-        print("  python main.py run           - 전체 파이프라인 실행")
-        print("  python main.py run --no-deploy  - Git push 없이 실행")
+        print("  python main.py run [mode]    - 전체 파이프라인 실행 (mode: morning|evening)")
+        print("  python main.py run [mode] --no-deploy - Git push 없이 실행")
         print("  python main.py build         - HTML 빌드만 실행")
