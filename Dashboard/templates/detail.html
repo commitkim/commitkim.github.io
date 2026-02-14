@@ -12,6 +12,68 @@
         body {
             font-family: 'Noto Sans KR', sans-serif;
         }
+
+        /* Markdown Styles */
+        .prose h1 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-top: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .prose h2 {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-top: 1.2rem;
+            margin-bottom: 0.8rem;
+            border-bottom: 1px solid #e5e7eb;
+            padding-bottom: 0.5rem;
+        }
+
+        .prose h3 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-top: 1rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .prose ul {
+            list-style-type: disc;
+            padding-left: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .prose ol {
+            list-style-type: decimal;
+            padding-left: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .prose li {
+            margin-bottom: 0.25rem;
+        }
+
+        .prose p {
+            margin-bottom: 1rem;
+            line-height: 1.6;
+        }
+
+        .prose strong {
+            font-weight: 600;
+            color: #111827;
+        }
+
+        .prose a {
+            color: #2563eb;
+            text-decoration: underline;
+        }
+
+        .prose blockquote {
+            border-left: 4px solid #e5e7eb;
+            padding-left: 1rem;
+            color: #4b5563;
+            font-style: italic;
+        }
     </style>
 </head>
 
@@ -20,40 +82,49 @@
     <div class="max-w-4xl mx-auto">
         <div class="mb-6 flex justify-between items-center">
             <a href="../index.html" class="flex items-center text-gray-600 hover:text-gray-900 transition">
-                <span class="mr-2">←</span> Home
+                <span class="mr-2">←</span> 홈으로
             </a>
             <span class="text-sm text-gray-500">{{ news.video_date }}</span>
         </div>
 
-        <article class="bg-white rounded-2xl shadow-sm p-8">
-            <h1 class="text-3xl font-bold text-gray-900 mb-4">{{ news.video_title }}</h1>
-
-            {% if news.youtube_url %}
-            <div class="mb-6">
-                <a href="{{ news.youtube_url }}" target="_blank"
-                    class="text-indigo-600 hover:underline flex items-center">
-                    <span class="mr-2">📺</span> Watch on YouTube
-                </a>
+        <article class="bg-white rounded-2xl shadow-lg run-animation overflow-hidden">
+            <!-- Header -->
+            <div class="bg-gradient-to-r from-indigo-600 to-blue-600 p-6 sm:p-8 text-white">
+                <h1 class="text-xl sm:text-2xl font-bold leading-tight mb-2">
+                    {{ news.video_title }}
+                </h1>
+                <div class="flex items-center text-indigo-100 text-sm mt-2">
+                    <span>AI 요약 리포트</span>
+                    <span class="mx-2">•</span>
+                    {% if news.youtube_url %}
+                    <a href="{{ news.youtube_url }}" target="_blank"
+                        class="hover:text-white underline decoration-dashed underline-offset-4">
+                        YouTube 원본 영상
+                    </a>
+                    {% endif %}
+                </div>
             </div>
-            {% endif %}
 
-            <div class="prose prose-lg max-w-none text-gray-700">
-                <!-- Key Insights -->
-                {% if news.key_insights %}
-                <div class="bg-indigo-50 p-6 rounded-xl mb-8">
-                    <h3 class="font-bold text-indigo-800 mb-4 text-xl">Key Insights</h3>
-                    <ul class="list-disc list-inside space-y-2">
-                        {% for insight in news.key_insights %}
-                        <li>{{ insight }}</li>
-                        {% endfor %}
-                    </ul>
+            <div class="p-6 sm:p-8">
+                <!-- Kakao Summary Block -->
+                {% if news.kakao_summary %}
+                <div class="bg-gray-50 rounded-xl p-5 mb-8 border border-gray-100">
+                    <h3 class="text-sm font-bold text-gray-400 uppercase tracking-wider mb-3">⚡ 3줄 요약 (카카오톡 발송본)</h3>
+                    <div class="text-gray-700 whitespace-pre-wrap font-medium">{{ news.kakao_summary }}</div>
                 </div>
                 {% endif %}
 
-                <!-- Full Summary -->
-                <div class="whitespace-pre-line leading-relaxed">
-                    {{ news.summary_content | default(news.kakao_summary) }}
+                <!-- Full Report (Markdown) -->
+                {% if news.summary_html %}
+                <div class="prose prose-indigo max-w-none text-gray-600">
+                    {{ news.summary_html | safe }}
                 </div>
+                {% else %}
+                <!-- Fallback for old data -->
+                <div class="whitespace-pre-line leading-relaxed text-gray-700">
+                    {{ news.summary_content }}
+                </div>
+                {% endif %}
             </div>
         </article>
     </div>

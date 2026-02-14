@@ -13,13 +13,66 @@
             font-family: 'Noto Sans KR', sans-serif;
         }
 
-        .app-card {
-            transition: all 0.3s ease;
+        /* Markdown Styles */
+        .prose h1 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-top: 1.5rem;
+            margin-bottom: 1rem;
         }
 
-        .app-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        .prose h2 {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-top: 1.2rem;
+            margin-bottom: 0.8rem;
+            border-bottom: 1px solid #e5e7eb;
+            padding-bottom: 0.5rem;
+        }
+
+        .prose h3 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-top: 1rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .prose ul {
+            list-style-type: disc;
+            padding-left: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .prose ol {
+            list-style-type: decimal;
+            padding-left: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .prose li {
+            margin-bottom: 0.25rem;
+        }
+
+        .prose p {
+            margin-bottom: 1rem;
+            line-height: 1.6;
+        }
+
+        .prose strong {
+            font-weight: 600;
+            color: #111827;
+        }
+
+        .prose a {
+            color: #2563eb;
+            text-decoration: underline;
+        }
+
+        .prose blockquote {
+            border-left: 4px solid #e5e7eb;
+            padding-left: 1rem;
+            color: #4b5563;
+            font-style: italic;
         }
     </style>
 </head>
@@ -35,26 +88,43 @@
             <p class="text-xs text-slate-400 mt-1">Project Hub</p>
         </div>
 
-        <nav class="flex-1 p-4 space-y-2">
-            <div class="px-4 py-2 text-xs font-semibold text-slate-500 uppercase tracking-wider">
-                Apps
+        <nav class="flex-1 p-4 space-y-6">
+            <!-- News Bot Section -->
+            <div>
+                <div class="px-4 mb-2 text-xs font-semibold text-slate-500 uppercase tracking-wider">
+                    모닝루틴 경제 뉴스
+                </div>
+                <div class="space-y-1">
+                    <a href="./index.html"
+                        class="flex items-center space-x-3 px-4 py-2 text-indigo-400 bg-slate-800/50 rounded-lg transition">
+                        <span>☀️</span>
+                        <span class="font-medium text-sm">오늘의 요약</span>
+                    </a>
+                    <a href="./archive.html"
+                        class="flex items-center space-x-3 px-4 py-2 text-slate-400 hover:text-white hover:bg-slate-800 rounded-lg transition">
+                        <span>📚</span>
+                        <span class="font-medium text-sm">지난 뉴스 보기</span>
+                    </a>
+                </div>
             </div>
 
-            <a href="./summariser/index.html"
-                class="flex items-center space-x-3 px-4 py-3 text-slate-400 hover:bg-slate-800 hover:text-white rounded-xl transition">
-                <span class="text-xl">📰</span>
-                <span class="font-medium">News Bot</span>
-            </a>
-
-            <a href="./static/slot-machine/index.html"
-                class="flex items-center space-x-3 px-4 py-3 text-slate-400 hover:bg-slate-800 hover:text-white rounded-xl transition">
-                <span class="text-xl">🎰</span>
-                <span class="font-medium">Slot Machine</span>
-            </a>
+            <!-- Mini Game Section -->
+            <div>
+                <div class="px-4 mb-2 text-xs font-semibold text-slate-500 uppercase tracking-wider">
+                    미니 게임
+                </div>
+                <div class="space-y-1">
+                    <a href="./static/slot-machine/index.html"
+                        class="flex items-center space-x-3 px-4 py-2 text-slate-400 hover:text-white hover:bg-slate-800 rounded-lg transition">
+                        <span>🎰</span>
+                        <span class="font-medium text-sm">다이어트 심판대</span>
+                    </a>
+                </div>
+            </div>
         </nav>
 
         <div class="p-6 border-t border-slate-800">
-            <p class="text-xs text-slate-500 text-center">System Status<br>Operational 🟢</p>
+            <p class="text-xs text-slate-500 text-center">System Status<br>정상 작동 중 🟢</p>
         </div>
     </aside>
 
@@ -66,54 +136,58 @@
 
     <!-- Main Content -->
     <main class="flex-1 p-4 md:p-8 mt-14 md:mt-0 overflow-y-auto">
-        <header class="mb-10">
-            <h2 class="text-3xl font-bold text-gray-800">Welcome back! 👋</h2>
-            <p class="text-gray-500 mt-2">Select an application to launch.</p>
-        </header>
 
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {% if news %}
+        <div class="max-w-4xl mx-auto">
+            <div class="flex items-center justify-between mb-6">
+                <h2 class="text-2xl font-bold text-gray-800">☀️ 오늘의 모닝루틴 요약</h2>
+                <span class="bg-blue-100 text-blue-800 text-sm font-medium px-3 py-1 rounded-full">
+                    {{ news.video_date }} 업데이트
+                </span>
+            </div>
 
-            <!-- Summariser App Card -->
-            <a href="./summariser/index.html"
-                class="app-card block bg-white rounded-2xl p-6 border border-gray-100 cursor-pointer group">
-                <div class="flex items-center justify-between mb-4">
-                    <div class="p-3 bg-indigo-100 text-indigo-600 rounded-xl">
-                        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z">
-                            </path>
-                        </svg>
-                    </div>
-                    <span class="text-xs font-semibold bg-green-100 text-green-800 px-2 py-1 rounded-full">Updated
-                        Today</span>
-                </div>
-                <h3 class="text-xl font-bold text-gray-800 group-hover:text-indigo-600 transition">News Summariser</h3>
-                <p class="text-gray-500 text-sm mt-2">
-                    Daily AI-curated economic news briefings from YouTube.
-                </p>
-                <div class="mt-4 flex items-center text-sm text-indigo-600 font-medium">
-                    Launch App <span class="ml-1 group-hover:translate-x-1 transition">→</span>
-                </div>
-            </a>
-
-            <!-- Slot Machine App Card -->
-            <a href="./static/slot-machine/index.html"
-                class="app-card block bg-white rounded-2xl p-6 border border-gray-100 cursor-pointer group">
-                <div class="flex items-center justify-between mb-4">
-                    <div class="p-3 bg-pink-100 text-pink-600 rounded-xl">
-                        <span class="text-2xl">🎰</span>
+            <article class="bg-white rounded-2xl shadow-lg run-animation overflow-hidden">
+                <!-- Header -->
+                <div class="bg-gradient-to-r from-indigo-600 to-blue-600 p-6 sm:p-8 text-white">
+                    <h1 class="text-xl sm:text-2xl font-bold leading-tight mb-2">
+                        {{ news.video_title }}
+                    </h1>
+                    <div class="flex items-center text-indigo-100 text-sm mt-2">
+                        <span>AI 요약 리포트</span>
+                        <span class="mx-2">•</span>
+                        <a href="{{ news.youtube_url }}" target="_blank"
+                            class="hover:text-white underline decoration-dashed underline-offset-4">
+                            YouTube 원본 영상
+                        </a>
                     </div>
                 </div>
-                <h3 class="text-xl font-bold text-gray-800 group-hover:text-pink-600 transition">Slot Machine</h3>
-                <p class="text-gray-500 text-sm mt-2">
-                    Weekly diet challenge game. Test your luck!
-                </p>
-                <div class="mt-4 flex items-center text-sm text-pink-600 font-medium">
-                    Launch Game <span class="ml-1 group-hover:translate-x-1 transition">→</span>
-                </div>
-            </a>
 
+                <!-- Content -->
+                <div class="p-6 sm:p-8">
+                    <!-- Kakao Summary Block -->
+                    {% if news.kakao_summary %}
+                    <div class="bg-gray-50 rounded-xl p-5 mb-8 border border-gray-100">
+                        <h3 class="text-sm font-bold text-gray-400 uppercase tracking-wider mb-3">⚡ 3줄 요약 (카카오톡 발송본)
+                        </h3>
+                        <div class="text-gray-700 whitespace-pre-wrap font-medium">{{ news.kakao_summary }}</div>
+                    </div>
+                    {% endif %}
+
+                    <!-- Full Report -->
+                    <div class="prose prose-indigo max-w-none text-gray-600">
+                        {{ summary_html | safe }}
+                    </div>
+                </div>
+            </article>
         </div>
+        {% else %}
+        <div class="flex flex-col items-center justify-center min-h-[60vh] text-center">
+            <div class="text-6xl mb-6 animate-bounce">💤</div>
+            <h2 class="text-2xl font-bold text-gray-700 mb-2">아직 오늘의 뉴스가 도착하지 않았어요</h2>
+            <p class="text-gray-500">평일 오전 9시에 새로운 요약이 업데이트됩니다.<br>잠시 후 다시 확인해주세요!</p>
+        </div>
+        {% endif %}
+
     </main>
 
 </body>

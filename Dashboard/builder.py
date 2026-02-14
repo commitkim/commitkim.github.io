@@ -3,6 +3,7 @@ import json
 import glob
 import shutil
 from datetime import datetime
+import markdown
 from jinja2 import Environment, FileSystemLoader
 
 # Configuration
@@ -40,6 +41,7 @@ def build(output_dir=None):
     context = {
         'last_updated': datetime.now().strftime('%Y-%m-%d %H:%M:%S'),
         'news': news_data,
+        'summary_html': markdown.markdown(news_data.get('web_report', '')) if news_data else None,
         # Add more context here as we integrate more features
     }
     
@@ -86,12 +88,15 @@ def build_reports(news_files, output_dir=DOCS_DIR):
             with open(file_path, 'r', encoding='utf-8') as f:
                 news_data = json.load(f)
             
-            output_html = template.render(news={'video_title': news_data.get('video_title', 'Untitled'),
-                                              'video_date': news_data.get('video_date', 'Unknown Date'),
-                                              'youtube_url': news_data.get('youtube_url'),
-                                              'key_insights': news_data.get('key_insights', []),
-                                              'summary_content': news_data.get('summary_content'),
-                                              'kakao_summary': news_data.get('kakao_summary')})
+            output_html = template.render(news={
+                'video_title': news_data.get('video_title', 'Untitled'),
+                'video_date': news_data.get('video_date', 'Unknown Date'),
+                'youtube_url': news_data.get('youtube_url'),
+                'key_insights': news_data.get('key_insights', []),
+                'summary_content': news_data.get('summary_content'),
+                'kakao_summary': news_data.get('kakao_summary'),
+                'summary_html': markdown.markdown(news_data.get('web_report', ''))
+            })
             
             filename = os.path.basename(file_path).replace('.json', '.html')
             output_path = os.path.join(reports_dir, filename)
