@@ -110,7 +110,7 @@ def build_all():
     
     print(f"  📄 상세 페이지 {len(all_data)}개 생성")
     
-    # 5. 메인 페이지 빌드 (index.html) — 최신 데이터 사용
+    # 5. 메인 페이지 빌드 (report.html) — 최신 데이터 사용 (Original Index)
     latest = all_data[0]
     index_template = env.get_template('index.html')
     html = index_template.render(
@@ -121,9 +121,9 @@ def build_all():
         build_time=_get_build_time()
     )
     
-    with open(os.path.join(config.DOCS_DIR, 'index.html'), 'w', encoding='utf-8') as f:
+    with open(os.path.join(config.DOCS_DIR, 'report.html'), 'w', encoding='utf-8') as f:
         f.write(html)
-    print("  📄 index.html 생성")
+    print("  📄 report.html 생성 (최신 리포트)")
     
     # 6. 아카이브 페이지 빌드 (archive.html)
     archive_template = env.get_template('archive.html')
