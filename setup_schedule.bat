@@ -25,10 +25,10 @@ echo ✅ 기존 작업 정리 완료.
 echo.
 echo [2/2] 새 통합 작업(%NEW_TASK_NAME%) 등록 중...
 echo 실행 파일: %RUN_FILE%
-echo 실행 시간: 매일 %SCHEDULE_TIME%
+echo 실행 시간: 평일(월-금) %SCHEDULE_TIME%
 
 :: Register new task
-schtasks /create /tn %NEW_TASK_NAME% /tr %RUN_FILE% /sc daily /st %SCHEDULE_TIME% /f
+schtasks /create /tn %NEW_TASK_NAME% /tr %RUN_FILE% /sc weekly /d MON,TUE,WED,THU,FRI /st %SCHEDULE_TIME% /f
 
 if %errorlevel% neq 0 (
     echo.
@@ -42,7 +42,7 @@ echo.
 echo ========================================================
 echo ✅ 등록 성공!
 echo ========================================================
-echo 이제 매일 %SCHEDULE_TIME%에 전체 프로젝트 자동화가 실행됩니다.
+echo 이제 매일 평일 %SCHEDULE_TIME%에 전체 프로젝트 자동화가 실행됩니다.
 echo 데이터 수집 -^> 사이트 빌드 -^> 테스트 -^> 배포
 echo ========================================================
 pause
