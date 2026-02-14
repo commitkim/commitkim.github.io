@@ -4,121 +4,328 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>한국경제신문 30분 만에 읽기 | 20260213🌞#모닝루틴 | 아침 8시 라이브 - CommitKim Dashboard</title>
+    <title>2026-02-13 경제 브리핑 - 모닝루틴</title>
+    <meta name="description" content="2026-02-13 모닝루틴 경제 뉴스 AI 분석">
+
+    <!-- Tailwind CSS 3.x CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap"
-        rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: { 50: '#eef2ff', 100: '#e0e7ff', 200: '#c7d2fe', 300: '#a5b4fc', 400: '#818cf8', 500: '#6366f1', 600: '#4f46e5', 700: '#4338ca', 800: '#3730a3', 900: '#312e81' },
+                        surface: { 50: '#f8fafc', 100: '#f1f5f9', 200: '#e2e8f0', 300: '#cbd5e1' },
+                        accent: { warm: '#f59e0b', green: '#10b981', red: '#ef4444', blue: '#3b82f6' }
+                    },
+                    fontFamily: {
+                        sans: ['Pretendard', '-apple-system', 'BlinkMacSystemFont', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- Pretendard Font -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css">
+
     <style>
+        /* 글로벌 스타일 */
         body {
-            font-family: 'Noto Sans KR', sans-serif;
+            font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, sans-serif;
+            -webkit-font-smoothing: antialiased;
         }
 
-        /* Markdown Styles */
-        .prose h1 {
-            font-size: 1.5rem;
+        /* 그라디언트 배경 */
+        .gradient-bg {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+
+        .gradient-text {
+            background: linear-gradient(135deg, #6366f1, #8b5cf6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* 유리 효과 카드 */
+        .glass-card {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        /* 시장 지표 카드 호버 */
+        .metric-card {
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .metric-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        /* 마크다운 렌더링 스타일 */
+        .prose-report h2 {
+            font-size: 1.25rem;
             font-weight: 700;
             margin-top: 1.5rem;
-            margin-bottom: 1rem;
-        }
-
-        .prose h2 {
-            font-size: 1.25rem;
-            font-weight: 600;
-            margin-top: 1.2rem;
-            margin-bottom: 0.8rem;
-            border-bottom: 1px solid #e5e7eb;
+            margin-bottom: 0.75rem;
+            color: #1e293b;
+            border-bottom: 2px solid #e2e8f0;
             padding-bottom: 0.5rem;
         }
 
-        .prose h3 {
+        .prose-report h3 {
             font-size: 1.1rem;
             font-weight: 600;
-            margin-top: 1rem;
+            margin-top: 1.25rem;
             margin-bottom: 0.5rem;
+            color: #334155;
         }
 
-        .prose ul {
-            list-style-type: disc;
-            padding-left: 1.5rem;
-            margin-bottom: 1rem;
+        .prose-report p {
+            margin-bottom: 0.75rem;
+            line-height: 1.8;
+            color: #475569;
         }
 
-        .prose ol {
-            list-style-type: decimal;
-            padding-left: 1.5rem;
-            margin-bottom: 1rem;
+        .prose-report ul {
+            list-style: disc;
+            padding-left: 1.25rem;
+            margin-bottom: 0.75rem;
         }
 
-        .prose li {
-            margin-bottom: 0.25rem;
+        .prose-report ol {
+            list-style: decimal;
+            padding-left: 1.25rem;
+            margin-bottom: 0.75rem;
         }
 
-        .prose p {
-            margin-bottom: 1rem;
-            line-height: 1.6;
+        .prose-report li {
+            margin-bottom: 0.35rem;
+            line-height: 1.7;
+            color: #475569;
         }
 
-        .prose strong {
+        .prose-report strong {
+            color: #1e293b;
             font-weight: 600;
-            color: #111827;
         }
 
-        .prose a {
-            color: #2563eb;
-            text-decoration: underline;
+        .prose-report table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1rem 0;
+            font-size: 0.9rem;
         }
 
-        .prose blockquote {
-            border-left: 4px solid #e5e7eb;
-            padding-left: 1rem;
-            color: #4b5563;
-            font-style: italic;
+        .prose-report th {
+            background: #f1f5f9;
+            padding: 0.6rem 0.75rem;
+            text-align: left;
+            font-weight: 600;
+            border-bottom: 2px solid #e2e8f0;
+        }
+
+        .prose-report td {
+            padding: 0.5rem 0.75rem;
+            border-bottom: 1px solid #f1f5f9;
+        }
+
+        .prose-report tr:hover td {
+            background: #f8fafc;
+        }
+
+        /* 아카이브 카드 호버 */
+        .archive-card {
+            transition: transform 0.15s ease, box-shadow 0.15s ease;
+        }
+
+        .archive-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 30px rgba(99, 102, 241, 0.12);
+        }
+
+        /* 스크롤바 커스텀 */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 3px;
+        }
+
+        /* 페이드인 애니메이션 */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .animate-fade-in-up {
+            animation: fadeInUp 0.5s ease-out forwards;
+        }
+
+        .animate-delay-1 {
+            animation-delay: 0.1s;
+            opacity: 0;
+        }
+
+        .animate-delay-2 {
+            animation-delay: 0.2s;
+            opacity: 0;
+        }
+
+        .animate-delay-3 {
+            animation-delay: 0.3s;
+            opacity: 0;
         }
     </style>
 </head>
 
-<body class="bg-gray-100 min-h-screen p-4 md:p-8">
-
-    <div class="max-w-4xl mx-auto">
-        <div class="mb-6 flex justify-between items-center">
-            <a href="../index.html" class="flex items-center text-gray-600 hover:text-gray-900 transition">
-                <span class="mr-2">←</span> 홈으로
+<body class="bg-surface-50 min-h-screen">
+    <!-- 네비게이션 바 -->
+    <nav class="sticky top-0 z-50 glass-card border-b border-surface-200">
+        <div class="max-w-3xl mx-auto px-4 py-3 flex items-center justify-between">
+            <a href="../index.html" class="flex items-center gap-2 no-underline">
+                <span class="text-xl">📈</span>
+                <span class="font-bold text-lg gradient-text">모닝브리핑</span>
             </a>
-            <span class="text-sm text-gray-500">2026-02-13</span>
-        </div>
-
-        <article class="bg-white rounded-2xl shadow-lg run-animation overflow-hidden">
-            <!-- Header -->
-            <div class="bg-gradient-to-r from-indigo-600 to-blue-600 p-6 sm:p-8 text-white">
-                <h1 class="text-xl sm:text-2xl font-bold leading-tight mb-2">
-                    한국경제신문 30분 만에 읽기 | 20260213🌞#모닝루틴 | 아침 8시 라이브
-                </h1>
-                <div class="flex items-center text-indigo-100 text-sm mt-2">
-                    <span>AI 요약 리포트</span>
-                    <span class="mx-2">•</span>
-                    
-                </div>
+            <div class="flex items-center gap-4">
+                <a href="../static/slot-machine/index.html"
+                    class="text-sm font-medium text-slate-500 hover:text-primary-600 transition-colors no-underline">
+                    🎰 미니게임
+                </a>
+                <a href="../archive.html"
+                    class="text-sm font-medium text-slate-500 hover:text-primary-600 transition-colors no-underline">
+                    📚 아카이브
+                </a>
             </div>
+        </div>
+    </nav>
 
-            <div class="p-6 sm:p-8">
-                <!-- Kakao Summary Block -->
-                
-                <div class="bg-gray-50 rounded-xl p-5 mb-8 border border-gray-100">
-                    <h3 class="text-sm font-bold text-gray-400 uppercase tracking-wider mb-3">⚡ 3줄 요약 (카카오톡 발송본)</h3>
-                    <div class="text-gray-700 whitespace-pre-wrap font-medium">▸ 코스닥 퇴출 강화: 7월부터 동전주 상폐, 최대 220개 기업 대상
-▸ 퇴직연금 국채 투자: 9월부터 DC형, IRP 계좌에서 가능, 세제 혜택 유지
-▸ 미국 증시 급락: AI 쇼크로 기술주 투매, 다우 -1.34%, 나스닥 -2.03%
-▸ 설탕 담합 과징금: CJ제일제당 등 3사, 총 3483억 원 부과
-▸ 루이비통 정보유출: 360만 건 유출, 과징금 213억 원
+    <!-- 메인 컨텐츠 -->
+    <main class="max-w-3xl mx-auto px-4 py-6">
+        
+<!-- 네비게이션 (이전/다음) -->
+<div class="flex items-center justify-between mb-4 text-sm">
+    
+    <a href="2026-02-12.html"
+        class="text-slate-500 hover:text-primary-600 no-underline flex items-center gap-1 transition-colors">
+        ← 2026-02-12
+    </a>
+    
 
-💡 투자 시 옥석 가리기와 위험 관리 강화 필요</div>
-                </div>
-                
+    
+    <span></span>
+    
+</div>
 
-                <!-- Full Report (Markdown) -->
-                
-                <div class="prose prose-indigo max-w-none text-gray-600">
-                    <h2>📰 주요 이슈 분석</h2>
+<!-- 히어로 섹션 -->
+<div class="gradient-bg rounded-2xl p-6 mb-6 text-white animate-fade-in-up">
+    <div class="flex items-center gap-2 mb-2">
+        <span class="bg-white/20 text-xs font-semibold px-2.5 py-1 rounded-full">📅 2026-02-13</span>
+    </div>
+    <h1 class="text-xl md:text-2xl font-bold mt-3 leading-tight">한국경제신문 30분 만에 읽기 | 20260213🌞#모닝루틴 | 아침 8시 라이브</h1>
+    <a href="https://youtube.com/watch?v=bCpktl7dHv8" target="_blank"
+        class="inline-flex items-center gap-1.5 mt-4 bg-white/20 hover:bg-white/30 text-white text-sm font-medium px-4 py-2 rounded-xl transition-colors no-underline">
+        ▶️ 영상 보기
+    </a>
+</div>
+
+<!-- 시장 지표 그리드 -->
+
+
+<!-- 주요 토픽 태그 -->
+
+<div class="mb-6 animate-fade-in-up animate-delay-1">
+    <div class="flex flex-wrap gap-2">
+        
+        <span
+            class="bg-primary-50 text-primary-700 text-xs font-semibold px-3 py-1.5 rounded-full border border-primary-100">
+            #코스닥 상장 폐지 요건 강화
+        </span>
+        
+        <span
+            class="bg-primary-50 text-primary-700 text-xs font-semibold px-3 py-1.5 rounded-full border border-primary-100">
+            #퇴직연금의 개인 투자용 국채 투자 허용
+        </span>
+        
+        <span
+            class="bg-primary-50 text-primary-700 text-xs font-semibold px-3 py-1.5 rounded-full border border-primary-100">
+            #미국 증시 하락 및 AI 쇼크
+        </span>
+        
+        <span
+            class="bg-primary-50 text-primary-700 text-xs font-semibold px-3 py-1.5 rounded-full border border-primary-100">
+            #설탕 가격 담합 과징금 부과
+        </span>
+        
+        <span
+            class="bg-primary-50 text-primary-700 text-xs font-semibold px-3 py-1.5 rounded-full border border-primary-100">
+            #루이비통 개인 정보 유출 과징금 부과
+        </span>
+        
+    </div>
+</div>
+
+
+<!-- 핵심 인사이트 -->
+
+<div class="bg-amber-50 border border-amber-200 rounded-xl p-5 mb-6 animate-fade-in-up animate-delay-2">
+    <h2 class="text-sm font-bold text-amber-800 mb-3 flex items-center gap-1.5">
+        💡 핵심 인사이트
+    </h2>
+    <ul class="space-y-2">
+        
+        <li class="flex items-start gap-2 text-sm text-amber-900 leading-relaxed">
+            <span class="text-amber-500 mt-0.5 flex-shrink-0">▸</span>
+            <span>코스닥 시장의 부실 기업 정리 기대와 투자 심리 위축 우려 공존</span>
+        </li>
+        
+        <li class="flex items-start gap-2 text-sm text-amber-900 leading-relaxed">
+            <span class="text-amber-500 mt-0.5 flex-shrink-0">▸</span>
+            <span>퇴직연금의 국채 투자 허용으로 개인 투자자 선택지 확대 및 정부 재정 부담 완화 기대</span>
+        </li>
+        
+        <li class="flex items-start gap-2 text-sm text-amber-900 leading-relaxed">
+            <span class="text-amber-500 mt-0.5 flex-shrink-0">▸</span>
+            <span>AI 기술 발전의 양면성: 관련 기업 성장 vs 기존 산업 위협</span>
+        </li>
+        
+        <li class="flex items-start gap-2 text-sm text-amber-900 leading-relaxed">
+            <span class="text-amber-500 mt-0.5 flex-shrink-0">▸</span>
+            <span>개인 정보 보호의 중요성 부각 및 기업의 보안 투자 필요성 증대</span>
+        </li>
+        
+        <li class="flex items-start gap-2 text-sm text-amber-900 leading-relaxed">
+            <span class="text-amber-500 mt-0.5 flex-shrink-0">▸</span>
+            <span>지정학적 리스크 완화 기대에 따른 유가 하락</span>
+        </li>
+        
+    </ul>
+</div>
+
+
+<!-- 상세 웹 리포트 -->
+
+<div class="bg-white rounded-xl border border-surface-200 p-5 md:p-6 mb-6 animate-fade-in-up animate-delay-3">
+    <h2 class="text-base font-bold text-slate-800 mb-4 flex items-center gap-1.5 pb-3 border-b border-surface-200">
+        📋 상세 분석 리포트
+    </h2>
+    <div class="prose-report text-sm">
+        <h2>📰 주요 이슈 분석</h2>
 <h3>코스닥 상장 폐지 요건 강화</h3>
 <ul>
 <li><strong>배경</strong>: 금융위원회와 한국 거래소가 상장 유지 기준 강화 및 퇴출 속도 제고를 위한 상장 폐지 개혁 방안 발표. 동전주 상장 폐지 요건 신설, 시가총액 기준 강화, 완전 자본잠식 요건 강화, 공시 위반 기준 강화 등.</li>
@@ -156,23 +363,90 @@
 <li><strong>안정적인 투자처 확보</strong>: 퇴직연금을 활용한 개인 투자용 국채 투자를 통해 안정적인 노후 대비 가능.</li>
 </ol>
 <h2>📖 용어 해설</h2>
-<p>| 용어          | 설명                                                                                                   |
-| ----------- | ---------------------------------------------------------------------------------------------------- |
-| 동전주         | 주가가 1,000원 미만인 주식                                                                                    |
-| 액면병합       | 여러 주식을 합쳐서 주식 수를 줄이는 것                                                                                  |
-| DC형 퇴직연금   | 확정기여형 퇴직연금. 근로자가 운용 책임을 지고, 운용 결과에 따라 수령액이 달라짐                                                                |
-| IRP 계좌      | 개인형 퇴직연금. 퇴직금이나 개인 자금을 납입하여 노후 자금을 마련하는 계좌                                                                 |
-| 과세이연       | 세금 부과 시점을 미래로 미루는 것                                                                                     |
-| 풋옵션 대금 청구 소송 | 주식 매도 권리(풋옵션)에 대한 대금을 요구하는 소송                                                                             |
-| 디스클로저 데이  | 정부가 UFO나 외계 지성체의 기술에 대한 실체를 공식화하는 날이라는 기대 (실제로는 확인되지 않음)                                                       |
-| 페니스톡      | 미국의 나스닥에서 1달러가 안 되는 주식                                                                               |
-| HBM4         | 6세대 고대역폭 메모리 (High Bandwidth Memory 4)                                                                |</p>
-                </div>
-                
-            </div>
-        </article>
+<table>
+<thead>
+<tr>
+<th>용어</th>
+<th>설명</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>동전주</td>
+<td>주가가 1,000원 미만인 주식</td>
+</tr>
+<tr>
+<td>액면병합</td>
+<td>여러 주식을 합쳐서 주식 수를 줄이는 것</td>
+</tr>
+<tr>
+<td>DC형 퇴직연금</td>
+<td>확정기여형 퇴직연금. 근로자가 운용 책임을 지고, 운용 결과에 따라 수령액이 달라짐</td>
+</tr>
+<tr>
+<td>IRP 계좌</td>
+<td>개인형 퇴직연금. 퇴직금이나 개인 자금을 납입하여 노후 자금을 마련하는 계좌</td>
+</tr>
+<tr>
+<td>과세이연</td>
+<td>세금 부과 시점을 미래로 미루는 것</td>
+</tr>
+<tr>
+<td>풋옵션 대금 청구 소송</td>
+<td>주식 매도 권리(풋옵션)에 대한 대금을 요구하는 소송</td>
+</tr>
+<tr>
+<td>디스클로저 데이</td>
+<td>정부가 UFO나 외계 지성체의 기술에 대한 실체를 공식화하는 날이라는 기대 (실제로는 확인되지 않음)</td>
+</tr>
+<tr>
+<td>페니스톡</td>
+<td>미국의 나스닥에서 1달러가 안 되는 주식</td>
+</tr>
+<tr>
+<td>HBM4</td>
+<td>6세대 고대역폭 메모리 (High Bandwidth Memory 4)</td>
+</tr>
+</tbody>
+</table>
     </div>
+</div>
 
+
+<!-- 하단 네비게이션 -->
+<div class="flex items-center justify-between py-6 border-t border-surface-200 mt-8">
+    
+    <a href="2026-02-12.html"
+        class="flex items-center gap-2 text-sm text-slate-600 hover:text-primary-600 no-underline transition-colors bg-white border border-surface-200 px-4 py-2.5 rounded-xl hover:border-primary-200">
+        <span>←</span>
+        <div>
+            <div class="text-xs text-slate-400">이전</div>
+            <div class="font-medium">2026-02-12</div>
+        </div>
+    </a>
+    
+
+    
+    <span></span>
+    
+</div>
+
+
+    </main>
+
+    <!-- 푸터 -->
+    <footer class="border-t border-surface-200 mt-12">
+        <div class="max-w-3xl mx-auto px-4 py-6 text-center">
+            <p class="text-xs text-slate-400">
+                AI 기반 경제 뉴스 브리핑 · 투자 조언이 아닌 정보 제공 목적
+            </p>
+            <p class="text-xs text-slate-300 mt-1">
+                빌드: 2026-02-14 17:56 KST
+            </p>
+        </div>
+    </footer>
+
+    
 </body>
 
 </html>

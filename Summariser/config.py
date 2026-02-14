@@ -16,8 +16,8 @@ PROJECT_DIR = os.path.dirname(os.path.abspath(__file__))
 load_dotenv(os.path.join(PROJECT_DIR, "../.env"))
 
 DATA_DIR = os.path.abspath(os.path.join(PROJECT_DIR, "../Dashboard/data/news"))
-# HTML/JSON 출력 경로 (Project/docs/summariser)
-DOCS_DIR = os.path.abspath(os.path.join(PROJECT_DIR, "../docs/summariser"))
+# HTML/JSON 출력 경로 (Project/docs)
+DOCS_DIR = os.path.abspath(os.path.join(PROJECT_DIR, "../docs"))
 TEMPLATES_DIR = os.path.join(PROJECT_DIR, "templates")
 
 # =============================================================================
