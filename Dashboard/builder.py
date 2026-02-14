@@ -29,8 +29,8 @@ def load_latest_news():
         print(f"Error loading news file {latest_file}: {e}")
         return None
 
-def build():
-    """Renders the dashboard and saves it to docs/index.html."""
+def build(output_dir=None):
+    """Renders the dashboard and saves it to docs/index.html (or custom output_dir)."""
     env = Environment(loader=FileSystemLoader(TEMPLATES_DIR))
     template = env.get_template('dashboard.html')
     
@@ -45,8 +45,9 @@ def build():
     
     output_html = template.render(context)
     
-    os.makedirs(DOCS_DIR, exist_ok=True)
-    output_path = os.path.join(DOCS_DIR, 'index.html')
+    target_dir = output_dir if output_dir else DOCS_DIR
+    os.makedirs(target_dir, exist_ok=True)
+    output_path = os.path.join(target_dir, 'index.html')
     
     with open(output_path, 'w', encoding='utf-8') as f:
         f.write(output_html)
@@ -54,12 +55,12 @@ def build():
     print(f"Build completed successfully! Output: {output_path}")
 
     # Build detail pages and archive
-    build_reports(news_files)
-    build_archive(news_files)
+    build_reports(news_files, target_dir)
+    build_archive(news_files, target_dir)
 
     # Copy static files
     static_src = os.path.join(BASE_DIR, 'static')
-    static_dst = os.path.join(DOCS_DIR, 'static')
+    static_dst = os.path.join(target_dir, 'static')
     if os.path.exists(static_src):
         if os.path.exists(static_dst):
              shutil.rmtree(static_dst)
@@ -72,12 +73,12 @@ def load_all_news():
     news_files.sort(key=os.path.getctime, reverse=True)
     return news_files
 
-def build_reports(news_files):
+def build_reports(news_files, output_dir=DOCS_DIR):
     """Generates individual report pages."""
     env = Environment(loader=FileSystemLoader(TEMPLATES_DIR))
     template = env.get_template('detail.html')
     
-    reports_dir = os.path.join(DOCS_DIR, 'reports')
+    reports_dir = os.path.join(output_dir, 'reports')
     os.makedirs(reports_dir, exist_ok=True)
     
     for file_path in news_files:
@@ -102,7 +103,7 @@ def build_reports(news_files):
         except Exception as e:
             print(f"Error generating report for {file_path}: {e}")
 
-def build_archive(news_files):
+def build_archive(news_files, output_dir=DOCS_DIR):
     """Generates the archive page."""
     env = Environment(loader=FileSystemLoader(TEMPLATES_DIR))
     template = env.get_template('archive.html')
@@ -121,7 +122,7 @@ def build_archive(news_files):
             continue
             
     output_html = template.render(archive=archive_data)
-    output_path = os.path.join(DOCS_DIR, 'archive.html')
+    output_path = os.path.join(output_dir, 'archive.html')
     
     with open(output_path, 'w', encoding='utf-8') as f:
         f.write(output_html)

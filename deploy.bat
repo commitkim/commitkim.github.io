@@ -38,9 +38,19 @@ if %ERRORLEVEL% NEQ 0 (
     exit /b %ERRORLEVEL%
 )
 
-:: 2. Run the deployment script
+:: 2. Run Tests
 echo.
-echo [2/4] Deploying...
+echo [2/5] Running Tests...
+call tests\run_all_tests.bat
+if %ERRORLEVEL% NEQ 0 (
+    echo ❌ Tests Failed! deployment aborted.
+    pause
+    exit /b %ERRORLEVEL%
+)
+
+:: 3. Run the deployment script
+echo.
+echo [3/5] Deploying...
 Dashboard\venv\Scripts\python Dashboard\deploy.py
 
 pause

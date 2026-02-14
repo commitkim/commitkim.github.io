@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2026-02-13 경제 브리핑 - 모닝루틴</title>
+    <meta name="description" content="2026-02-13 모닝루틴 경제 뉴스 AI 분석">
+
+    <!-- Tailwind CSS 3.x CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: { 50: '#eef2ff', 100: '#e0e7ff', 200: '#c7d2fe', 300: '#a5b4fc', 400: '#818cf8', 500: '#6366f1', 600: '#4f46e5', 700: '#4338ca', 800: '#3730a3', 900: '#312e81' },
+                        surface: { 50: '#f8fafc', 100: '#f1f5f9', 200: '#e2e8f0', 300: '#cbd5e1' },
+                        accent: { warm: '#f59e0b', green: '#10b981', red: '#ef4444', blue: '#3b82f6' }
+                    },
+                    fontFamily: {
+                        sans: ['Pretendard', '-apple-system', 'BlinkMacSystemFont', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- Pretendard Font -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css">
+
+    <style>
+        /* 글로벌 스타일 */
+        body {
+            font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, sans-serif;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* 그라디언트 배경 */
+        .gradient-bg {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+
+        .gradient-text {
+            background: linear-gradient(135deg, #6366f1, #8b5cf6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* 유리 효과 카드 */
+        .glass-card {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        /* 시장 지표 카드 호버 */
+        .metric-card {
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .metric-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        /* 마크다운 렌더링 스타일 */
+        .prose-report h2 {
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin-top: 1.5rem;
+            margin-bottom: 0.75rem;
+            color: #1e293b;
+            border-bottom: 2px solid #e2e8f0;
+            padding-bottom: 0.5rem;
+        }
+
+        .prose-report h3 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-top: 1.25rem;
+            margin-bottom: 0.5rem;
+            color: #334155;
+        }
+
+        .prose-report p {
+            margin-bottom: 0.75rem;
+            line-height: 1.8;
+            color: #475569;
+        }
+
+        .prose-report ul {
+            list-style: disc;
+            padding-left: 1.25rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .prose-report ol {
+            list-style: decimal;
+            padding-left: 1.25rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .prose-report li {
+            margin-bottom: 0.35rem;
+            line-height: 1.7;
+            color: #475569;
+        }
+
+        .prose-report strong {
+            color: #1e293b;
+            font-weight: 600;
+        }
+
+        .prose-report table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1rem 0;
+            font-size: 0.9rem;
+        }
+
+        .prose-report th {
+            background: #f1f5f9;
+            padding: 0.6rem 0.75rem;
+            text-align: left;
+            font-weight: 600;
+            border-bottom: 2px solid #e2e8f0;
+        }
+
+        .prose-report td {
+            padding: 0.5rem 0.75rem;
+            border-bottom: 1px solid #f1f5f9;
+        }
+
+        .prose-report tr:hover td {
+            background: #f8fafc;
+        }
+
+        /* 아카이브 카드 호버 */
+        .archive-card {
+            transition: transform 0.15s ease, box-shadow 0.15s ease;
+        }
+
+        .archive-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 30px rgba(99, 102, 241, 0.12);
+        }
+
+        /* 스크롤바 커스텀 */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 3px;
+        }
+
+        /* 페이드인 애니메이션 */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .animate-fade-in-up {
+            animation: fadeInUp 0.5s ease-out forwards;
+        }
+
+        .animate-delay-1 {
+            animation-delay: 0.1s;
+            opacity: 0;
+        }
+
+        .animate-delay-2 {
+            animation-delay: 0.2s;
+            opacity: 0;
+        }
+
+        .animate-delay-3 {
+            animation-delay: 0.3s;
+            opacity: 0;
+        }
+    </style>
+</head>
+
+<body class="bg-surface-50 min-h-screen">
+    <!-- 네비게이션 바 -->
+    <nav class="sticky top-0 z-50 glass-card border-b border-surface-200">
+        <div class="max-w-3xl mx-auto px-4 py-3 flex items-center justify-between">
+            <a href="../index.html" class="flex items-center gap-2 no-underline">
+                <span class="text-xl">📈</span>
+                <span class="font-bold text-lg gradient-text">모닝브리핑</span>
+            </a>
+            <div class="flex items-center gap-4">
+                <a href="../archive.html"
+                    class="text-sm font-medium text-slate-500 hover:text-primary-600 transition-colors no-underline">
+                    📚 아카이브
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 메인 컨텐츠 -->
+    <main class="max-w-3xl mx-auto px-4 py-6">
+        
+<!-- 네비게이션 (이전/다음) -->
+<div class="flex items-center justify-between mb-4 text-sm">
+    
+    <a href="2026-02-12.html"
+        class="text-slate-500 hover:text-primary-600 no-underline flex items-center gap-1 transition-colors">
+        ← 2026-02-12
+    </a>
+    
+
+    
+    <span></span>
+    
+</div>
+
+<!-- 히어로 섹션 -->
+<div class="gradient-bg rounded-2xl p-6 mb-6 text-white animate-fade-in-up">
+    <div class="flex items-center gap-2 mb-2">
+        <span class="bg-white/20 text-xs font-semibold px-2.5 py-1 rounded-full">📅 2026-02-13</span>
+    </div>
+    <h1 class="text-xl md:text-2xl font-bold mt-3 leading-tight">한국경제신문 30분 만에 읽기 | 20260213🌞#모닝루틴 | 아침 8시 라이브</h1>
+    <a href="https://youtube.com/watch?v=bCpktl7dHv8" target="_blank"
+        class="inline-flex items-center gap-1.5 mt-4 bg-white/20 hover:bg-white/30 text-white text-sm font-medium px-4 py-2 rounded-xl transition-colors no-underline">
+        ▶️ 영상 보기
+    </a>
+</div>
+
+<!-- 시장 지표 그리드 -->
+
+
+<!-- 주요 토픽 태그 -->
+
+<div class="mb-6 animate-fade-in-up animate-delay-1">
+    <div class="flex flex-wrap gap-2">
+        
+        <span
+            class="bg-primary-50 text-primary-700 text-xs font-semibold px-3 py-1.5 rounded-full border border-primary-100">
+            #코스닥 상장 폐지 요건 강화
+        </span>
+        
+        <span
+            class="bg-primary-50 text-primary-700 text-xs font-semibold px-3 py-1.5 rounded-full border border-primary-100">
+            #퇴직연금의 개인 투자용 국채 투자 허용
+        </span>
+        
+        <span
+            class="bg-primary-50 text-primary-700 text-xs font-semibold px-3 py-1.5 rounded-full border border-primary-100">
+            #미국 증시 하락 및 AI 쇼크
+        </span>
+        
+        <span
+            class="bg-primary-50 text-primary-700 text-xs font-semibold px-3 py-1.5 rounded-full border border-primary-100">
+            #설탕 가격 담합 과징금 부과
+        </span>
+        
+        <span
+            class="bg-primary-50 text-primary-700 text-xs font-semibold px-3 py-1.5 rounded-full border border-primary-100">
+            #루이비통 개인 정보 유출 과징금 부과
+        </span>
+        
+    </div>
+</div>
+
+
+<!-- 핵심 인사이트 -->
+
+<div class="bg-amber-50 border border-amber-200 rounded-xl p-5 mb-6 animate-fade-in-up animate-delay-2">
+    <h2 class="text-sm font-bold text-amber-800 mb-3 flex items-center gap-1.5">
+        💡 핵심 인사이트
+    </h2>
+    <ul class="space-y-2">
+        
+        <li class="flex items-start gap-2 text-sm text-amber-900 leading-relaxed">
+            <span class="text-amber-500 mt-0.5 flex-shrink-0">▸</span>
+            <span>코스닥 시장의 부실 기업 정리 기대와 투자 심리 위축 우려 공존</span>
+        </li>
+        
+        <li class="flex items-start gap-2 text-sm text-amber-900 leading-relaxed">
+            <span class="text-amber-500 mt-0.5 flex-shrink-0">▸</span>
+            <span>퇴직연금의 국채 투자 허용으로 개인 투자자 선택지 확대 및 정부 재정 부담 완화 기대</span>
+        </li>
+        
+        <li class="flex items-start gap-2 text-sm text-amber-900 leading-relaxed">
+            <span class="text-amber-500 mt-0.5 flex-shrink-0">▸</span>
+            <span>AI 기술 발전의 양면성: 관련 기업 성장 vs 기존 산업 위협</span>
+        </li>
+        
+        <li class="flex items-start gap-2 text-sm text-amber-900 leading-relaxed">
+            <span class="text-amber-500 mt-0.5 flex-shrink-0">▸</span>
+            <span>개인 정보 보호의 중요성 부각 및 기업의 보안 투자 필요성 증대</span>
+        </li>
+        
+        <li class="flex items-start gap-2 text-sm text-amber-900 leading-relaxed">
+            <span class="text-amber-500 mt-0.5 flex-shrink-0">▸</span>
+            <span>지정학적 리스크 완화 기대에 따른 유가 하락</span>
+        </li>
+        
+    </ul>
+</div>
+
+
+<!-- 상세 웹 리포트 -->
+
+<div class="bg-white rounded-xl border border-surface-200 p-5 md:p-6 mb-6 animate-fade-in-up animate-delay-3">
+    <h2 class="text-base font-bold text-slate-800 mb-4 flex items-center gap-1.5 pb-3 border-b border-surface-200">
+        📋 상세 분석 리포트
+    </h2>
+    <div class="prose-report text-sm">
+        <h2>📰 주요 이슈 분석</h2>
+<h3>코스닥 상장 폐지 요건 강화</h3>
+<ul>
+<li><strong>배경</strong>: 금융위원회와 한국 거래소가 상장 유지 기준 강화 및 퇴출 속도 제고를 위한 상장 폐지 개혁 방안 발표. 동전주 상장 폐지 요건 신설, 시가총액 기준 강화, 완전 자본잠식 요건 강화, 공시 위반 기준 강화 등.</li>
+<li><strong>영향</strong>: 코스닥 상장사 중 최대 220개 기업 상장 폐지 가능성. 부실 기업 정리로 코스닥 시장의 건전성 강화 기대. 투자 심리 위축 및 투자자 피해 우려.</li>
+<li><strong>전망</strong>: 강화된 요건으로 기업들의 경영 개선 노력 및 투자자들의 옥석 가리기 중요성 증대. 코스닥 지수의 장기적인 성장 동력 확보에 기여할 수 있으나, 단기적인 변동성 확대 가능성.</li>
+</ul>
+<h3>퇴직연금의 개인 투자용 국채 투자 허용</h3>
+<ul>
+<li><strong>배경</strong>: 재정 경제부가 DC형 퇴직연금과 IRP 계좌에서 개인 투자용 국채 투자를 허용하는 제도 개선 계획 발표. 9월부터 일부 증권사 및 은행에서 매입 가능.</li>
+<li><strong>영향</strong>: 개인 투자자들의 노후 자금 운용 선택지 확대. 정부의 국채 발행 부담 완화 및 국채 금리 하락 기대. 세제 혜택 및 과세 이연 혜택 제공.</li>
+<li><strong>전망</strong>: 개인 투자자들의 안정적인 투자처 확보 및 노후 대비에 기여. 국채 시장 활성화 및 정부 재정 안정화에 긍정적인 영향.</li>
+</ul>
+<h3>미국 증시 하락 및 AI 쇼크</h3>
+<ul>
+<li><strong>배경</strong>: 뉴욕 증시 3대 지수 모두 하락 마감. 다우 지수 -1.34%, S&amp;P 500 지수 -1.57%, 나스닥 지수 -2.03%. AI 기술 발전이 기존 산업에 미치는 영향에 대한 우려 확산.</li>
+<li><strong>영향</strong>: 기술주 중심의 투매 현상 발생. 소프트웨어, 금융, 부동산, 운송 물류 등 다양한 업종 하락세. 반도체 업황 부진 및 애플 주가 급락.</li>
+<li><strong>전망</strong>: AI 기술 발전의 양면성 부각. 관련 기업들의 성장 가능성은 높으나, 기존 산업의 위협 요인으로 작용할 수 있음. 투자자들의 신중한 접근 필요.</li>
+</ul>
+<h3>설탕 가격 담합 과징금 부과</h3>
+<ul>
+<li><strong>배경</strong>: 공정거래위원회가 CJ제일제당, 삼양사, 대한제당의 설탕 가격 담합 행위에 대해 시정명령과 함께 총 3483억 원의 과징금 부과. 2021년부터 2024년까지 원가 변동에 따른 가격 인상 및 인하 시점 조율.</li>
+<li><strong>영향</strong>: 소비자들의 부담 가중 및 기업의 신뢰도 하락. CJ제일재당의 대한제당협회 탈퇴 및 사과문 발표.</li>
+<li><strong>전망</strong>: 설탕 시장의 경쟁 환경 개선 및 소비자들의 선택권 확대 기대. 담합 행위 근절을 위한 정부의 감시 강화 필요.</li>
+</ul>
+<h3>루이비통 개인 정보 유출 과징금 부과</h3>
+<ul>
+<li><strong>배경</strong>: 개인 정보 보호위원회가 루이비통 코리아, 디올 한국 법인, 티파니의 한국 판매 법인의 고객 개인 정보 유출에 대해 과징금 부과. 루이비통 코리아 213억 원, 디올 122억 원, 티파니 24억 원.</li>
+<li><strong>영향</strong>: 고객들의 개인 정보 유출 피해 발생 및 기업 이미지 실추. 개인 정보 보호의 중요성 부각 및 기업의 보안 투자 필요성 증대.</li>
+<li><strong>전망</strong>: 강화된 개인 정보 보호 규제 및 기업들의 보안 시스템 강화 노력. 개인 정보 유출 사고 재발 방지를 위한 정부의 지속적인 감시 필요.</li>
+</ul>
+<h2>💡 투자 인사이트</h2>
+<ol>
+<li><strong>코스닥 투자 시 옥석 가리기</strong>: 상장 폐지 요건 강화에 따라 투자 대상 기업의 재무 건전성 및 성장 가능성 면밀히 분석 필요.</li>
+<li><strong>AI 기술 관련 투자</strong>: AI 기술 발전의 양면성을 고려하여 장기적인 관점에서 투자 결정. 기존 산업에 미치는 영향 및 관련 기업의 경쟁력 분석.</li>
+<li><strong>안정적인 투자처 확보</strong>: 퇴직연금을 활용한 개인 투자용 국채 투자를 통해 안정적인 노후 대비 가능.</li>
+</ol>
+<h2>📖 용어 해설</h2>
+<table>
+<thead>
+<tr>
+<th>용어</th>
+<th>설명</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>동전주</td>
+<td>주가가 1,000원 미만인 주식</td>
+</tr>
+<tr>
+<td>액면병합</td>
+<td>여러 주식을 합쳐서 주식 수를 줄이는 것</td>
+</tr>
+<tr>
+<td>DC형 퇴직연금</td>
+<td>확정기여형 퇴직연금. 근로자가 운용 책임을 지고, 운용 결과에 따라 수령액이 달라짐</td>
+</tr>
+<tr>
+<td>IRP 계좌</td>
+<td>개인형 퇴직연금. 퇴직금이나 개인 자금을 납입하여 노후 자금을 마련하는 계좌</td>
+</tr>
+<tr>
+<td>과세이연</td>
+<td>세금 부과 시점을 미래로 미루는 것</td>
+</tr>
+<tr>
+<td>풋옵션 대금 청구 소송</td>
+<td>주식 매도 권리(풋옵션)에 대한 대금을 요구하는 소송</td>
+</tr>
+<tr>
+<td>디스클로저 데이</td>
+<td>정부가 UFO나 외계 지성체의 기술에 대한 실체를 공식화하는 날이라는 기대 (실제로는 확인되지 않음)</td>
+</tr>
+<tr>
+<td>페니스톡</td>
+<td>미국의 나스닥에서 1달러가 안 되는 주식</td>
+</tr>
+<tr>
+<td>HBM4</td>
+<td>6세대 고대역폭 메모리 (High Bandwidth Memory 4)</td>
+</tr>
+</tbody>
+</table>
+    </div>
+</div>
+
+
+<!-- 하단 네비게이션 -->
+<div class="flex items-center justify-between py-6 border-t border-surface-200 mt-8">
+    
+    <a href="2026-02-12.html"
+        class="flex items-center gap-2 text-sm text-slate-600 hover:text-primary-600 no-underline transition-colors bg-white border border-surface-200 px-4 py-2.5 rounded-xl hover:border-primary-200">
+        <span>←</span>
+        <div>
+            <div class="text-xs text-slate-400">이전</div>
+            <div class="font-medium">2026-02-12</div>
+        </div>
+    </a>
+    
+
+    
+    <span></span>
+    
+</div>
+
+
+    </main>
+
+    <!-- 푸터 -->
+    <footer class="border-t border-surface-200 mt-12">
+        <div class="max-w-3xl mx-auto px-4 py-6 text-center">
+            <p class="text-xs text-slate-400">
+                AI 기반 경제 뉴스 브리핑 · 투자 조언이 아닌 정보 제공 목적
+            </p>
+            <p class="text-xs text-slate-300 mt-1">
+                빌드: 2026-02-14 17:12 KST
+            </p>
+        </div>
+    </footer>
+
+    
+</body>
+
+</html>

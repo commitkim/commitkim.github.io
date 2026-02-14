@@ -18,9 +18,18 @@ for /d %%D in (*) do (
     )
 )
 
-:: 2. Git Sync (Data is now updated)
+:: 2. Run Tests
 echo.
-echo [3/3] Deploying to GitHub...
+echo [2/4] Running Tests...
+call tests\run_all_tests.bat
+if %ERRORLEVEL% NEQ 0 (
+    echo ❌ Tests Failed! Skipping deployment.
+    exit /b %ERRORLEVEL%
+)
+
+:: 3. Git Sync (Data is now updated)
+echo.
+echo [3/4] Deploying to GitHub...
 set GIT_CMD="C:\Program Files\Git\cmd\git.exe"
 
 %GIT_CMD% add .
