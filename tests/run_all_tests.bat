@@ -16,7 +16,7 @@ echo.
 echo [2/2] Testing Dashboard Builder...
 call "%~dp0test_dashboard.bat"
 if %ERRORLEVEL% NEQ 0 (
-    echo ❌ Dashboard Test Failed!
+    echo ❌ Dashboard Build Failed!
     exit /b 1
 )
 
@@ -24,4 +24,3 @@ echo.
 echo ========================================================
 echo ✅ All Tests Passed!
 echo ========================================================
-pause

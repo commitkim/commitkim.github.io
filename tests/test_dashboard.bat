@@ -6,9 +6,7 @@ echo 🧪 Running Dashboard Builder Test...
 
 if %ERRORLEVEL% NEQ 0 (
     echo ❌ Dashboard Build Failed!
-    pause
     exit /b 1
 )
 
 
-pause
