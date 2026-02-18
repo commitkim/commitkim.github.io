@@ -179,10 +179,26 @@ class AutoTrader:
                 # Double check with KRW balance
                 if amount_to_invest > balance_info['krw_balance']:
                      amount_to_invest = balance_info['krw_balance']
-                     # If balance is too low after adjustment
-                     if amount_to_invest < 5000:
-                         logging.warning("⚠️ Insufficient KRW balance for minimum order. Skip.")
-                         return
+
+                # 3. Allocation Limit Check (New Feature)
+                current_holding_value = balance_info['coin_balance'] * current_price
+                max_allocation = total_capital * self.config.CAPITAL.get('max_allocation_per_coin', 1.0) # Default to 100% if not set
+                
+                # If current holding already exceeds max allocation
+                if current_holding_value >= max_allocation:
+                    logging.warning(f"🚫 Max allocation ({self.config.CAPITAL.get('max_allocation_per_coin')}%) reached for {ticker}. Skip BUY.")
+                    return
+
+                # Cap investment amount to remaining allocation
+                remaining_allocation = max_allocation - current_holding_value
+                if amount_to_invest > remaining_allocation:
+                    logging.info(f"⚖️ Capping investment to remaining allocation: {remaining_allocation:,.0f} KRW")
+                    amount_to_invest = remaining_allocation
+
+                # If balance is too low after adjustment
+                if amount_to_invest < 5000:
+                    logging.warning("⚠️ Insufficient KRW balance or Allocation for minimum order. Skip.")
+                    return
 
                 reason_kr = self.get_korean_reason(decision.get('reason_code'))
                 logging.info(f"🚀 BUY {ticker} | Size: {amount_to_invest:,.0f} KRW | Reason: {reason_kr}")

@@ -22,7 +22,8 @@ CAPITAL = {
     "investment_per_trade": 0.2,    # Increased to 20% for small accounts (min 5000 KRW issue)
     "max_exposure_total": 0.5,      # Max 50% total capital deployed
     "max_coins_held": 3,            # Max 3 coins
-    "consecutive_loss_limit": 3     # Stop trading after 3 consecutive losses
+    "consecutive_loss_limit": 3,    # Stop trading after 3 consecutive losses
+    "max_allocation_per_coin": 0.3  # Max 30% per coin
 }
 
 # Risk Management

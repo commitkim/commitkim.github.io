@@ -70,7 +70,7 @@ def map_reason_code(log):
         "VOLATILITY_FILTER": "🌪️ 시장의 변동성이 너무 적거나 반대로 너무 극심합니다. 예측이 어려워 진입하지 않았습니다.",
         "LOW_CONFIDENCE": f"🤔 AI의 분석 결과, 상승 확신도가 기준치(0.65)보다 낮은 {confidence:.2f}입니다. 더 확실한 기회를 기다립니다.",
         "MAX_COINS_REACHED": "🚫 이미 최대 보유 종목 수(3개)를 채웠습니다. 새로운 종목을 매수하려면 기존 종목이 매도되어야 합니다.",
-        "ASSET_ALLOCATION": "⚠️ 한 종목에 담을 수 있는 최대 비중을 초과하게 됩니다. 리스크 관리를 위해 추가 매수를 제한합니다.",
+        "ASSET_ALLOCATION": "⚠️ 한 종목에 담을 수 있는 최대 비중(30%)을 초과하게 됩니다. 리스크 관리를 위해 추가 매수를 제한합니다.",
         "CONSECUTIVE_LOSS_PROTECTION": "🛡️ 최근 연속으로 손실이 발생하여 '쿨다운' 중입니다. 잠시 머리를 식히며 시장을 관망합니다.",
         "LOSS_CUT": "✂️ 아쉽지만 손절매 라인(-3%)을 건드렸습니다. 더 큰 손실을 막기 위해 원칙대로 매도하여 자본을 지킵니다.",
         "TAKE_PROFIT": "💰 목표 수익률(+5%)에 도달했습니다! 욕심부리지 않고 수익을 확정 지어 주머니에 넣습니다.",
@@ -81,7 +81,8 @@ def map_reason_code(log):
         "LOW_CONFIDENCE_AND_UNCLEAR_TREND": "🤔 확신도 부족하고 추세도 애매합니다. 이럴 때 매수하면 물리기 쉽습니다.",
         "BEARISH_MOMENTUM_INDICATORS": "📉 보조지표(MACD, RSI)가 하락을 가리키고 있습니다. 매수하기엔 힘이 빠져 보입니다.",
         "PRICE_BELOW_MAS": "📉 가격이 주요 이동평균선 아래로 처져 있습니다. 상승 추세로 돌아설 때까지 기다립니다.",
-        "RSI_OVERSOLD_BB_LOWER_BOUNCE": "📉 RSI가 과매도 구간(30 이하)이고, 볼린저 밴드 하단을 찍고 반등하려는 신호가 포착되었습니다. 기술적 반등을 노리고 진입합니다."
+        "RSI_OVERSOLD_BB_LOWER_BOUNCE": "📉 RSI가 과매도 구간(30 이하)이고, 볼린저 밴드 하단을 찍고 반등하려는 신호가 포착되었습니다. 기술적 반등을 노리고 진입합니다.",
+        "OVERSOLD_BOUNCE_SETUP": "📉 과매도 구간(Oversold)에서 반등할 수 있는 패턴(W자형, 꼬리 달린 캔들 등)이 확인되었습니다. 저점 매수 기회로 판단했습니다."
     }
     
     # Logic to handle combined codes (e.g. "LOW_CONFIDENCE | STRUCTURE_UNCLEAR")
