@@ -57,8 +57,40 @@ def load_trade_status():
             print(f"Error loading trade status: {e}")
     return None
 
+def map_reason_code(log):
+    """Maps technical reason codes to user-friendly Korean explanations."""
+    code = log.get('reason_code', '').upper()
+    decision = log.get('decision', '').upper()
+    confidence = log.get('confidence', 0)
+    
+    # Custom mapping dictionary with detailed explanations
+    mapping = {
+        "TREND_ALIGNMENT": "📉 현재 가격이 장기 이동평균선(MA60) 아래에 위치하여 하락 추세로 판단했습니다. 추세가 전환될 때까지 매수를 보류합니다.",
+        "VOLATILITY_FILTER": "🌪️ 시장 변동성이 너무 크거나(패닉 셀) 또는 너무 적어(거래량 부족) 진입 위험이 높다고 판단했습니다.",
+        "LOW_CONFIDENCE": f"🤔 AI의 상승 확신도가 {confidence:.2f}로 기준치(0.65)보다 낮습니다. 확실한 기회가 올 때까지 기다립니다.",
+        "MAX_COINS_REACHED": "🚫 이미 설정된 최대 보유 종목 수(3개)를 채웠습니다. 리스크 관리를 위해 추가 매수를 중단합니다.",
+        "ASSET_ALLOCATION": "⚠️ 한 종목에 설정된 최대 투자 비중(10%)을 초과하게 되어 추가 매수를 제한합니다.",
+        "CONSECUTIVE_LOSS_PROTECTION": "🛡️ 최근 연속적인 손실이 발생하여, 자본 보호를 위해 일시적으로 매매를 중단하고 관망합니다.",
+        "LOSS_CUT": "✂️ 손실폭이 설정된 기준(-3%)을 초과하여, 더 큰 손실을 막기 위해 즉시 손절매를 실행했습니다.",
+        "TAKE_PROFIT": "💰 목표 수익률(+5%)에 도달하여 안전하게 수익을 확정(익절매)했습니다.",
+        "STRUCTURE_UNCLEAR": "🤷 시장의 방향성이 뚜렷하지 않아(횡보장 등) 예측이 어렵습니다. 관망하는 것이 유리합니다.",
+        "API_ERROR": "⚠️ 일시적인 시스템/네트워크 오류로 인해 안전을 위해 거래를 보류했습니다."
+    }
+    
+    # Default fallback
+    explanation = mapping.get(code, log.get('reason', ''))
+    
+    # Add mapped explanation to log
+    log['reason_mapped'] = explanation
+    return log
+
 def build_trade_page(output_dir, context):
     """Builds the dedicated trading status page."""
+    
+    # Process logs to map reasons
+    if context.get('trade') and 'recent_trades' in context['trade']:
+        context['trade']['recent_trades'] = [map_reason_code(log) for log in context['trade']['recent_trades']]
+
     env = Environment(loader=FileSystemLoader(os.path.join(PROJECT_ROOT, 'Dashboard', 'templates')))
     template = env.get_template('trade.html')
     output = template.render(context)

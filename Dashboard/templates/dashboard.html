@@ -73,7 +73,7 @@
 
     <!-- Sidebar -->
     <aside id="sidebar"
-        class="w-64 bg-slate-900 text-white fixed inset-y-0 left-0 z-50 transform -translate-x-full transition-transform duration-300 ease-in-out md:relative md:translate-x-0 md:flex flex-col h-screen overflow-hidden shadow-2xl md:shadow-none">
+        class="w-64 bg-slate-900 text-white fixed inset-y-0 left-0 z-50 transform -translate-x-full transition-transform duration-300 ease-in-out md:sticky md:top-0 md:translate-x-0 md:flex flex-col h-screen overflow-hidden shadow-2xl md:shadow-none">
 
         <div class="p-6 border-b border-slate-800 flex justify-between items-center bg-slate-900">
             <div>
@@ -329,40 +329,10 @@
                 </p>
             </div>
 
-            <!-- Recent Trades Log -->
-            {% if trade.recent_trades %}
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                {% for log in trade.recent_trades %}
-                <div
-                    class="bg-white rounded-2xl p-6 shadow-sm border border-surface-100 relative overflow-hidden group hover:shadow-md transition-all">
-                    <div class="flex justify-between items-start mb-4">
-                        <div>
-                            <span class="text-[10px] font-black uppercase tracking-widest text-slate-400">{{ log.time
-                                }}</span>
-                            <h4 class="text-lg font-bold text-slate-800 mt-1">{{ log.ticker }}</h4>
-                        </div>
-                        <span
-                            class="px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wide
-                            {% if log.decision == 'buy' %} bg-red-50 text-red-500 {% elif log.decision == 'sell' %} bg-blue-50 text-blue-500 {% else %} bg-slate-100 text-slate-500 {% endif %}">
-                            {{ log.decision }}
-                        </span>
-                    </div>
-                    <p class="text-sm font-medium text-slate-600 leading-relaxed bg-surface-50 p-3 rounded-xl">
-                        "{{ log.reason }}"
-                    </p>
-                </div>
-                {% endfor %}
-            </div>
-            {% else %}
-            <div class="text-center py-12 bg-surface-50 rounded-[2rem] border border-dashed border-surface-200">
-                <p class="text-slate-400 font-bold">아직 거래 기록이 없습니다.</p>
-            </div>
-            {% endif %}
-
             <!-- Asset Portfolio Table -->
             {% if trade.positions %}
             <div
-                class="mt-8 bg-white rounded-[2rem] shadow-[0_20px_50px_rgba(0,0,0,0.05)] border border-surface-200 overflow-hidden">
+                class="bg-white rounded-[2rem] shadow-[0_20px_50px_rgba(0,0,0,0.05)] border border-surface-200 overflow-hidden mb-8">
                 <div class="px-8 py-6 border-b border-surface-100 bg-surface-50/50">
                     <h3 class="font-bold text-slate-800">보유 자산 포트폴리오</h3>
                 </div>
@@ -397,6 +367,36 @@
                         </tbody>
                     </table>
                 </div>
+            </div>
+            {% endif %}
+
+            <!-- Recent Trades Log -->
+            {% if trade.recent_trades %}
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {% for log in trade.recent_trades %}
+                <div
+                    class="bg-white rounded-2xl p-6 shadow-sm border border-surface-100 relative overflow-hidden group hover:shadow-md transition-all">
+                    <div class="flex justify-between items-start mb-4">
+                        <div>
+                            <span class="text-[10px] font-black uppercase tracking-widest text-slate-400">{{ log.time
+                                }}</span>
+                            <h4 class="text-lg font-bold text-slate-800 mt-1">{{ log.ticker }}</h4>
+                        </div>
+                        <span
+                            class="px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wide
+                            {% if log.decision == 'buy' %} bg-red-50 text-red-500 {% elif log.decision == 'sell' %} bg-blue-50 text-blue-500 {% else %} bg-slate-100 text-slate-500 {% endif %}">
+                            {{ log.decision }}
+                        </span>
+                    </div>
+                    <p class="text-sm font-medium text-slate-600 leading-relaxed bg-surface-50 p-3 rounded-xl">
+                        {{ log.reason_mapped | default(log.reason) }}
+                    </p>
+                </div>
+                {% endfor %}
+            </div>
+            {% else %}
+            <div class="text-center py-12 bg-surface-50 rounded-[2rem] border border-dashed border-surface-200">
+                <p class="text-slate-400 font-bold">아직 거래 기록이 없습니다.</p>
             </div>
             {% endif %}
         </div>

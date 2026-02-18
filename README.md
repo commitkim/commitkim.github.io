@@ -1,82 +1,75 @@
-# CommitKim Project Hub 📂
+# 🚀 CommitKim Project Hub
 
-## 🤖 Auto Trader
-**Gemini 2.0 Flash**를 활용한 업비트(Upbit) 자동 매매 봇입니다.
-- **안전 제일**: 자본 보존을 최우선으로 하는 보수적인 알고리즘 탑재.
-- **스마트 분석**: RSI, MACD, 볼린저 밴드 등 기술적 지표를 AI가 종합 분석.
-- **자동화**: Windows 작업 스케줄러를 통해 24시간 자동 거래.
-- **대시보드**: [Trading Status](docs/trade.html) 페이지에서 실시간 자산 및 거래 내역 확인 가능.
+**CommitKim**은 **Google Gemini 2.0 Flash** 기반의 AI Agent가 100% 코딩하고 운영하는 **"자율 주행 개인 비서 프로젝트"**입니다.
+경제 뉴스 브리핑부터 암호화폐 자동 매매, 그리고 이 모든 것을 시각화하는 대시보드까지 하나의 유기적인 시스템으로 동작합니다.
 
-👉 [자세히 보기](Auto%20trader/README.md)
-
-**AI-Powered Development Mono-repo**
-*This project and all its documentation are generated and maintained by Google's Agentic AI.*
-
-[메인 대시보드 바로가기](https://commitkim.github.io)
+👉 [**Live Dashboard 보기**](https://commitkim.github.io)
 
 ---
 
-## 📂 프로젝트 목록
+## 🏛️ Project Architecture (Mono-repo)
 
-### 1. [대시보드 (Dashboard)](./Dashboard)
-모든 프로젝트의 데이터를 시각화하는 중앙 허브입니다.
-- **기술 스택**: Python (Static Site Generator), Jinja2, TailwindCSS
-- **기능**: 뉴스 요약 아카이브, 슬롯머신 연동, 반응형 UI
+이 프로젝트는 4개의 핵심 모듈이 독립적이면서도 유기적으로 연결되어 있습니다.
 
-### 2. [뉴스 요약 봇 (Summariser)](./Summariser)
-매일 아침과 저녁, 경제 뉴스를 수집하고 AI로 요약하여 배달합니다.
-- **기술 스택**: Python, YouTube API, **Google Gemini 2.0 Flash**, Kakao API
-- **기능**: Morning(모닝루틴) & Evening(퇴근요정) 듀얼 모드 지원 → AI 요약 → 카카오톡 전송 → 웹 리포트 생성
-
-### 3. [슬롯 머신 (Slot Machine)](./Slot%20machine)
-다이어트 내기를 위한 웹 게임입니다.
-- **기술 스택**: HTML5, CSS3, Vanilla JS
-- **기능**: 웹 오디오 효과, 로컬 스토리지 데이터 저장, 반응형 디자인
-
----
-
-## 🚀 배포 (Deployment)
-
-이 프로젝트는 **GitHub Pages**를 통해 호스팅됩니다.
-`Dashboard`와 `Summariser`가 생성한 정적 파일들이 `docs/` 폴더에 모이고, 이 폴더가 웹사이트로 배포됩니다.
-
-### 자동 배포 파이프라인 (Automated Pipeline)
-각 모듈이 스케줄에 따라 실행된 후, 자동으로 **통합 빌드 → 테스트 → 배포** 과정을 트리거합니다.
-
-1. **Summariser** (`register_schedule.bat`)
-   - **Morning**: 매일 09:00 / **Evening**: 매일 18:30
-   - **Flow**: [뉴스 수집/요약] → [로컬 저장] → [**전체 사이트 빌드 & 배포**] → [카톡 전송]
-
-2. **Auto Trader** (`register_schedule.bat`)
-   - **Frequency**: 10분 간격
-   - **Flow**: [시세 확인/매매] → [**전체 사이트 빌드 & 배포**]
-
-### 통합 파이프라인 (Build, Test & Deploy)
-어떤 모듈이 실행되든 마지막에는 **Root Project**의 파이프라인을 거칩니다:
-1. **Build**: `Dashboard/builder.py` (최신 데이터 반영)
-2. **Test**: `tests/run_all_tests.bat` (무결성 검증)
-3. **Deploy**: `Dashboard/deploy.py` (GitHub Pages Push)
-
-### 수동 배포 및 관리
-- `build_test_deploy.bat`: 수동으로 전체 사이트 빌드, 테스트, 배포를 일괄 실행합니다.
-- `cleanup_all_tasks.bat`: 로컬에 등록된 모든 작업 스케줄을 삭제합니다.
-
----
-
-## 🧪 테스트 (Testing)
-
-모든 변경 사항은 안전하게 테스트된 후 배포됩니다.
-
-| 스크립트 | 설명 | 비고 |
+| 모듈 (Module) | 역할 (Role) | 핵심 기술 (Tech Stack) |
 | :--- | :--- | :--- |
-| **`tests\run_all_tests.bat`** | **전체 테스트**. 배포 전 필수 통과 항목. | Mock 사용 (안전) |
-| `tests\test_summariser.bat` | 뉴스 수집 및 요약 로직 검증. | Mock 사용 (안전) |
-| `tests\test_dashboard.bat` | 대시보드 빌드 무결성 검증. | Temp 폴더 사용 |
-| **`tests\test_live.bat`** | **실통합 테스트**. 실제 API 호출 포함. | **비용 발생 주의** |
+| [**1. Summariser**](./Summariser) | **뉴스 브리핑 봇**<br>매일 아침/저녁, 경제 뉴스를 요약하여 카카오톡으로 전송합니다. | Python, YouTube API, Gemini 2.0, KakaoTalk API |
+| [**2. Auto Trader**](./Auto%20trader) | **자율 매매 봇**<br>업비트에서 24시간 시세를 감시하며 "자본 생존" 전략으로 안전하게 투자합니다. | Python, Upbit API, Gemini 2.0, Tech Analysis |
+| [**3. Dashboard**](./Dashboard) | **관제 센터**<br>뉴스 리포트 아카이브와 실시간 트레이딩 현황을 웹으로 시각화합니다. | Python (SSG), Jinja2, TailwindCSS |
+| [**4. Slot Machine**](./Slot%20machine) | **미니 게임**<br>다이어트 내기를 위한 재미있는 웹 게임입니다. | HTML5, CSS3, Vanilla JS |
 
 ---
 
-## 🤖 AI Disclaimer
-이 프로젝트의 코드, 문서, 아키텍처는 대부분 **AI Agent**에 의해 생성되었습니다.
-- **Role**: Full Stack Developer & DevOps Engineer
-- **Model**: Gemini 2.0 Pro Experimental / Flash
+## � Automated Pipeline (Workflows)
+
+모든 시스템은 **Windows Task Scheduler**에 의해 24시간 자동으로 돌아갑니다.
+
+### ☀️ Morning Routine (09:00)
+1.  **Summariser**가 밤사이 경제 뉴스를 수집합니다.
+2.  **Gemini AI**가 "모닝 브리핑" 스타일로 요약합니다.
+3.  **KakaoTalk**으로 요약본을 전송하고, **Web Report**를 생성합니다.
+4.  **GitHub Pages**에 자동으로 배포됩니다.
+
+### 🌙 Evening Briefing (18:30)
+1.  **Summariser**가 "퇴근요정" 모드로 실행됩니다.
+2.  오늘 하루의 주요 이슈를 정리하여 배달합니다.
+
+### 🤖 Auto Trading (Every 60 mins)
+1.  **Auto Trader**가 매시 정각 10분, 비트코인 등 주요 코인을 분석합니다.
+2.  **Capital Survival** 전략에 따라 매수/매도/관망을 결정합니다.
+3.  거래 내역과 자산 변동 사항을 **Dashboard**에 즉시 업데이트합니다.
+
+---
+
+## 🛠️ Installation & Usage
+
+이 프로젝트는 로컬 Windows 환경에서 동작하도록 설계되었습니다.
+
+### 1. 환경 설정 (Environment)
+각 모듈 폴더의 `requirements.txt`를 설치하고 `.env` 파일을 설정해야 합니다.
+```bash
+# Dashboard (Build System)
+pip install -r Dashboard/requirements.txt
+
+# Summariser & Auto Trader
+pip install -r Summariser/requirements.txt
+```
+
+### 2. 자동화 등록 (Scheduling)
+프로젝트 루트의 `register_schedule.bat`를 관리자 권한으로 실행하면 모든 스케줄이 등록됩니다.
+
+### 3. 수동 배포 (Manual Deploy)
+코드 수정 후 즉시 배포하려면:
+```bash
+build_test_deploy.bat
+```
+
+---
+
+## 🛡️ License & Disclaimer
+
+*   **AI-Generated Code**: 이 프로젝트의 모든 코드는 Google의 Agentic AI에 의해 작성되었습니다.
+*   **Investment Risk**: Auto Trader 모듈 사용에 따른 투자 결과의 책임은 전적으로 사용자에게 있습니다.
+
+---
+*Created by CommitKim AI Agent*

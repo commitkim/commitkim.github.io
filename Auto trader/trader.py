@@ -338,3 +338,50 @@ class AutoTrader:
             
         self.save_status(results)
         return results
+
+if __name__ == "__main__":
+    import sys
+    import os
+    from dotenv import load_dotenv
+
+    # Setup basic logging for manual run
+    logging.basicConfig(
+        level=logging.INFO,
+        format='%(asctime)s [%(levelname)s] %(message)s',
+        datefmt='%Y-%m-%d %H:%M:%S',
+        force=True
+    )
+    
+    # Calculate Project Root
+    current_dir = os.path.dirname(os.path.abspath(__file__))
+    project_root = os.path.dirname(current_dir)
+    
+    # Load .env
+    env_path = os.path.join(project_root, '.env')
+    if os.path.exists(env_path):
+        load_dotenv(env_path)
+        logging.info(f"✅ Loaded .env from {env_path}")
+    else:
+        logging.warning("⚠️ .env file not found!")
+
+    # Import config
+    try:
+        sys.path.append(current_dir)
+        import config
+    except ImportError as e:
+        logging.error(f"Config import failed: {e}")
+        sys.exit(1)
+
+    print("\n🤖 Manual Execution Started... (Press Ctrl+C to stop)")
+    print("---------------------------------------------------")
+    
+    try:
+        trader = AutoTrader(config)
+        trader.run_cycle()
+        print("\n✅ Cycle Completed Successfully.")
+    except Exception as e:
+        logging.error(f"❌ Execution Failed: {e}")
+        import traceback
+        traceback.print_exc()
+    
+    print("---------------------------------------------------")

@@ -37,6 +37,10 @@
                 <a href="index.html"
                     class="text-sm font-medium text-slate-600 hover:text-blue-600 transition-colors">Dashboard</a>
                 <a href="#" class="text-sm font-bold text-blue-600">Trading Status</a>
+                <a href="https://upbit.com/exchange?code=CRIX.UPBIT.KRW-BTC" target="_blank"
+                    class="text-sm font-medium text-slate-400 hover:text-blue-500 transition-colors flex items-center gap-1">
+                    Upbit ↗
+                </a>
             </nav>
         </div>
     </header>
@@ -135,7 +139,7 @@
             <div class="p-6 border-b border-slate-100 bg-slate-50/50">
                 <h2 class="text-xl font-bold text-slate-800">📝 Recent Trade Logs</h2>
             </div>
-            <div class="divide-y divide-slate-100">
+            <div class="h-[600px] overflow-y-auto divide-y divide-slate-100 scrollbar-hide">
                 {% if trade.recent_trades %}
                 {% for log in trade.recent_trades|reverse %}
                 <div class="p-6 hover:bg-slate-50 transition-colors">
@@ -153,7 +157,7 @@
                     </div>
                     <p
                         class="text-slate-600 text-sm leading-relaxed bg-slate-50 p-3 rounded-xl border border-slate-100">
-                        "{{ log.reason }}"
+                        {{ log.reason_mapped | default(log.reason) }}
                     </p>
                 </div>
                 {% endfor %}
