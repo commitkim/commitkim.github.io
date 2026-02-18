@@ -181,10 +181,10 @@
                                     <span class="text-xs font-medium text-slate-400">{{ log.time }}</span>
                                 </div>
                             </div>
-                            <p
+                            <div
                                 class="text-slate-600 text-sm leading-relaxed bg-slate-50 p-3 rounded-xl border border-slate-100">
                                 {{ log.reason_mapped | default(log.reason) }}
-                            </p>
+                            </div>
                         </div>
                         {% endif %}
                         {% endfor %}
@@ -209,10 +209,10 @@
                                 <span class="text-xs font-medium text-slate-400">{{ log.time }}</span>
                             </div>
                         </div>
-                        <p
+                        <div
                             class="text-slate-600 text-sm leading-relaxed bg-slate-50 p-3 rounded-xl border border-slate-100">
                             {{ log.reason_mapped | default(log.reason) }}
-                        </p>
+                        </div>
                     </div>
                     {% endfor %}
                 </div>
@@ -220,105 +220,8 @@
             </div>
         </div>
 
-        <!-- Strategy Logic Section -->
-        <div class="mb-12">
-            <div class="mb-6 flex items-center gap-2">
-                <h2 class="text-xl font-bold text-slate-800">🧠 AI Trading Strategy (Ranked Execution)</h2>
-                <span class="text-xs text-white bg-blue-600 px-2 py-1 rounded-full font-bold">Logic v2.0</span>
-            </div>
-
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                <!-- 1. Input Data -->
-                <div
-                    class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 relative overflow-hidden group hover:shadow-md transition-shadow">
-                    <div class="absolute top-0 right-0 p-4 opacity-10 font-black text-6xl text-slate-300">1</div>
-                    <h3 class="font-bold text-slate-700 mb-4 flex items-center gap-2 relative z-10">
-                        <span class="bg-blue-100 text-blue-600 p-1.5 rounded-lg text-lg">📊</span>
-                        Input Data (Gemini)
-                    </h3>
-                    <ul class="space-y-3 relative z-10">
-                        <li class="flex items-start gap-2 text-sm text-slate-600">
-                            <span class="w-1.5 h-1.5 rounded-full bg-blue-400 mt-1.5 flex-shrink-0"></span>
-                            <span><strong>OHLCV (24h)</strong>: 1시간 봉 기준 24시간의 시가/고가/저가/종가/거래량 데이터</span>
-                        </li>
-                        <li class="flex items-start gap-2 text-sm text-slate-600">
-                            <span class="w-1.5 h-1.5 rounded-full bg-blue-400 mt-1.5 flex-shrink-0"></span>
-                            <span><strong>Technical Indicators</strong>: RSI(14), MACD, Bollinger Bands(20,2), Moving
-                                Averages(MA20, 60)</span>
-                        </li>
-                        <li class="flex items-start gap-2 text-sm text-slate-600">
-                            <span class="w-1.5 h-1.5 rounded-full bg-blue-400 mt-1.5 flex-shrink-0"></span>
-                            <span><strong>Account Status</strong>: 현재 보유 자산, 평단가, 수익률</span>
-                        </li>
-                    </ul>
-                </div>
-
-                <!-- 2. Execution Flow -->
-                <div
-                    class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 relative overflow-hidden group hover:shadow-md transition-shadow">
-                    <div class="absolute top-0 right-0 p-4 opacity-10 font-black text-6xl text-slate-300">2</div>
-                    <h3 class="font-bold text-slate-700 mb-4 flex items-center gap-2 relative z-10">
-                        <span class="bg-indigo-100 text-indigo-600 p-1.5 rounded-lg text-lg">⚙️</span>
-                        Execution Flow
-                    </h3>
-                    <div class="space-y-4 relative z-10">
-                        <div class="flex items-center gap-3">
-                            <div
-                                class="flex-shrink-0 w-8 h-8 rounded-full bg-slate-100 text-slate-500 font-bold flex items-center justify-center text-xs">
-                                1</div>
-                            <p class="text-sm text-slate-600"><strong>Analyze All</strong>: 모든 대상 코인을 1차적으로 분석하여 AI의 판단을
-                                수집합니다.</p>
-                        </div>
-                        <div class="flex items-center gap-3">
-                            <div
-                                class="flex-shrink-0 w-8 h-8 rounded-full bg-blue-100 text-blue-600 font-bold flex items-center justify-center text-xs">
-                                2</div>
-                            <p class="text-sm text-slate-600"><strong>Sell Priority</strong>: '매도(SELL)' 신호가 뜬 코인을
-                                <strong>우선적으로 처분</strong>하여 투자 슬롯을 확보합니다.</p>
-                        </div>
-                        <div class="flex items-center gap-3">
-                            <div
-                                class="flex-shrink-0 w-8 h-8 rounded-full bg-indigo-100 text-indigo-600 font-bold flex items-center justify-center text-xs">
-                                3</div>
-                            <p class="text-sm text-slate-600"><strong>Ranked Buy</strong>: '매수(BUY)' 신호 코인들을 <strong>AI
-                                    확신도(Confidence) 순으로 정렬</strong>하여, 상위 종목부터 빈 슬롯(Max 3)에 진입합니다.</p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- 3. Decision Rules -->
-                <div
-                    class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 relative overflow-hidden group hover:shadow-md transition-shadow">
-                    <div class="absolute top-0 right-0 p-4 opacity-10 font-black text-6xl text-slate-300">3</div>
-                    <h3 class="font-bold text-slate-700 mb-4 flex items-center gap-2 relative z-10">
-                        <span class="bg-emerald-100 text-emerald-600 p-1.5 rounded-lg text-lg">🛡️</span>
-                        Key Rules
-                    </h3>
-                    <ul class="space-y-3 relative z-10">
-                        <li class="flex items-center gap-2 text-sm text-slate-600">
-                            <span class="text-lg">🛑</span>
-                            <span><strong>Capital Survival</strong>: 확신이 없으면 무조건 '관망(HOLD)'합니다.</span>
-                        </li>
-                        <li class="flex items-center gap-2 text-sm text-slate-600">
-                            <span class="text-lg">🎯</span>
-                            <span><strong>Confidence Threshold</strong>: 확신도 <strong>0.65 (65점)</strong> 이상일 때만
-                                매수합니다.</span>
-                        </li>
-                        <li class="flex items-center gap-2 text-sm text-slate-600">
-                            <span class="text-lg">📉</span>
-                            <span><strong>Trend Filter</strong>: 하락 추세(MA20 < MA60)에서는 절대 매수하지 않습니다.</span>
-                        </li>
-                        <li class="flex items-center gap-2 text-sm text-slate-600">
-                            <span class="text-lg">⚖️</span>
-                            <span><strong>Slot Limit</strong>: 최대 3종목까지만 보유하여 리스크를 분산합니다.</span>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-
         <!-- Glossary Section -->
-        <div class="mt-12">
+        <div class="mt-24 pt-12 border-t border-slate-200 mb-12">
             <div class="mb-6 flex items-center gap-2">
                 <h2 class="text-xl font-bold text-slate-800">📚 용어 해설 (Glossary)</h2>
                 <span class="text-xs text-slate-400 bg-slate-100 px-2 py-1 rounded-full">로그에 자주 나오는 단어들</span>
@@ -384,6 +287,106 @@
                 </div>
             </div>
         </div>
+
+        <!-- Strategy Logic Section -->
+        <div class="mt-24 pt-12 border-t border-slate-200 mb-12">
+            <div class="mb-6 flex items-center gap-2">
+                <h2 class="text-xl font-bold text-slate-800">🧠 AI Trading Strategy (Ranked Execution)</h2>
+                <span class="text-xs text-white bg-blue-600 px-2 py-1 rounded-full font-bold">Logic v2.0</span>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- 1. Input Data -->
+                <div
+                    class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 relative overflow-hidden group hover:shadow-md transition-shadow">
+                    <div class="absolute top-0 right-0 p-4 opacity-10 font-black text-6xl text-slate-300">1</div>
+                    <h3 class="font-bold text-slate-700 mb-4 flex items-center gap-2 relative z-10">
+                        <span class="bg-blue-100 text-blue-600 p-1.5 rounded-lg text-lg">📊</span>
+                        Input Data (Gemini)
+                    </h3>
+                    <ul class="space-y-3 relative z-10">
+                        <li class="flex items-start gap-2 text-sm text-slate-600">
+                            <span class="w-1.5 h-1.5 rounded-full bg-blue-400 mt-1.5 flex-shrink-0"></span>
+                            <span><strong>OHLCV (7 Days)</strong>: 1시간 봉 기준 7일(168시간)의 시가/고가/저가/종가/거래량 데이터</span>
+                        </li>
+                        <li class="flex items-start gap-2 text-sm text-slate-600">
+                            <span class="w-1.5 h-1.5 rounded-full bg-blue-400 mt-1.5 flex-shrink-0"></span>
+                            <span><strong>Technical Indicators</strong>: RSI(14), MACD, Bollinger Bands(20,2), Moving
+                                Averages(MA20, 60)</span>
+                        </li>
+                        <li class="flex items-start gap-2 text-sm text-slate-600">
+                            <span class="w-1.5 h-1.5 rounded-full bg-blue-400 mt-1.5 flex-shrink-0"></span>
+                            <span><strong>Account Status</strong>: 현재 보유 자산, 평단가, 수익률</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- 2. Execution Flow -->
+                <div
+                    class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 relative overflow-hidden group hover:shadow-md transition-shadow">
+                    <div class="absolute top-0 right-0 p-4 opacity-10 font-black text-6xl text-slate-300">2</div>
+                    <h3 class="font-bold text-slate-700 mb-4 flex items-center gap-2 relative z-10">
+                        <span class="bg-indigo-100 text-indigo-600 p-1.5 rounded-lg text-lg">⚙️</span>
+                        Execution Flow
+                    </h3>
+                    <div class="space-y-4 relative z-10">
+                        <div class="flex items-center gap-3">
+                            <div
+                                class="flex-shrink-0 w-8 h-8 rounded-full bg-slate-100 text-slate-500 font-bold flex items-center justify-center text-xs">
+                                1</div>
+                            <p class="text-sm text-slate-600"><strong>Analyze All</strong>: 모든 대상 코인을 1차적으로 분석하여 AI의 판단을
+                                수집합니다.</p>
+                        </div>
+                        <div class="flex items-center gap-3">
+                            <div
+                                class="flex-shrink-0 w-8 h-8 rounded-full bg-blue-100 text-blue-600 font-bold flex items-center justify-center text-xs">
+                                2</div>
+                            <p class="text-sm text-slate-600"><strong>Sell Priority</strong>: '매도(SELL)' 신호가 뜬 코인을
+                                <strong>우선적으로 처분</strong>하여 투자 슬롯을 확보합니다.
+                            </p>
+                        </div>
+                        <div class="flex items-center gap-3">
+                            <div
+                                class="flex-shrink-0 w-8 h-8 rounded-full bg-indigo-100 text-indigo-600 font-bold flex items-center justify-center text-xs">
+                                3</div>
+                            <p class="text-sm text-slate-600"><strong>Ranked Buy</strong>: '매수(BUY)' 신호 코인들을 <strong>AI
+                                    확신도(Confidence) 순으로 정렬</strong>하여, 상위 종목부터 빈 슬롯(Max 3)에 진입합니다.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 3. Decision Rules -->
+                <div
+                    class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 relative overflow-hidden group hover:shadow-md transition-shadow">
+                    <div class="absolute top-0 right-0 p-4 opacity-10 font-black text-6xl text-slate-300">3</div>
+                    <h3 class="font-bold text-slate-700 mb-4 flex items-center gap-2 relative z-10">
+                        <span class="bg-emerald-100 text-emerald-600 p-1.5 rounded-lg text-lg">🛡️</span>
+                        Key Rules
+                    </h3>
+                    <ul class="space-y-3 relative z-10">
+                        <li class="flex items-center gap-2 text-sm text-slate-600">
+                            <span class="text-lg">🛑</span>
+                            <span><strong>Capital Survival</strong>: 확신이 없으면 무조건 '관망(HOLD)'합니다.</span>
+                        </li>
+                        <li class="flex items-center gap-2 text-sm text-slate-600">
+                            <span class="text-lg">🎯</span>
+                            <span><strong>Confidence Threshold</strong>: 확신도 <strong>0.65 (65점)</strong> 이상일 때만
+                                매수합니다.</span>
+                        </li>
+                        <li class="flex items-center gap-2 text-sm text-slate-600">
+                            <span class="text-lg">📉</span>
+                            <span><strong>Trend Filter</strong>: 하락 추세(MA20 < MA60)에서는 절대 매수하지 않습니다.</span>
+                        </li>
+                        <li class="flex items-center gap-2 text-sm text-slate-600">
+                            <span class="text-lg">⚖️</span>
+                            <span><strong>Slot Limit</strong>: 최대 3종목까지만 보유하여 리스크를 분산합니다.</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+
 
     </main>
 

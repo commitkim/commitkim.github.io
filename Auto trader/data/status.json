@@ -1,5 +1,5 @@
 {
-  "timestamp": "2026-02-18 23:03:47",
+  "timestamp": "2026-02-18 23:33:54",
   "total_assets": 50000.57252246,
   "positions": {
     "KRW": {
@@ -117,6 +117,78 @@
       "decision": "hold",
       "reason": "LOW_CONFIDENCE",
       "time": "02/18 23:03"
+    },
+    {
+      "ticker": "KRW-BTC",
+      "decision": "hold",
+      "reason": "TREND_ALIGNMENT",
+      "time": "02/18 23:10"
+    },
+    {
+      "ticker": "KRW-ETH",
+      "decision": "hold",
+      "reason": "LOW_CONFIDENCE",
+      "time": "02/18 23:10"
+    },
+    {
+      "ticker": "KRW-XRP",
+      "decision": "hold",
+      "reason": "TREND_ALIGNMENT",
+      "time": "02/18 23:10"
+    },
+    {
+      "ticker": "KRW-SOL",
+      "decision": "hold",
+      "reason": "TREND_ALIGNMENT",
+      "time": "02/18 23:10"
+    },
+    {
+      "ticker": "KRW-AVAX",
+      "decision": "hold",
+      "reason": "TREND_ALIGNMENT",
+      "time": "02/18 23:10"
+    },
+    {
+      "ticker": "KRW-DOGE",
+      "decision": "hold",
+      "reason": "LOW_CONFIDENCE | STRUCTURE_UNCLEAR",
+      "time": "02/18 23:10"
+    },
+    {
+      "ticker": "KRW-BTC",
+      "decision": "hold",
+      "reason": "TREND_ALIGNMENT",
+      "time": "02/18 23:33"
+    },
+    {
+      "ticker": "KRW-ETH",
+      "decision": "hold",
+      "reason": "STRUCTURE_UNCLEAR",
+      "time": "02/18 23:33"
+    },
+    {
+      "ticker": "KRW-XRP",
+      "decision": "hold",
+      "reason": "TREND_ALIGNMENT",
+      "time": "02/18 23:33"
+    },
+    {
+      "ticker": "KRW-SOL",
+      "decision": "hold",
+      "reason": "TREND_ALIGNMENT",
+      "time": "02/18 23:33"
+    },
+    {
+      "ticker": "KRW-AVAX",
+      "decision": "hold",
+      "reason": "TREND_ALIGNMENT",
+      "time": "02/18 23:33"
+    },
+    {
+      "ticker": "KRW-DOGE",
+      "decision": "hold",
+      "reason": "LOW_CONFIDENCE",
+      "time": "02/18 23:33"
     }
   ]
 }

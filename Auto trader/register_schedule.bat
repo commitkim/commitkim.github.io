@@ -1,6 +1,21 @@
 @echo off
 chcp 65001 > nul
-cd /d "%~dp0"
+
+:: Check for Administrator privileges
+net session >nul 2>&1
+if %errorLevel% == 0 (
+    echo Administrator privileges confirmed.
+) else (
+    echo.
+    echo ========================================================
+    echo ⚠️  Administrator Privileges Required
+    echo ========================================================
+    echo This script requires administrator privileges.
+    echo Please right-click and select "Run as administrator".
+    echo.
+    pause
+    exit /b
+)
 
 set TASK_NAME="CommitKim_AutoTrader"
 set "RUN_FILE=%~dp0automation.bat"

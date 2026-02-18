@@ -5,7 +5,7 @@ import os
 import sys
 import time
 import logging
-from datetime import datetime, timedelta
+from datetime import datetime
 
 # Set encoding for Windows console
 sys.stdout.reconfigure(encoding='utf-8')
@@ -34,8 +34,9 @@ class AutoTrader:
     def get_market_data(self, ticker):
         """Fetches OHLCV and technical indicators."""
         try:
-            # Fetch more data to calculate indicators (e.g., MA60 needs at least 60)
-            df = pyupbit.get_ohlcv(ticker, interval=self.config.TRADING['interval'], count=100)
+            # Fetch more data to calculate indicators (MA60 needs 60, we want 7 days history i.e. 168h)
+            # Fetching 240 (10 days) to ensure enough buffer for MA60 at the start of our 7-day window
+            df = pyupbit.get_ohlcv(ticker, interval=self.config.TRADING['interval'], count=240)
             if df is None or df.empty:
                 return None
             
@@ -73,7 +74,7 @@ class AutoTrader:
         current_data = df.iloc[-1]
         
         # Format data for prompt
-        ohlcv_json = df.tail(24).to_json() # Last 24 hours
+        ohlcv_json = df.tail(168).to_json() # Last 7 days (168 hours)
         
         # Technicals
         rsi = f"{current_data['rsi']:.2f}"
@@ -414,16 +415,21 @@ class AutoTrader:
     def get_korean_reason(self, code):
         """Maps technical codes to friendly Korean messages for console logging."""
         mapping = {
-            "TREND_ALIGNMENT": "📉 하락 추세 (MA20 < MA60)",
-            "VOLATILITY_FILTER": "🌪️ 변동성 부적합",
-            "LOW_CONFIDENCE": "🤔 AI 확신도 부족",
-            "MAX_COINS_REACHED": "🚫 보유 종목 수 최대",
-            "ASSET_ALLOCATION": "⚠️ 비중 초과",
-            "CONSECUTIVE_LOSS_PROTECTION": "🛡️ 연속 손실 보호",
-            "LOSS_CUT": "✂️ 손절매 실행",
-            "TAKE_PROFIT": "💰 익절매 실행",
-            "STRUCTURE_UNCLEAR": "🤷 방향성 불확실",
-            "API_ERROR": "⚠️ API/시스템 오류"
+            "TREND_ALIGNMENT": "📉 현재 가격이 장기 이동평균선(60일선) 아래에 있어 하락세가 강합니다. 안전을 위해 매수를 보류했습니다.",
+            "VOLATILITY_FILTER": "🌪️ 시장의 변동성이 너무 적거나 반대로 너무 극심합니다. 예측이 어려워 진입하지 않았습니다.",
+            "LOW_CONFIDENCE": "🤔 AI의 분석 결과, 상승 확신도가 기준치(0.65)보다 낮습니다. 더 확실한 기회를 기다립니다.",
+            "MAX_COINS_REACHED": "🚫 이미 최대 보유 종목 수(3개)를 채웠습니다. 새로운 종목을 매수하려면 기존 종목이 매도되어야 합니다.",
+            "ASSET_ALLOCATION": "⚠️ 한 종목에 담을 수 있는 최대 비중을 초과하게 됩니다. 리스크 관리를 위해 추가 매수를 제한합니다.",
+            "CONSECUTIVE_LOSS_PROTECTION": "🛡️ 최근 연속으로 손실이 발생하여 '쿨다운' 중입니다. 잠시 머리를 식히며 시장을 관망합니다.",
+            "LOSS_CUT": "✂️ 아쉽지만 손절매 라인(-3%)을 건드렸습니다. 더 큰 손실을 막기 위해 원칙대로 매도하여 자본을 지킵니다.",
+            "TAKE_PROFIT": "💰 목표 수익률(+5%)에 도달했습니다! 욕심부리지 않고 수익을 확정 지어 주머니에 넣습니다.",
+            "STRUCTURE_UNCLEAR": "🤷 차트의 흐름이 위인지 아래인지 명확하지 않습니다. 방향이 결정될 때까지 지켜보는 게 좋겠습니다.",
+            "API_ERROR": "⚠️ 일시적인 시스템/통신 오류가 발생했습니다. 안전을 위해 이번 턴은 건너뜁니다.",
+            "CAPITAL_PRESERVATION": "💰 지금은 돈을 버는 것보다 지키는 것이 더 중요한 시기입니다. 무리하지 않고 현금을 보유합니다.",
+            "UNCLEAR_TREND": "❓ 상승장인지 하락장인지 뚜렷하지 않습니다. 애매할 땐 쉬어가는 것이 상책입니다.",
+            "LOW_CONFIDENCE_AND_UNCLEAR_TREND": "🤔 확신도 부족하고 추세도 애매합니다. 이럴 때 매수하면 물리기 쉽습니다.",
+            "BEARISH_MOMENTUM_INDICATORS": "📉 보조지표(MACD, RSI)가 하락을 가리키고 있습니다. 매수하기엔 힘이 빠져 보입니다.",
+            "PRICE_BELOW_MAS": "📉 가격이 주요 이동평균선 아래로 처져 있습니다. 상승 추세로 돌아설 때까지 기다립니다."
         }
         return mapping.get(code, code)
 
