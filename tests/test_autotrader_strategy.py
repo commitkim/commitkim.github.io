@@ -86,8 +86,8 @@ class TestAutoTraderStrategy(unittest.TestCase):
         # Execute Trade
         self.trader.execute_trade('KRW-BTC', decision, 50000, balance_info, total_capital)
         
-        # Should buy capped 10% of 1,000,000 = 100,000
-        self.trader.upbit.buy_market_order.assert_called_with('KRW-BTC', 100000.0)
+        # Should buy capped 20% of 1,000,000 = 200,000
+        self.trader.upbit.buy_market_order.assert_called_with('KRW-BTC', 200000.0)
 
     def test_max_coins_limit(self):
         """Test that new buys are blocked if max coins limit is reached."""

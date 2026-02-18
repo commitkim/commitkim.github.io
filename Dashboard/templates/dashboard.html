@@ -372,33 +372,33 @@
 
             <!-- Recent Trades Log -->
             {% if trade.recent_trades %}
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                {% for log in trade.recent_trades %}
-                <div
-                    class="bg-white rounded-2xl p-6 shadow-sm border border-surface-100 relative overflow-hidden group hover:shadow-md transition-all">
-                    <div class="flex justify-between items-start mb-4">
-                        <div>
-                            <span class="text-[10px] font-black uppercase tracking-widest text-slate-400">{{ log.time
-                                }}</span>
-                            <h4 class="text-lg font-bold text-slate-800 mt-1">{{ log.ticker }}</h4>
-                        </div>
-                        <span
-                            class="px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wide
-                            {% if log.decision == 'buy' %} bg-red-50 text-red-500 {% elif log.decision == 'sell' %} bg-blue-50 text-blue-500 {% else %} bg-slate-100 text-slate-500 {% endif %}">
-                            {{ log.decision }}
-                        </span>
-                    </div>
-                    <p class="text-sm font-medium text-slate-600 leading-relaxed bg-surface-50 p-3 rounded-xl">
-                        {{ log.reason_mapped | default(log.reason) }}
-                    </p>
-                </div>
-                {% endfor %}
-            </div>
-            {% else %}
-            <div class="text-center py-12 bg-surface-50 rounded-[2rem] border border-dashed border-surface-200">
-                <p class="text-slate-400 font-bold">아직 거래 기록이 없습니다.</p>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                {% for log in trade.recent_trades|reverse %}
+                {% if loop.index <= 6 %} <div
+                    class="bg-white rounded-2xl p-4 shadow-sm border border-surface-100 flex items-center justify-between hover:shadow-md transition-all">
+                    <span class="px-3 py-1 rounded-full text-xs font-black uppercase tracking-wide
+                        {% if log.decision == 'buy' %} bg-red-50 text-red-500 
+                        {% elif log.decision == 'sell' %} bg-blue-50 text-blue-500 
+                        {% else %} bg-slate-100 text-slate-500 {% endif %}">
+                        {{ log.decision }}
+                    </span>
+                    <a href="https://upbit.com/exchange?code=CRIX.UPBIT.{{ log.ticker }}" target="_blank"
+                        class="text-sm font-bold text-slate-700 hover:text-indigo-600 transition-colors flex items-center gap-1">
+                        {{ log.ticker }}
+                        <svg class="w-3 h-3 text-slate-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                        </svg>
+                    </a>
             </div>
             {% endif %}
+            {% endfor %}
+        </div>
+        {% else %}
+        <div class="text-center py-12 bg-surface-50 rounded-[2rem] border border-dashed border-surface-200">
+            <p class="text-slate-400 font-bold">아직 거래 기록이 없습니다.</p>
+        </div>
+        {% endif %}
         </div>
         {% endif %}
 

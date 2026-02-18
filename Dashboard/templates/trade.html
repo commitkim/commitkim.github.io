@@ -151,7 +151,17 @@
                                     {% else %} bg-slate-100 text-slate-500 {% endif %}">
                                 {{ log.decision }}
                             </span>
-                            <h3 class="text-lg font-bold text-slate-800">{{ log.ticker }}</h3>
+                            <h3 class="text-lg font-bold text-slate-800 group-hover:text-blue-600 transition-colors">
+                                <a href="https://upbit.com/exchange?code=CRIX.UPBIT.{{ log.ticker }}" target="_blank"
+                                    class="flex items-center gap-1">
+                                    {{ log.ticker }}
+                                    <svg class="w-3 h-3 text-slate-300 opacity-0 group-hover:opacity-100 transition-opacity"
+                                        fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                                    </svg>
+                                </a>
+                            </h3>
                             <span class="text-xs font-medium text-slate-400">{{ log.time }}</span>
                         </div>
                     </div>

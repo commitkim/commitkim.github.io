@@ -162,16 +162,29 @@ class AutoTrader:
                         return
 
                 # Calculate Position Size via AI's suggestion or Hard Cap
-                suggested_size_pct = min(decision.get('position_size_percent', 0), 10) # Hard cap 10%
+                suggested_size_pct = min(decision.get('position_size_percent', 0), self.config.CAPITAL['investment_per_trade'] * 100)
                 amount_to_invest = total_capital * (suggested_size_pct / 100)
                 
-                # Minimum Order Size
-                if amount_to_invest < 5000:
-                    logging.info(f"⚠️ Calculated Amount {amount_to_invest:.0f} < 5000 KRW. Skip.")
-                    return
+                # Dynamic Sizing for Small Accounts (Ensure min 5500 KRW)
+                min_order_val = 5500
+                if amount_to_invest < min_order_val:
+                    if total_capital >= min_order_val:
+                        logging.info(f"💡 Adjusting bet size to minimum: {min_order_val} KRW")
+                        amount_to_invest = min_order_val
+                    else:
+                        logging.warning(f"⚠️ Insufficient capital ({total_capital} < {min_order_val}). Skip.")
+                        return
+
+                # Double check with KRW balance
+                if amount_to_invest > balance_info['krw_balance']:
+                     amount_to_invest = balance_info['krw_balance']
+                     # If balance is too low after adjustment
+                     if amount_to_invest < 5000:
+                         logging.warning("⚠️ Insufficient KRW balance for minimum order. Skip.")
+                         return
 
                 reason_kr = self.get_korean_reason(decision.get('reason_code'))
-                logging.info(f"🚀 BUY {ticker} | Size: {suggested_size_pct}% ({amount_to_invest:,.0f} KRW) | Reason: {reason_kr}")
+                logging.info(f"🚀 BUY {ticker} | Size: {amount_to_invest:,.0f} KRW | Reason: {reason_kr}")
                 self.upbit.buy_market_order(ticker, amount_to_invest)
             
             elif action == 'SELL':

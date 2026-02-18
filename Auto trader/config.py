@@ -19,8 +19,8 @@ TRADING = {
 
 # Capital Management (Strict Survival Rules)
 CAPITAL = {
-    "investment_per_trade": 0.1,    # Max 10% per trade (Dynamic sizing will be used, but this is hard cap)
-    "max_exposure_total": 0.3,      # Max 30% total capital deployed
+    "investment_per_trade": 0.2,    # Increased to 20% for small accounts (min 5000 KRW issue)
+    "max_exposure_total": 0.5,      # Max 50% total capital deployed
     "max_coins_held": 3,            # Max 3 coins
     "consecutive_loss_limit": 3     # Stop trading after 3 consecutive losses
 }
