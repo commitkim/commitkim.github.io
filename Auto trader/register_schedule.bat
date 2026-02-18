@@ -32,9 +32,15 @@ schtasks /delete /tn %TASK_NAME% /f >nul 2>&1
 
 :: 2. Create New Task
 echo.
+:: Calculate Start Time (Next Hour : 00)
+for /f "usebackq tokens=*" %%T in (`powershell -Command "[DateTime]::Now.AddHours(1).ToString('HH:00')"`) do (
+    set START_TIME=%%T
+)
+
+echo.
 echo [2/2] Registering new task...
-echo    Running every 60 minutes infinitely.
-schtasks /create /tn %TASK_NAME% /tr "\"%RUN_FILE%\"" /sc minute /mo 60 /f
+echo    Running every 1 hour, starting at %START_TIME%
+schtasks /create /tn %TASK_NAME% /tr "\"%RUN_FILE%\"" /sc hourly /mo 1 /st %START_TIME% /f
 
 if %errorlevel% neq 0 (
     echo.
