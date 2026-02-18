@@ -137,6 +137,14 @@ def build(output_dir=None):
         'trade': trade_data, # Pass trade data to context
         'generated_at': datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
         'summary_html': markdown.markdown(news_data.get('web_report', '')) if news_data else None,
+        'coin_names': {
+            "KRW-BTC": "비트코인",
+            "KRW-ETH": "이더리움",
+            "KRW-XRP": "리플",
+            "KRW-SOL": "솔라나",
+            "KRW-AVAX": "아발란체",
+            "KRW-DOGE": "도지코인"
+        }
     }
 
     # 2. Render Dashboard (index.html)
