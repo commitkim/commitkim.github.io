@@ -170,12 +170,14 @@ class AutoTrader:
                     logging.info(f"⚠️ Calculated Amount {amount_to_invest:.0f} < 5000 KRW. Skip.")
                     return
 
-                logging.info(f"🚀 BUY {ticker} | Size: {suggested_size_pct}% ({amount_to_invest:,.0f} KRW) | Reason: {decision.get('reason_code')}")
+                reason_kr = self.get_korean_reason(decision.get('reason_code'))
+                logging.info(f"🚀 BUY {ticker} | Size: {suggested_size_pct}% ({amount_to_invest:,.0f} KRW) | Reason: {reason_kr}")
                 self.upbit.buy_market_order(ticker, amount_to_invest)
             
             elif action == 'SELL':
                 if balance_info['coin_balance'] * current_price > 5000:
-                    logging.info(f"📉 SELL {ticker} | Reason: {decision.get('reason_code')}")
+                    reason_kr = self.get_korean_reason(decision.get('reason_code'))
+                    logging.info(f"📉 SELL {ticker} | Reason: {reason_kr}")
                     self.upbit.sell_market_order(ticker, balance_info['coin_balance'])
                     
         except Exception as e:
@@ -322,7 +324,9 @@ class AutoTrader:
             
             # 3. AI Analysis
             decision = self.analyze_market(ticker, df, balance_info, total_assets)
-            logging.info(f"👉 {ticker}: {decision.get('action')} (Conf: {decision.get('confidence', 0):.2f}) - {decision.get('reason_code')}")
+            
+            reason_kr = self.get_korean_reason(decision.get('reason_code', ''))
+            logging.info(f"👉 {ticker}: {decision.get('action')} (Conf: {decision.get('confidence', 0):.2f}) - {reason_kr}")
             
             # 4. Execute Trade
             self.execute_trade(ticker, decision, current_price, balance_info, total_assets)
@@ -330,7 +334,7 @@ class AutoTrader:
             results.append({
                 'ticker': ticker,
                 'decision': decision.get('action', 'HOLD').lower(),
-                'reason': decision.get('reason_code', 'Unknown'),
+                'reason': decision.get('reason_code', 'Unknown'), # Keep raw code for JSON/Dashboard builder
                 'time': datetime.now().strftime("%H:%M")
             })
             
@@ -338,6 +342,22 @@ class AutoTrader:
             
         self.save_status(results)
         return results
+
+    def get_korean_reason(self, code):
+        """Maps technical codes to friendly Korean messages for console logging."""
+        mapping = {
+            "TREND_ALIGNMENT": "📉 하락 추세 (MA20 < MA60)",
+            "VOLATILITY_FILTER": "🌪️ 변동성 부적합",
+            "LOW_CONFIDENCE": "🤔 AI 확신도 부족",
+            "MAX_COINS_REACHED": "🚫 보유 종목 수 최대",
+            "ASSET_ALLOCATION": "⚠️ 비중 초과",
+            "CONSECUTIVE_LOSS_PROTECTION": "🛡️ 연속 손실 보호",
+            "LOSS_CUT": "✂️ 손절매 실행",
+            "TAKE_PROFIT": "💰 익절매 실행",
+            "STRUCTURE_UNCLEAR": "🤷 방향성 불확실",
+            "API_ERROR": "⚠️ API/시스템 오류"
+        }
+        return mapping.get(code, code)
 
 if __name__ == "__main__":
     import sys

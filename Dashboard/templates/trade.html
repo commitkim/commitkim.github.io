@@ -169,6 +169,74 @@
             </div>
         </div>
 
+        <!-- Glossary Section -->
+        <div class="mt-12">
+            <div class="mb-6 flex items-center gap-2">
+                <h2 class="text-xl font-bold text-slate-800">📚 용어 해설 (Glossary)</h2>
+                <span class="text-xs text-slate-400 bg-slate-100 px-2 py-1 rounded-full">로그에 자주 나오는 단어들</span>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Trend & Volatility -->
+                <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100">
+                    <h3 class="font-bold text-slate-700 mb-2 flex items-center gap-2">
+                        <span>📉</span> 추세 정렬 (MA60)
+                    </h3>
+                    <p class="text-xs text-slate-500 leading-relaxed">
+                        가격이 <strong>60일 이동평균선</strong>보다 아래에 있으면 '하락 추세'로 봅니다. 이 때는 아무리 좋아 보여도 매수하지 않고 기다리는 것이 안전합니다.
+                    </p>
+                </div>
+
+                <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100">
+                    <h3 class="font-bold text-slate-700 mb-2 flex items-center gap-2">
+                        <span>🌪️</span> 변동성 (Volatility)
+                    </h3>
+                    <p class="text-xs text-slate-500 leading-relaxed">
+                        가격이 오르내리는 폭입니다. 너무 심하면 패닉 셀(투매) 위험이 있고, 너무 없으면 수익 낼 기회가 없어 진입을 보류합니다.
+                    </p>
+                </div>
+
+                <!-- AI Confidence -->
+                <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100">
+                    <h3 class="font-bold text-slate-700 mb-2 flex items-center gap-2">
+                        <span>🤔</span> AI 확신도 (Confidence)
+                    </h3>
+                    <p class="text-xs text-slate-500 leading-relaxed">
+                        AI가 상승 확률을 점수(0~1)로 매긴 것입니다. <strong>0.65 (65점)</strong> 이상일 때만 매수 버튼을 누르도록 설정되어 있습니다.
+                    </p>
+                </div>
+
+                <!-- Risk Management -->
+                <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100">
+                    <h3 class="font-bold text-slate-700 mb-2 flex items-center gap-2">
+                        <span>✂️</span> 손절매 (Stop Loss)
+                    </h3>
+                    <p class="text-xs text-slate-500 leading-relaxed">
+                        구매가보다 <strong>-3%</strong> 떨어지면 뒤도 안 돌아보고 팝니다. 더 큰 손실을 막기 위한 필수 안전장치입니다.
+                    </p>
+                </div>
+
+                <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100">
+                    <h3 class="font-bold text-slate-700 mb-2 flex items-center gap-2">
+                        <span>💰</span> 익절매 (Take Profit)
+                    </h3>
+                    <p class="text-xs text-slate-500 leading-relaxed">
+                        구매가보다 <strong>+5%</strong> 오르면 수익을 확정합니다. 욕심부리다 수익을 반납하는 것을 막아줍니다.
+                    </p>
+                </div>
+
+                <!-- Strategies -->
+                <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100">
+                    <h3 class="font-bold text-slate-700 mb-2 flex items-center gap-2">
+                        <span>🛡️</span> 연속 손실 보호
+                    </h3>
+                    <p class="text-xs text-slate-500 leading-relaxed">
+                        최근 3번 연속으로 손해를 봤다면 잠시 매매를 멈추고 시장이 진정될 때까지 휴식 모드에 들어갑니다.
+                    </p>
+                </div>
+            </div>
+        </div>
+
     </main>
 
     <footer class="bg-white border-t border-slate-100 py-12 mt-20">
