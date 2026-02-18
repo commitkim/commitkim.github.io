@@ -68,7 +68,7 @@ def map_reason_code(log):
     mapping = {
         "TREND_ALIGNMENT": "📉 현재 가격이 장기 이동평균선(60일선) 아래에 있어 하락세가 강합니다. 안전을 위해 매수를 보류했습니다.",
         "VOLATILITY_FILTER": "🌪️ 시장의 변동성이 너무 적거나 반대로 너무 극심합니다. 예측이 어려워 진입하지 않았습니다.",
-        "LOW_CONFIDENCE": f"🤔 AI의 분석 결과, 상승 확신도가 기준치(0.65)보다 낮은 {confidence:.2f}입니다. 더 확실한 기회를 기다립니다.",
+        "LOW_CONFIDENCE": f"🤔 AI의 분석 결과, 상승 확신도가 기준치(0.65)보다 낮은 {confidence:.2f}입니다. 더 확실한 기회를 기다립니다." if confidence < 0.65 else f"🤔 상승 확신도는 {confidence:.2f}이나, 다른 위험 요인으로 인해 관망합니다.",
         "MAX_COINS_REACHED": "🚫 이미 최대 보유 종목 수(3개)를 채웠습니다. 새로운 종목을 매수하려면 기존 종목이 매도되어야 합니다.",
         "ASSET_ALLOCATION": "⚠️ 한 종목에 담을 수 있는 최대 비중(30%)을 초과하게 됩니다. 리스크 관리를 위해 추가 매수를 제한합니다.",
         "CONSECUTIVE_LOSS_PROTECTION": "🛡️ 최근 연속으로 손실이 발생하여 '쿨다운' 중입니다. 잠시 머리를 식히며 시장을 관망합니다.",
