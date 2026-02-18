@@ -82,7 +82,8 @@ def map_reason_code(log):
         "BEARISH_MOMENTUM_INDICATORS": "📉 보조지표(MACD, RSI)가 하락을 가리키고 있습니다. 매수하기엔 힘이 빠져 보입니다.",
         "PRICE_BELOW_MAS": "📉 가격이 주요 이동평균선 아래로 처져 있습니다. 상승 추세로 돌아설 때까지 기다립니다.",
         "RSI_OVERSOLD_BB_LOWER_BOUNCE": "📉 RSI가 과매도 구간(30 이하)이고, 볼린저 밴드 하단을 찍고 반등하려는 신호가 포착되었습니다. 기술적 반등을 노리고 진입합니다.",
-        "OVERSOLD_BOUNCE_SETUP": "📉 과매도 구간(Oversold)에서 반등할 수 있는 패턴(W자형, 꼬리 달린 캔들 등)이 확인되었습니다. 저점 매수 기회로 판단했습니다."
+        "OVERSOLD_BOUNCE_SETUP": "📉 과매도 구간(Oversold)에서 반등할 수 있는 패턴(W자형, 꼬리 달린 캔들 등)이 확인되었습니다. 저점 매수 기회로 판단했습니다.",
+        "RISK_MANAGEMENT": "🛡️ 리스크 관리 차원입니다. 시장의 불확실성이 커지거나, 급격한 변동이 예상되어 선제적으로 현금을 확보합니다."
     }
     
     # Logic to handle combined codes (e.g. "LOW_CONFIDENCE | STRUCTURE_UNCLEAR")
