@@ -259,9 +259,21 @@ class AutoTrader:
         return info
 
     def save_status(self, trade_results):
-        """Saves current status to JSON for Dashboard."""
+        """Saves current status to JSON for Dashboard, maintaining a history of trades."""
         status_path = os.path.join(os.path.dirname(__file__), 'data', 'status.json')
         
+        # Load existing data to preserve history
+        existing_data = {}
+        if os.path.exists(status_path):
+            try:
+                with open(status_path, 'r', encoding='utf-8') as f:
+                    existing_data = json.load(f)
+                # logging.info(f"✅ Loaded {len(existing_data.get('recent_trades', []))} existing trades from {status_path}")
+            except Exception as e:
+                logging.error(f"Failed to load existing status from {status_path}: {e}")
+        else:
+             logging.warning(f"⚠️ Status file not found at {status_path}. Starting fresh.")
+
         # Get total assets
         total_assets = 0
         balances = {}
@@ -288,24 +300,35 @@ class AutoTrader:
              total_assets = 1000000
              balances = {'KRW': {'balance': 1000000, 'value': 1000000}}
 
+        # Update Trade History (Append new results to existing ones)
+        recent_trades = existing_data.get('recent_trades', [])
+        
+        # Add new trades
+        recent_trades.extend(trade_results)
+        
+        # Keep only the last 50 trades (or 100, user asked for history)
+        # Let's keep 100 to be safe
+        recent_trades = recent_trades[-100:]
+
         data = {
             'timestamp': datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
             'total_assets': total_assets,
             'positions': balances,
-            'recent_trades': trade_results
+            'recent_trades': recent_trades
         }
         
         with open(status_path, 'w', encoding='utf-8') as f:
             json.dump(data, f, ensure_ascii=False, indent=2)
 
     def run_cycle(self):
-        """Runs one trading cycle for all coins."""
-        results = []
+        """Runs one trading cycle with Ranked Execution (Analyze -> Sell -> Buy)."""
+        
+        # 1. Analyze ALL Coins
+        analysis_results = []
+        total_assets = 0
         
         # Calculate Total Capital (Equity) first
-        total_assets = 0
         if self.upbit:
-             # Simple approximation: KRW + sum(coin_value)
              balances = self.upbit.get_balances()
              for b in balances:
                  if b['currency'] == 'KRW':
@@ -321,40 +344,72 @@ class AutoTrader:
         logging.info(f"💰 Total Equity: {total_assets:,.0f} KRW")
 
         for ticker in self.config.COINS:
-            logging.info(f"Analyzing {ticker}...")
+            # logging.info(f"Analyzing {ticker}...")
             
-            # 1. Get Market Data (OHLCV + Indicators)
+            # Get Market Data
             df = self.get_market_data(ticker)
             if df is None: continue
             
             current_price = pyupbit.get_current_price(ticker)
             balance_info = self.get_balance_info(ticker)
             
-            # 2. Safety Check (Stop Loss / Take Profit) - BEFORE AI
-            # Note: We need to adapt check_safety_stop to new config keys if changed.
-            # Assuming check_safety_stop is refactored or removed in next step if sticking deeply to AI rules. 
-            # For now, let's keep it as hard fail-safe but use updated Risk Dict.
-            
-            # 3. AI Analysis
+            # AI Analysis
             decision = self.analyze_market(ticker, df, balance_info, total_assets)
             
             reason_kr = self.get_korean_reason(decision.get('reason_code', ''))
             logging.info(f"👉 {ticker}: {decision.get('action')} (Conf: {decision.get('confidence', 0):.2f}) - {reason_kr}")
             
-            # 4. Execute Trade
-            self.execute_trade(ticker, decision, current_price, balance_info, total_assets)
-            
-            results.append({
+            analysis_results.append({
                 'ticker': ticker,
-                'decision': decision.get('action', 'HOLD').lower(),
-                'reason': decision.get('reason_code', 'Unknown'), # Keep raw code for JSON/Dashboard builder
-                'time': datetime.now().strftime("%H:%M")
+                'decision': decision,
+                'current_price': current_price,
+                'balance_info': balance_info,
+                'total_assets': total_assets
             })
             
-            time.sleep(1) # Rate limit prevention
+            time.sleep(1) # Rate limit
+
+        # 2. EXECUTE SELLS (Prioritize clearing slots)
+        # Filter for SELL actions
+        sells = [item for item in analysis_results if item['decision'].get('action') == 'SELL']
+        
+        for item in sells:
+            logging.info(f"📉 Executing SELL for {item['ticker']} first to clear slot...")
+            self.execute_trade(item['ticker'], item['decision'], item['current_price'], item['balance_info'], item['total_assets'])
+
+        # 3. EXECUTE BUYS (Ranked by Confidence)
+        # Filter for BUY actions
+        buys = [item for item in analysis_results if item['decision'].get('action') == 'BUY']
+        
+        # Sort by Confidence (Descending)
+        buys.sort(key=lambda x: x['decision'].get('confidence', 0), reverse=True)
+        
+        # Check current slots after sells
+        current_slots = self.get_held_coin_count()
+        max_slots = self.config.CAPITAL['max_coins_held']
+        
+        for item in buys:
+            if current_slots < max_slots:
+                logging.info(f"🚀 Executing Ranked BUY for {item['ticker']} (Rank #{buys.index(item)+1}, Conf: {item['decision'].get('confidence'):.2f})")
+                self.execute_trade(item['ticker'], item['decision'], item['current_price'], item['balance_info'], item['total_assets'])
+                current_slots += 1 # Increment local slot count
+            else:
+                logging.warning(f"🚫 Slot Full ({current_slots}/{max_slots}). Skipping BUY for {item['ticker']} (Conf: {item['decision'].get('confidence'):.2f})")
+                item['decision']['action'] = 'HOLD' # Change to HOLD for logging
+                item['decision']['reason_code'] = 'MAX_COINS_REACHED'
+
+        # 4. Save Results
+        final_results = []
+        for item in analysis_results:
+            final_results.append({
+                'ticker': item['ticker'],
+                'decision': item['decision'].get('action', 'HOLD').lower(),
+                'reason': item['decision'].get('reason_code', 'Unknown'),
+                'time': datetime.now().strftime("%m/%d %H:%M")
+            })
             
-        self.save_status(results)
-        return results
+        self.save_status(final_results)
+        return final_results
 
     def get_korean_reason(self, code):
         """Maps technical codes to friendly Korean messages for console logging."""

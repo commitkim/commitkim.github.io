@@ -49,7 +49,7 @@
 
         <div class="mb-10 text-center">
             <h1 class="text-3xl font-bold text-slate-900 mb-2">🤖 AI Trading Status</h1>
-            <p class="text-slate-500">Updated: 2026-02-18 21:53:38</p>
+            <p class="text-slate-500">Updated: 2026-02-18 23:03:47</p>
         </div>
 
         <!-- KPI Cards -->
@@ -119,176 +119,875 @@
         </div>
 
         <!-- Trade History -->
-        <div class="bg-white rounded-[2rem] shadow-lg border border-slate-100 overflow-hidden">
-            <div class="p-6 border-b border-slate-100 bg-slate-50/50">
+        <div class="bg-white rounded-[2rem] shadow-lg border border-slate-100 overflow-hidden"
+            x-data="{ activeTab: 'ALL' }">
+            <div class="p-6 border-b border-slate-100 bg-slate-50/50 flex flex-wrap gap-4 justify-between items-center">
                 <h2 class="text-xl font-bold text-slate-800">📝 Recent Trade Logs</h2>
+
+                <!-- Simple Tab Navigation (Requires Alpine.js or vanilla JS) -->
+                <!-- Assuming no heavy JS framework, using simple vanilla JS logic via inline onclick for now if x-data not available, 
+                     but let's implement a simple tab system with vanilla JS script at bottom -->
+                <div class="flex gap-2 overflow-x-auto pb-2 md:pb-0 scrollbar-hide" id="coin-tabs">
+                    <button onclick="switchTab('ALL')"
+                        class="tab-btn active px-4 py-2 rounded-xl text-xs font-bold transition-all bg-slate-800 text-white shadow-md"
+                        data-tab="ALL">
+                        ALL
+                    </button>
+                    
+                    <button onclick="switchTab('KRW-AVAX')"
+                        class="tab-btn px-4 py-2 rounded-xl text-xs font-bold transition-all bg-white text-slate-500 hover:bg-slate-100 border border-slate-200"
+                        data-tab="KRW-AVAX">
+                        KRW-AVAX
+                    </button>
+                    
+                    <button onclick="switchTab('KRW-BTC')"
+                        class="tab-btn px-4 py-2 rounded-xl text-xs font-bold transition-all bg-white text-slate-500 hover:bg-slate-100 border border-slate-200"
+                        data-tab="KRW-BTC">
+                        KRW-BTC
+                    </button>
+                    
+                    <button onclick="switchTab('KRW-DOGE')"
+                        class="tab-btn px-4 py-2 rounded-xl text-xs font-bold transition-all bg-white text-slate-500 hover:bg-slate-100 border border-slate-200"
+                        data-tab="KRW-DOGE">
+                        KRW-DOGE
+                    </button>
+                    
+                    <button onclick="switchTab('KRW-ETH')"
+                        class="tab-btn px-4 py-2 rounded-xl text-xs font-bold transition-all bg-white text-slate-500 hover:bg-slate-100 border border-slate-200"
+                        data-tab="KRW-ETH">
+                        KRW-ETH
+                    </button>
+                    
+                    <button onclick="switchTab('KRW-SOL')"
+                        class="tab-btn px-4 py-2 rounded-xl text-xs font-bold transition-all bg-white text-slate-500 hover:bg-slate-100 border border-slate-200"
+                        data-tab="KRW-SOL">
+                        KRW-SOL
+                    </button>
+                    
+                    <button onclick="switchTab('KRW-XRP')"
+                        class="tab-btn px-4 py-2 rounded-xl text-xs font-bold transition-all bg-white text-slate-500 hover:bg-slate-100 border border-slate-200"
+                        data-tab="KRW-XRP">
+                        KRW-XRP
+                    </button>
+                    
+                </div>
             </div>
-            <div class="h-[600px] overflow-y-auto divide-y divide-slate-100 scrollbar-hide">
-                
-                
-                <div class="p-6 hover:bg-slate-50 transition-colors">
-                    <div class="flex items-start justify-between mb-2">
-                        <div class="flex items-center gap-3">
-                            <span class="px-2.5 py-1 rounded-lg text-xs font-black uppercase tracking-wide
-                                     bg-slate-100 text-slate-500 ">
-                                hold
-                            </span>
-                            <h3 class="text-lg font-bold text-slate-800 group-hover:text-blue-600 transition-colors">
-                                <a href="https://upbit.com/exchange?code=CRIX.UPBIT.KRW-DOGE" target="_blank"
-                                    class="flex items-center gap-1">
-                                    KRW-DOGE
-                                    <svg class="w-3 h-3 text-slate-300 opacity-0 group-hover:opacity-100 transition-opacity"
-                                        fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
-                                    </svg>
-                                </a>
-                            </h3>
-                            <span class="text-xs font-medium text-slate-400">21:53</span>
+
+            <div class="h-[600px] overflow-y-auto divide-y divide-slate-100 scrollbar-hide relative">
+                <!-- ALL TRADES -->
+                <div id="tab-ALL" class="tab-content transition-opacity duration-300">
+                    
+                    
+                     <!-- Show max 100 mixed logs -->
+                        <div class="p-6 hover:bg-slate-50 transition-colors">
+                            <div class="flex items-start justify-between mb-2">
+                                <div class="flex items-center gap-3">
+                                    <span class="px-2.5 py-1 rounded-lg text-xs font-black uppercase tracking-wide
+                                         bg-slate-100 text-slate-500 ">
+                                        hold
+                                    </span>
+                                    <h3
+                                        class="text-lg font-bold text-slate-800 group-hover:text-blue-600 transition-colors">
+                                        <span class="flex items-center gap-1">KRW-DOGE</span>
+                                    </h3>
+                                    <span class="text-xs font-medium text-slate-400">02/18 23:03</span>
+                                </div>
+                            </div>
+                            <p
+                                class="text-slate-600 text-sm leading-relaxed bg-slate-50 p-3 rounded-xl border border-slate-100">
+                                🤔 AI 확신도 부족 (0.00 < 0.65)
+                            </p>
                         </div>
+                        
+                        
+                     <!-- Show max 100 mixed logs -->
+                        <div class="p-6 hover:bg-slate-50 transition-colors">
+                            <div class="flex items-start justify-between mb-2">
+                                <div class="flex items-center gap-3">
+                                    <span class="px-2.5 py-1 rounded-lg text-xs font-black uppercase tracking-wide
+                                         bg-slate-100 text-slate-500 ">
+                                        hold
+                                    </span>
+                                    <h3
+                                        class="text-lg font-bold text-slate-800 group-hover:text-blue-600 transition-colors">
+                                        <span class="flex items-center gap-1">KRW-AVAX</span>
+                                    </h3>
+                                    <span class="text-xs font-medium text-slate-400">02/18 23:03</span>
+                                </div>
+                            </div>
+                            <p
+                                class="text-slate-600 text-sm leading-relaxed bg-slate-50 p-3 rounded-xl border border-slate-100">
+                                📉 하락 추세 (MA20 < MA60)
+                            </p>
+                        </div>
+                        
+                        
+                     <!-- Show max 100 mixed logs -->
+                        <div class="p-6 hover:bg-slate-50 transition-colors">
+                            <div class="flex items-start justify-between mb-2">
+                                <div class="flex items-center gap-3">
+                                    <span class="px-2.5 py-1 rounded-lg text-xs font-black uppercase tracking-wide
+                                         bg-slate-100 text-slate-500 ">
+                                        hold
+                                    </span>
+                                    <h3
+                                        class="text-lg font-bold text-slate-800 group-hover:text-blue-600 transition-colors">
+                                        <span class="flex items-center gap-1">KRW-SOL</span>
+                                    </h3>
+                                    <span class="text-xs font-medium text-slate-400">02/18 23:03</span>
+                                </div>
+                            </div>
+                            <p
+                                class="text-slate-600 text-sm leading-relaxed bg-slate-50 p-3 rounded-xl border border-slate-100">
+                                📉 하락 추세 (MA20 < MA60)
+                            </p>
+                        </div>
+                        
+                        
+                     <!-- Show max 100 mixed logs -->
+                        <div class="p-6 hover:bg-slate-50 transition-colors">
+                            <div class="flex items-start justify-between mb-2">
+                                <div class="flex items-center gap-3">
+                                    <span class="px-2.5 py-1 rounded-lg text-xs font-black uppercase tracking-wide
+                                         bg-slate-100 text-slate-500 ">
+                                        hold
+                                    </span>
+                                    <h3
+                                        class="text-lg font-bold text-slate-800 group-hover:text-blue-600 transition-colors">
+                                        <span class="flex items-center gap-1">KRW-XRP</span>
+                                    </h3>
+                                    <span class="text-xs font-medium text-slate-400">02/18 23:03</span>
+                                </div>
+                            </div>
+                            <p
+                                class="text-slate-600 text-sm leading-relaxed bg-slate-50 p-3 rounded-xl border border-slate-100">
+                                📉 하락 추세 (MA20 < MA60)
+                            </p>
+                        </div>
+                        
+                        
+                     <!-- Show max 100 mixed logs -->
+                        <div class="p-6 hover:bg-slate-50 transition-colors">
+                            <div class="flex items-start justify-between mb-2">
+                                <div class="flex items-center gap-3">
+                                    <span class="px-2.5 py-1 rounded-lg text-xs font-black uppercase tracking-wide
+                                         bg-slate-100 text-slate-500 ">
+                                        hold
+                                    </span>
+                                    <h3
+                                        class="text-lg font-bold text-slate-800 group-hover:text-blue-600 transition-colors">
+                                        <span class="flex items-center gap-1">KRW-ETH</span>
+                                    </h3>
+                                    <span class="text-xs font-medium text-slate-400">02/18 23:03</span>
+                                </div>
+                            </div>
+                            <p
+                                class="text-slate-600 text-sm leading-relaxed bg-slate-50 p-3 rounded-xl border border-slate-100">
+                                🤔 AI 확신도 부족 (0.00 < 0.65) + BEARISH_MOMENTUM_INDICATORS + PRICE_BELOW_MAS
+                            </p>
+                        </div>
+                        
+                        
+                     <!-- Show max 100 mixed logs -->
+                        <div class="p-6 hover:bg-slate-50 transition-colors">
+                            <div class="flex items-start justify-between mb-2">
+                                <div class="flex items-center gap-3">
+                                    <span class="px-2.5 py-1 rounded-lg text-xs font-black uppercase tracking-wide
+                                         bg-slate-100 text-slate-500 ">
+                                        hold
+                                    </span>
+                                    <h3
+                                        class="text-lg font-bold text-slate-800 group-hover:text-blue-600 transition-colors">
+                                        <span class="flex items-center gap-1">KRW-BTC</span>
+                                    </h3>
+                                    <span class="text-xs font-medium text-slate-400">02/18 23:03</span>
+                                </div>
+                            </div>
+                            <p
+                                class="text-slate-600 text-sm leading-relaxed bg-slate-50 p-3 rounded-xl border border-slate-100">
+                                🌪️ 변동성 부적합 + 🤔 AI 확신도 부족 (0.00 < 0.65)
+                            </p>
+                        </div>
+                        
+                        
+                     <!-- Show max 100 mixed logs -->
+                        <div class="p-6 hover:bg-slate-50 transition-colors">
+                            <div class="flex items-start justify-between mb-2">
+                                <div class="flex items-center gap-3">
+                                    <span class="px-2.5 py-1 rounded-lg text-xs font-black uppercase tracking-wide
+                                         bg-slate-100 text-slate-500 ">
+                                        hold
+                                    </span>
+                                    <h3
+                                        class="text-lg font-bold text-slate-800 group-hover:text-blue-600 transition-colors">
+                                        <span class="flex items-center gap-1">KRW-DOGE</span>
+                                    </h3>
+                                    <span class="text-xs font-medium text-slate-400">02/18 22:47</span>
+                                </div>
+                            </div>
+                            <p
+                                class="text-slate-600 text-sm leading-relaxed bg-slate-50 p-3 rounded-xl border border-slate-100">
+                                🤔 AI 확신도 부족 (0.00 < 0.65)
+                            </p>
+                        </div>
+                        
+                        
+                     <!-- Show max 100 mixed logs -->
+                        <div class="p-6 hover:bg-slate-50 transition-colors">
+                            <div class="flex items-start justify-between mb-2">
+                                <div class="flex items-center gap-3">
+                                    <span class="px-2.5 py-1 rounded-lg text-xs font-black uppercase tracking-wide
+                                         bg-slate-100 text-slate-500 ">
+                                        hold
+                                    </span>
+                                    <h3
+                                        class="text-lg font-bold text-slate-800 group-hover:text-blue-600 transition-colors">
+                                        <span class="flex items-center gap-1">KRW-AVAX</span>
+                                    </h3>
+                                    <span class="text-xs font-medium text-slate-400">02/18 22:47</span>
+                                </div>
+                            </div>
+                            <p
+                                class="text-slate-600 text-sm leading-relaxed bg-slate-50 p-3 rounded-xl border border-slate-100">
+                                📉 하락 추세 (MA20 < MA60)
+                            </p>
+                        </div>
+                        
+                        
+                     <!-- Show max 100 mixed logs -->
+                        <div class="p-6 hover:bg-slate-50 transition-colors">
+                            <div class="flex items-start justify-between mb-2">
+                                <div class="flex items-center gap-3">
+                                    <span class="px-2.5 py-1 rounded-lg text-xs font-black uppercase tracking-wide
+                                         bg-slate-100 text-slate-500 ">
+                                        hold
+                                    </span>
+                                    <h3
+                                        class="text-lg font-bold text-slate-800 group-hover:text-blue-600 transition-colors">
+                                        <span class="flex items-center gap-1">KRW-SOL</span>
+                                    </h3>
+                                    <span class="text-xs font-medium text-slate-400">02/18 22:47</span>
+                                </div>
+                            </div>
+                            <p
+                                class="text-slate-600 text-sm leading-relaxed bg-slate-50 p-3 rounded-xl border border-slate-100">
+                                📉 하락 추세 (MA20 < MA60)
+                            </p>
+                        </div>
+                        
+                        
+                     <!-- Show max 100 mixed logs -->
+                        <div class="p-6 hover:bg-slate-50 transition-colors">
+                            <div class="flex items-start justify-between mb-2">
+                                <div class="flex items-center gap-3">
+                                    <span class="px-2.5 py-1 rounded-lg text-xs font-black uppercase tracking-wide
+                                         bg-slate-100 text-slate-500 ">
+                                        hold
+                                    </span>
+                                    <h3
+                                        class="text-lg font-bold text-slate-800 group-hover:text-blue-600 transition-colors">
+                                        <span class="flex items-center gap-1">KRW-XRP</span>
+                                    </h3>
+                                    <span class="text-xs font-medium text-slate-400">02/18 22:46</span>
+                                </div>
+                            </div>
+                            <p
+                                class="text-slate-600 text-sm leading-relaxed bg-slate-50 p-3 rounded-xl border border-slate-100">
+                                🤔 AI 확신도 부족 (0.00 < 0.65)
+                            </p>
+                        </div>
+                        
+                        
+                     <!-- Show max 100 mixed logs -->
+                        <div class="p-6 hover:bg-slate-50 transition-colors">
+                            <div class="flex items-start justify-between mb-2">
+                                <div class="flex items-center gap-3">
+                                    <span class="px-2.5 py-1 rounded-lg text-xs font-black uppercase tracking-wide
+                                         bg-slate-100 text-slate-500 ">
+                                        hold
+                                    </span>
+                                    <h3
+                                        class="text-lg font-bold text-slate-800 group-hover:text-blue-600 transition-colors">
+                                        <span class="flex items-center gap-1">KRW-ETH</span>
+                                    </h3>
+                                    <span class="text-xs font-medium text-slate-400">02/18 22:46</span>
+                                </div>
+                            </div>
+                            <p
+                                class="text-slate-600 text-sm leading-relaxed bg-slate-50 p-3 rounded-xl border border-slate-100">
+                                🤔 AI 확신도 부족 (0.00 < 0.65)
+                            </p>
+                        </div>
+                        
+                        
+                     <!-- Show max 100 mixed logs -->
+                        <div class="p-6 hover:bg-slate-50 transition-colors">
+                            <div class="flex items-start justify-between mb-2">
+                                <div class="flex items-center gap-3">
+                                    <span class="px-2.5 py-1 rounded-lg text-xs font-black uppercase tracking-wide
+                                         bg-slate-100 text-slate-500 ">
+                                        hold
+                                    </span>
+                                    <h3
+                                        class="text-lg font-bold text-slate-800 group-hover:text-blue-600 transition-colors">
+                                        <span class="flex items-center gap-1">KRW-BTC</span>
+                                    </h3>
+                                    <span class="text-xs font-medium text-slate-400">02/18 22:46</span>
+                                </div>
+                            </div>
+                            <p
+                                class="text-slate-600 text-sm leading-relaxed bg-slate-50 p-3 rounded-xl border border-slate-100">
+                                📉 하락 추세 (MA20 < MA60)
+                            </p>
+                        </div>
+                        
+                        
+                     <!-- Show max 100 mixed logs -->
+                        <div class="p-6 hover:bg-slate-50 transition-colors">
+                            <div class="flex items-start justify-between mb-2">
+                                <div class="flex items-center gap-3">
+                                    <span class="px-2.5 py-1 rounded-lg text-xs font-black uppercase tracking-wide
+                                         bg-slate-100 text-slate-500 ">
+                                        hold
+                                    </span>
+                                    <h3
+                                        class="text-lg font-bold text-slate-800 group-hover:text-blue-600 transition-colors">
+                                        <span class="flex items-center gap-1">KRW-DOGE</span>
+                                    </h3>
+                                    <span class="text-xs font-medium text-slate-400">02/18 22:47</span>
+                                </div>
+                            </div>
+                            <p
+                                class="text-slate-600 text-sm leading-relaxed bg-slate-50 p-3 rounded-xl border border-slate-100">
+                                📉 하락 추세 (MA20 < MA60)
+                            </p>
+                        </div>
+                        
+                        
+                     <!-- Show max 100 mixed logs -->
+                        <div class="p-6 hover:bg-slate-50 transition-colors">
+                            <div class="flex items-start justify-between mb-2">
+                                <div class="flex items-center gap-3">
+                                    <span class="px-2.5 py-1 rounded-lg text-xs font-black uppercase tracking-wide
+                                         bg-slate-100 text-slate-500 ">
+                                        hold
+                                    </span>
+                                    <h3
+                                        class="text-lg font-bold text-slate-800 group-hover:text-blue-600 transition-colors">
+                                        <span class="flex items-center gap-1">KRW-AVAX</span>
+                                    </h3>
+                                    <span class="text-xs font-medium text-slate-400">02/18 22:47</span>
+                                </div>
+                            </div>
+                            <p
+                                class="text-slate-600 text-sm leading-relaxed bg-slate-50 p-3 rounded-xl border border-slate-100">
+                                📉 하락 추세 (MA20 < MA60)
+                            </p>
+                        </div>
+                        
+                        
+                     <!-- Show max 100 mixed logs -->
+                        <div class="p-6 hover:bg-slate-50 transition-colors">
+                            <div class="flex items-start justify-between mb-2">
+                                <div class="flex items-center gap-3">
+                                    <span class="px-2.5 py-1 rounded-lg text-xs font-black uppercase tracking-wide
+                                         bg-slate-100 text-slate-500 ">
+                                        hold
+                                    </span>
+                                    <h3
+                                        class="text-lg font-bold text-slate-800 group-hover:text-blue-600 transition-colors">
+                                        <span class="flex items-center gap-1">KRW-SOL</span>
+                                    </h3>
+                                    <span class="text-xs font-medium text-slate-400">02/18 22:47</span>
+                                </div>
+                            </div>
+                            <p
+                                class="text-slate-600 text-sm leading-relaxed bg-slate-50 p-3 rounded-xl border border-slate-100">
+                                📉 하락 추세 (MA20 < MA60)
+                            </p>
+                        </div>
+                        
+                        
+                     <!-- Show max 100 mixed logs -->
+                        <div class="p-6 hover:bg-slate-50 transition-colors">
+                            <div class="flex items-start justify-between mb-2">
+                                <div class="flex items-center gap-3">
+                                    <span class="px-2.5 py-1 rounded-lg text-xs font-black uppercase tracking-wide
+                                         bg-slate-100 text-slate-500 ">
+                                        hold
+                                    </span>
+                                    <h3
+                                        class="text-lg font-bold text-slate-800 group-hover:text-blue-600 transition-colors">
+                                        <span class="flex items-center gap-1">KRW-XRP</span>
+                                    </h3>
+                                    <span class="text-xs font-medium text-slate-400">02/18 22:46</span>
+                                </div>
+                            </div>
+                            <p
+                                class="text-slate-600 text-sm leading-relaxed bg-slate-50 p-3 rounded-xl border border-slate-100">
+                                🤔 AI 확신도 부족 (0.00 < 0.65) + 🤷 방향성 불확실
+                            </p>
+                        </div>
+                        
+                        
+                     <!-- Show max 100 mixed logs -->
+                        <div class="p-6 hover:bg-slate-50 transition-colors">
+                            <div class="flex items-start justify-between mb-2">
+                                <div class="flex items-center gap-3">
+                                    <span class="px-2.5 py-1 rounded-lg text-xs font-black uppercase tracking-wide
+                                         bg-slate-100 text-slate-500 ">
+                                        hold
+                                    </span>
+                                    <h3
+                                        class="text-lg font-bold text-slate-800 group-hover:text-blue-600 transition-colors">
+                                        <span class="flex items-center gap-1">KRW-ETH</span>
+                                    </h3>
+                                    <span class="text-xs font-medium text-slate-400">02/18 22:46</span>
+                                </div>
+                            </div>
+                            <p
+                                class="text-slate-600 text-sm leading-relaxed bg-slate-50 p-3 rounded-xl border border-slate-100">
+                                🤔 AI 확신도 부족 (0.00 < 0.65)
+                            </p>
+                        </div>
+                        
+                        
+                     <!-- Show max 100 mixed logs -->
+                        <div class="p-6 hover:bg-slate-50 transition-colors">
+                            <div class="flex items-start justify-between mb-2">
+                                <div class="flex items-center gap-3">
+                                    <span class="px-2.5 py-1 rounded-lg text-xs font-black uppercase tracking-wide
+                                         bg-slate-100 text-slate-500 ">
+                                        hold
+                                    </span>
+                                    <h3
+                                        class="text-lg font-bold text-slate-800 group-hover:text-blue-600 transition-colors">
+                                        <span class="flex items-center gap-1">KRW-BTC</span>
+                                    </h3>
+                                    <span class="text-xs font-medium text-slate-400">02/18 22:46</span>
+                                </div>
+                            </div>
+                            <p
+                                class="text-slate-600 text-sm leading-relaxed bg-slate-50 p-3 rounded-xl border border-slate-100">
+                                📉 하락 추세 (MA20 < MA60)
+                            </p>
+                        </div>
+                        
+                        
+                        
+                </div>
+
+                <!-- INDIVIDUAL COIN LOGS -->
+                
+                <div id="tab-KRW-BTC" class="tab-content hidden absolute inset-0 bg-white overflow-y-auto">
+                    
+                    <div class="p-6 hover:bg-slate-50 transition-colors border-b border-slate-100">
+                        <div class="flex items-start justify-between mb-2">
+                            <div class="flex items-center gap-3">
+                                <span class="px-2.5 py-1 rounded-lg text-xs font-black uppercase tracking-wide
+                                         bg-slate-100 text-slate-500 ">
+                                    hold
+                                </span>
+                                <span class="text-xs font-medium text-slate-400">02/18 23:03</span>
+                            </div>
+                        </div>
+                        <p
+                            class="text-slate-600 text-sm leading-relaxed bg-slate-50 p-3 rounded-xl border border-slate-100">
+                            🌪️ 변동성 부적합 + 🤔 AI 확신도 부족 (0.00 < 0.65)
+                        </p>
                     </div>
-                    <p
-                        class="text-slate-600 text-sm leading-relaxed bg-slate-50 p-3 rounded-xl border border-slate-100">
-                        📉 현재 가격이 장기 이동평균선(MA60) 아래에 위치하여 하락 추세로 판단했습니다. 추세가 전환될 때까지 매수를 보류합니다.
-                    </p>
+                    
+                    <div class="p-6 hover:bg-slate-50 transition-colors border-b border-slate-100">
+                        <div class="flex items-start justify-between mb-2">
+                            <div class="flex items-center gap-3">
+                                <span class="px-2.5 py-1 rounded-lg text-xs font-black uppercase tracking-wide
+                                         bg-slate-100 text-slate-500 ">
+                                    hold
+                                </span>
+                                <span class="text-xs font-medium text-slate-400">02/18 22:46</span>
+                            </div>
+                        </div>
+                        <p
+                            class="text-slate-600 text-sm leading-relaxed bg-slate-50 p-3 rounded-xl border border-slate-100">
+                            📉 하락 추세 (MA20 < MA60)
+                        </p>
+                    </div>
+                    
+                    <div class="p-6 hover:bg-slate-50 transition-colors border-b border-slate-100">
+                        <div class="flex items-start justify-between mb-2">
+                            <div class="flex items-center gap-3">
+                                <span class="px-2.5 py-1 rounded-lg text-xs font-black uppercase tracking-wide
+                                         bg-slate-100 text-slate-500 ">
+                                    hold
+                                </span>
+                                <span class="text-xs font-medium text-slate-400">02/18 22:46</span>
+                            </div>
+                        </div>
+                        <p
+                            class="text-slate-600 text-sm leading-relaxed bg-slate-50 p-3 rounded-xl border border-slate-100">
+                            📉 하락 추세 (MA20 < MA60)
+                        </p>
+                    </div>
+                    
                 </div>
                 
-                <div class="p-6 hover:bg-slate-50 transition-colors">
-                    <div class="flex items-start justify-between mb-2">
-                        <div class="flex items-center gap-3">
-                            <span class="px-2.5 py-1 rounded-lg text-xs font-black uppercase tracking-wide
-                                     bg-slate-100 text-slate-500 ">
-                                hold
-                            </span>
-                            <h3 class="text-lg font-bold text-slate-800 group-hover:text-blue-600 transition-colors">
-                                <a href="https://upbit.com/exchange?code=CRIX.UPBIT.KRW-AVAX" target="_blank"
-                                    class="flex items-center gap-1">
-                                    KRW-AVAX
-                                    <svg class="w-3 h-3 text-slate-300 opacity-0 group-hover:opacity-100 transition-opacity"
-                                        fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
-                                    </svg>
-                                </a>
-                            </h3>
-                            <span class="text-xs font-medium text-slate-400">21:53</span>
+                <div id="tab-KRW-ETH" class="tab-content hidden absolute inset-0 bg-white overflow-y-auto">
+                    
+                    <div class="p-6 hover:bg-slate-50 transition-colors border-b border-slate-100">
+                        <div class="flex items-start justify-between mb-2">
+                            <div class="flex items-center gap-3">
+                                <span class="px-2.5 py-1 rounded-lg text-xs font-black uppercase tracking-wide
+                                         bg-slate-100 text-slate-500 ">
+                                    hold
+                                </span>
+                                <span class="text-xs font-medium text-slate-400">02/18 23:03</span>
+                            </div>
                         </div>
+                        <p
+                            class="text-slate-600 text-sm leading-relaxed bg-slate-50 p-3 rounded-xl border border-slate-100">
+                            🤔 AI 확신도 부족 (0.00 < 0.65) + BEARISH_MOMENTUM_INDICATORS + PRICE_BELOW_MAS
+                        </p>
                     </div>
-                    <p
-                        class="text-slate-600 text-sm leading-relaxed bg-slate-50 p-3 rounded-xl border border-slate-100">
-                        📉 현재 가격이 장기 이동평균선(MA60) 아래에 위치하여 하락 추세로 판단했습니다. 추세가 전환될 때까지 매수를 보류합니다.
-                    </p>
+                    
+                    <div class="p-6 hover:bg-slate-50 transition-colors border-b border-slate-100">
+                        <div class="flex items-start justify-between mb-2">
+                            <div class="flex items-center gap-3">
+                                <span class="px-2.5 py-1 rounded-lg text-xs font-black uppercase tracking-wide
+                                         bg-slate-100 text-slate-500 ">
+                                    hold
+                                </span>
+                                <span class="text-xs font-medium text-slate-400">02/18 22:46</span>
+                            </div>
+                        </div>
+                        <p
+                            class="text-slate-600 text-sm leading-relaxed bg-slate-50 p-3 rounded-xl border border-slate-100">
+                            🤔 AI 확신도 부족 (0.00 < 0.65)
+                        </p>
+                    </div>
+                    
+                    <div class="p-6 hover:bg-slate-50 transition-colors border-b border-slate-100">
+                        <div class="flex items-start justify-between mb-2">
+                            <div class="flex items-center gap-3">
+                                <span class="px-2.5 py-1 rounded-lg text-xs font-black uppercase tracking-wide
+                                         bg-slate-100 text-slate-500 ">
+                                    hold
+                                </span>
+                                <span class="text-xs font-medium text-slate-400">02/18 22:46</span>
+                            </div>
+                        </div>
+                        <p
+                            class="text-slate-600 text-sm leading-relaxed bg-slate-50 p-3 rounded-xl border border-slate-100">
+                            🤔 AI 확신도 부족 (0.00 < 0.65)
+                        </p>
+                    </div>
+                    
                 </div>
                 
-                <div class="p-6 hover:bg-slate-50 transition-colors">
-                    <div class="flex items-start justify-between mb-2">
-                        <div class="flex items-center gap-3">
-                            <span class="px-2.5 py-1 rounded-lg text-xs font-black uppercase tracking-wide
-                                     bg-slate-100 text-slate-500 ">
-                                hold
-                            </span>
-                            <h3 class="text-lg font-bold text-slate-800 group-hover:text-blue-600 transition-colors">
-                                <a href="https://upbit.com/exchange?code=CRIX.UPBIT.KRW-SOL" target="_blank"
-                                    class="flex items-center gap-1">
-                                    KRW-SOL
-                                    <svg class="w-3 h-3 text-slate-300 opacity-0 group-hover:opacity-100 transition-opacity"
-                                        fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
-                                    </svg>
-                                </a>
-                            </h3>
-                            <span class="text-xs font-medium text-slate-400">21:53</span>
+                <div id="tab-KRW-XRP" class="tab-content hidden absolute inset-0 bg-white overflow-y-auto">
+                    
+                    <div class="p-6 hover:bg-slate-50 transition-colors border-b border-slate-100">
+                        <div class="flex items-start justify-between mb-2">
+                            <div class="flex items-center gap-3">
+                                <span class="px-2.5 py-1 rounded-lg text-xs font-black uppercase tracking-wide
+                                         bg-slate-100 text-slate-500 ">
+                                    hold
+                                </span>
+                                <span class="text-xs font-medium text-slate-400">02/18 23:03</span>
+                            </div>
                         </div>
+                        <p
+                            class="text-slate-600 text-sm leading-relaxed bg-slate-50 p-3 rounded-xl border border-slate-100">
+                            📉 하락 추세 (MA20 < MA60)
+                        </p>
                     </div>
-                    <p
-                        class="text-slate-600 text-sm leading-relaxed bg-slate-50 p-3 rounded-xl border border-slate-100">
-                        📉 현재 가격이 장기 이동평균선(MA60) 아래에 위치하여 하락 추세로 판단했습니다. 추세가 전환될 때까지 매수를 보류합니다.
-                    </p>
+                    
+                    <div class="p-6 hover:bg-slate-50 transition-colors border-b border-slate-100">
+                        <div class="flex items-start justify-between mb-2">
+                            <div class="flex items-center gap-3">
+                                <span class="px-2.5 py-1 rounded-lg text-xs font-black uppercase tracking-wide
+                                         bg-slate-100 text-slate-500 ">
+                                    hold
+                                </span>
+                                <span class="text-xs font-medium text-slate-400">02/18 22:46</span>
+                            </div>
+                        </div>
+                        <p
+                            class="text-slate-600 text-sm leading-relaxed bg-slate-50 p-3 rounded-xl border border-slate-100">
+                            🤔 AI 확신도 부족 (0.00 < 0.65)
+                        </p>
+                    </div>
+                    
+                    <div class="p-6 hover:bg-slate-50 transition-colors border-b border-slate-100">
+                        <div class="flex items-start justify-between mb-2">
+                            <div class="flex items-center gap-3">
+                                <span class="px-2.5 py-1 rounded-lg text-xs font-black uppercase tracking-wide
+                                         bg-slate-100 text-slate-500 ">
+                                    hold
+                                </span>
+                                <span class="text-xs font-medium text-slate-400">02/18 22:46</span>
+                            </div>
+                        </div>
+                        <p
+                            class="text-slate-600 text-sm leading-relaxed bg-slate-50 p-3 rounded-xl border border-slate-100">
+                            🤔 AI 확신도 부족 (0.00 < 0.65) + 🤷 방향성 불확실
+                        </p>
+                    </div>
+                    
                 </div>
                 
-                <div class="p-6 hover:bg-slate-50 transition-colors">
-                    <div class="flex items-start justify-between mb-2">
-                        <div class="flex items-center gap-3">
-                            <span class="px-2.5 py-1 rounded-lg text-xs font-black uppercase tracking-wide
-                                     bg-slate-100 text-slate-500 ">
-                                hold
-                            </span>
-                            <h3 class="text-lg font-bold text-slate-800 group-hover:text-blue-600 transition-colors">
-                                <a href="https://upbit.com/exchange?code=CRIX.UPBIT.KRW-XRP" target="_blank"
-                                    class="flex items-center gap-1">
-                                    KRW-XRP
-                                    <svg class="w-3 h-3 text-slate-300 opacity-0 group-hover:opacity-100 transition-opacity"
-                                        fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
-                                    </svg>
-                                </a>
-                            </h3>
-                            <span class="text-xs font-medium text-slate-400">21:52</span>
+                <div id="tab-KRW-SOL" class="tab-content hidden absolute inset-0 bg-white overflow-y-auto">
+                    
+                    <div class="p-6 hover:bg-slate-50 transition-colors border-b border-slate-100">
+                        <div class="flex items-start justify-between mb-2">
+                            <div class="flex items-center gap-3">
+                                <span class="px-2.5 py-1 rounded-lg text-xs font-black uppercase tracking-wide
+                                         bg-slate-100 text-slate-500 ">
+                                    hold
+                                </span>
+                                <span class="text-xs font-medium text-slate-400">02/18 23:03</span>
+                            </div>
                         </div>
+                        <p
+                            class="text-slate-600 text-sm leading-relaxed bg-slate-50 p-3 rounded-xl border border-slate-100">
+                            📉 하락 추세 (MA20 < MA60)
+                        </p>
                     </div>
-                    <p
-                        class="text-slate-600 text-sm leading-relaxed bg-slate-50 p-3 rounded-xl border border-slate-100">
-                        📉 현재 가격이 장기 이동평균선(MA60) 아래에 위치하여 하락 추세로 판단했습니다. 추세가 전환될 때까지 매수를 보류합니다.
-                    </p>
+                    
+                    <div class="p-6 hover:bg-slate-50 transition-colors border-b border-slate-100">
+                        <div class="flex items-start justify-between mb-2">
+                            <div class="flex items-center gap-3">
+                                <span class="px-2.5 py-1 rounded-lg text-xs font-black uppercase tracking-wide
+                                         bg-slate-100 text-slate-500 ">
+                                    hold
+                                </span>
+                                <span class="text-xs font-medium text-slate-400">02/18 22:47</span>
+                            </div>
+                        </div>
+                        <p
+                            class="text-slate-600 text-sm leading-relaxed bg-slate-50 p-3 rounded-xl border border-slate-100">
+                            📉 하락 추세 (MA20 < MA60)
+                        </p>
+                    </div>
+                    
+                    <div class="p-6 hover:bg-slate-50 transition-colors border-b border-slate-100">
+                        <div class="flex items-start justify-between mb-2">
+                            <div class="flex items-center gap-3">
+                                <span class="px-2.5 py-1 rounded-lg text-xs font-black uppercase tracking-wide
+                                         bg-slate-100 text-slate-500 ">
+                                    hold
+                                </span>
+                                <span class="text-xs font-medium text-slate-400">02/18 22:47</span>
+                            </div>
+                        </div>
+                        <p
+                            class="text-slate-600 text-sm leading-relaxed bg-slate-50 p-3 rounded-xl border border-slate-100">
+                            📉 하락 추세 (MA20 < MA60)
+                        </p>
+                    </div>
+                    
                 </div>
                 
-                <div class="p-6 hover:bg-slate-50 transition-colors">
-                    <div class="flex items-start justify-between mb-2">
-                        <div class="flex items-center gap-3">
-                            <span class="px-2.5 py-1 rounded-lg text-xs font-black uppercase tracking-wide
-                                     bg-slate-100 text-slate-500 ">
-                                hold
-                            </span>
-                            <h3 class="text-lg font-bold text-slate-800 group-hover:text-blue-600 transition-colors">
-                                <a href="https://upbit.com/exchange?code=CRIX.UPBIT.KRW-ETH" target="_blank"
-                                    class="flex items-center gap-1">
-                                    KRW-ETH
-                                    <svg class="w-3 h-3 text-slate-300 opacity-0 group-hover:opacity-100 transition-opacity"
-                                        fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
-                                    </svg>
-                                </a>
-                            </h3>
-                            <span class="text-xs font-medium text-slate-400">21:52</span>
+                <div id="tab-KRW-AVAX" class="tab-content hidden absolute inset-0 bg-white overflow-y-auto">
+                    
+                    <div class="p-6 hover:bg-slate-50 transition-colors border-b border-slate-100">
+                        <div class="flex items-start justify-between mb-2">
+                            <div class="flex items-center gap-3">
+                                <span class="px-2.5 py-1 rounded-lg text-xs font-black uppercase tracking-wide
+                                         bg-slate-100 text-slate-500 ">
+                                    hold
+                                </span>
+                                <span class="text-xs font-medium text-slate-400">02/18 23:03</span>
+                            </div>
                         </div>
+                        <p
+                            class="text-slate-600 text-sm leading-relaxed bg-slate-50 p-3 rounded-xl border border-slate-100">
+                            📉 하락 추세 (MA20 < MA60)
+                        </p>
                     </div>
-                    <p
-                        class="text-slate-600 text-sm leading-relaxed bg-slate-50 p-3 rounded-xl border border-slate-100">
-                        🤔 AI의 상승 확신도가 0.00로 기준치(0.65)보다 낮습니다. 확실한 기회가 올 때까지 기다립니다.
-                    </p>
+                    
+                    <div class="p-6 hover:bg-slate-50 transition-colors border-b border-slate-100">
+                        <div class="flex items-start justify-between mb-2">
+                            <div class="flex items-center gap-3">
+                                <span class="px-2.5 py-1 rounded-lg text-xs font-black uppercase tracking-wide
+                                         bg-slate-100 text-slate-500 ">
+                                    hold
+                                </span>
+                                <span class="text-xs font-medium text-slate-400">02/18 22:47</span>
+                            </div>
+                        </div>
+                        <p
+                            class="text-slate-600 text-sm leading-relaxed bg-slate-50 p-3 rounded-xl border border-slate-100">
+                            📉 하락 추세 (MA20 < MA60)
+                        </p>
+                    </div>
+                    
+                    <div class="p-6 hover:bg-slate-50 transition-colors border-b border-slate-100">
+                        <div class="flex items-start justify-between mb-2">
+                            <div class="flex items-center gap-3">
+                                <span class="px-2.5 py-1 rounded-lg text-xs font-black uppercase tracking-wide
+                                         bg-slate-100 text-slate-500 ">
+                                    hold
+                                </span>
+                                <span class="text-xs font-medium text-slate-400">02/18 22:47</span>
+                            </div>
+                        </div>
+                        <p
+                            class="text-slate-600 text-sm leading-relaxed bg-slate-50 p-3 rounded-xl border border-slate-100">
+                            📉 하락 추세 (MA20 < MA60)
+                        </p>
+                    </div>
+                    
                 </div>
                 
-                <div class="p-6 hover:bg-slate-50 transition-colors">
-                    <div class="flex items-start justify-between mb-2">
-                        <div class="flex items-center gap-3">
-                            <span class="px-2.5 py-1 rounded-lg text-xs font-black uppercase tracking-wide
-                                     bg-slate-100 text-slate-500 ">
-                                hold
-                            </span>
-                            <h3 class="text-lg font-bold text-slate-800 group-hover:text-blue-600 transition-colors">
-                                <a href="https://upbit.com/exchange?code=CRIX.UPBIT.KRW-BTC" target="_blank"
-                                    class="flex items-center gap-1">
-                                    KRW-BTC
-                                    <svg class="w-3 h-3 text-slate-300 opacity-0 group-hover:opacity-100 transition-opacity"
-                                        fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
-                                    </svg>
-                                </a>
-                            </h3>
-                            <span class="text-xs font-medium text-slate-400">21:52</span>
+                <div id="tab-KRW-DOGE" class="tab-content hidden absolute inset-0 bg-white overflow-y-auto">
+                    
+                    <div class="p-6 hover:bg-slate-50 transition-colors border-b border-slate-100">
+                        <div class="flex items-start justify-between mb-2">
+                            <div class="flex items-center gap-3">
+                                <span class="px-2.5 py-1 rounded-lg text-xs font-black uppercase tracking-wide
+                                         bg-slate-100 text-slate-500 ">
+                                    hold
+                                </span>
+                                <span class="text-xs font-medium text-slate-400">02/18 23:03</span>
+                            </div>
                         </div>
+                        <p
+                            class="text-slate-600 text-sm leading-relaxed bg-slate-50 p-3 rounded-xl border border-slate-100">
+                            🤔 AI 확신도 부족 (0.00 < 0.65)
+                        </p>
                     </div>
-                    <p
-                        class="text-slate-600 text-sm leading-relaxed bg-slate-50 p-3 rounded-xl border border-slate-100">
-                        📉 현재 가격이 장기 이동평균선(MA60) 아래에 위치하여 하락 추세로 판단했습니다. 추세가 전환될 때까지 매수를 보류합니다.
-                    </p>
+                    
+                    <div class="p-6 hover:bg-slate-50 transition-colors border-b border-slate-100">
+                        <div class="flex items-start justify-between mb-2">
+                            <div class="flex items-center gap-3">
+                                <span class="px-2.5 py-1 rounded-lg text-xs font-black uppercase tracking-wide
+                                         bg-slate-100 text-slate-500 ">
+                                    hold
+                                </span>
+                                <span class="text-xs font-medium text-slate-400">02/18 22:47</span>
+                            </div>
+                        </div>
+                        <p
+                            class="text-slate-600 text-sm leading-relaxed bg-slate-50 p-3 rounded-xl border border-slate-100">
+                            🤔 AI 확신도 부족 (0.00 < 0.65)
+                        </p>
+                    </div>
+                    
+                    <div class="p-6 hover:bg-slate-50 transition-colors border-b border-slate-100">
+                        <div class="flex items-start justify-between mb-2">
+                            <div class="flex items-center gap-3">
+                                <span class="px-2.5 py-1 rounded-lg text-xs font-black uppercase tracking-wide
+                                         bg-slate-100 text-slate-500 ">
+                                    hold
+                                </span>
+                                <span class="text-xs font-medium text-slate-400">02/18 22:47</span>
+                            </div>
+                        </div>
+                        <p
+                            class="text-slate-600 text-sm leading-relaxed bg-slate-50 p-3 rounded-xl border border-slate-100">
+                            📉 하락 추세 (MA20 < MA60)
+                        </p>
+                    </div>
+                    
                 </div>
                 
-                
+            </div>
+        </div>
+
+        <!-- Strategy Logic Section -->
+        <div class="mb-12">
+            <div class="mb-6 flex items-center gap-2">
+                <h2 class="text-xl font-bold text-slate-800">🧠 AI Trading Strategy (Ranked Execution)</h2>
+                <span class="text-xs text-white bg-blue-600 px-2 py-1 rounded-full font-bold">Logic v2.0</span>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- 1. Input Data -->
+                <div
+                    class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 relative overflow-hidden group hover:shadow-md transition-shadow">
+                    <div class="absolute top-0 right-0 p-4 opacity-10 font-black text-6xl text-slate-300">1</div>
+                    <h3 class="font-bold text-slate-700 mb-4 flex items-center gap-2 relative z-10">
+                        <span class="bg-blue-100 text-blue-600 p-1.5 rounded-lg text-lg">📊</span>
+                        Input Data (Gemini)
+                    </h3>
+                    <ul class="space-y-3 relative z-10">
+                        <li class="flex items-start gap-2 text-sm text-slate-600">
+                            <span class="w-1.5 h-1.5 rounded-full bg-blue-400 mt-1.5 flex-shrink-0"></span>
+                            <span><strong>OHLCV (24h)</strong>: 1시간 봉 기준 24시간의 시가/고가/저가/종가/거래량 데이터</span>
+                        </li>
+                        <li class="flex items-start gap-2 text-sm text-slate-600">
+                            <span class="w-1.5 h-1.5 rounded-full bg-blue-400 mt-1.5 flex-shrink-0"></span>
+                            <span><strong>Technical Indicators</strong>: RSI(14), MACD, Bollinger Bands(20,2), Moving
+                                Averages(MA20, 60)</span>
+                        </li>
+                        <li class="flex items-start gap-2 text-sm text-slate-600">
+                            <span class="w-1.5 h-1.5 rounded-full bg-blue-400 mt-1.5 flex-shrink-0"></span>
+                            <span><strong>Account Status</strong>: 현재 보유 자산, 평단가, 수익률</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- 2. Execution Flow -->
+                <div
+                    class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 relative overflow-hidden group hover:shadow-md transition-shadow">
+                    <div class="absolute top-0 right-0 p-4 opacity-10 font-black text-6xl text-slate-300">2</div>
+                    <h3 class="font-bold text-slate-700 mb-4 flex items-center gap-2 relative z-10">
+                        <span class="bg-indigo-100 text-indigo-600 p-1.5 rounded-lg text-lg">⚙️</span>
+                        Execution Flow
+                    </h3>
+                    <div class="space-y-4 relative z-10">
+                        <div class="flex items-center gap-3">
+                            <div
+                                class="flex-shrink-0 w-8 h-8 rounded-full bg-slate-100 text-slate-500 font-bold flex items-center justify-center text-xs">
+                                1</div>
+                            <p class="text-sm text-slate-600"><strong>Analyze All</strong>: 모든 대상 코인을 1차적으로 분석하여 AI의 판단을
+                                수집합니다.</p>
+                        </div>
+                        <div class="flex items-center gap-3">
+                            <div
+                                class="flex-shrink-0 w-8 h-8 rounded-full bg-blue-100 text-blue-600 font-bold flex items-center justify-center text-xs">
+                                2</div>
+                            <p class="text-sm text-slate-600"><strong>Sell Priority</strong>: '매도(SELL)' 신호가 뜬 코인을
+                                <strong>우선적으로 처분</strong>하여 투자 슬롯을 확보합니다.</p>
+                        </div>
+                        <div class="flex items-center gap-3">
+                            <div
+                                class="flex-shrink-0 w-8 h-8 rounded-full bg-indigo-100 text-indigo-600 font-bold flex items-center justify-center text-xs">
+                                3</div>
+                            <p class="text-sm text-slate-600"><strong>Ranked Buy</strong>: '매수(BUY)' 신호 코인들을 <strong>AI
+                                    확신도(Confidence) 순으로 정렬</strong>하여, 상위 종목부터 빈 슬롯(Max 3)에 진입합니다.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 3. Decision Rules -->
+                <div
+                    class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 relative overflow-hidden group hover:shadow-md transition-shadow">
+                    <div class="absolute top-0 right-0 p-4 opacity-10 font-black text-6xl text-slate-300">3</div>
+                    <h3 class="font-bold text-slate-700 mb-4 flex items-center gap-2 relative z-10">
+                        <span class="bg-emerald-100 text-emerald-600 p-1.5 rounded-lg text-lg">🛡️</span>
+                        Key Rules
+                    </h3>
+                    <ul class="space-y-3 relative z-10">
+                        <li class="flex items-center gap-2 text-sm text-slate-600">
+                            <span class="text-lg">🛑</span>
+                            <span><strong>Capital Survival</strong>: 확신이 없으면 무조건 '관망(HOLD)'합니다.</span>
+                        </li>
+                        <li class="flex items-center gap-2 text-sm text-slate-600">
+                            <span class="text-lg">🎯</span>
+                            <span><strong>Confidence Threshold</strong>: 확신도 <strong>0.65 (65점)</strong> 이상일 때만
+                                매수합니다.</span>
+                        </li>
+                        <li class="flex items-center gap-2 text-sm text-slate-600">
+                            <span class="text-lg">📉</span>
+                            <span><strong>Trend Filter</strong>: 하락 추세(MA20 < MA60)에서는 절대 매수하지 않습니다.</span>
+                        </li>
+                        <li class="flex items-center gap-2 text-sm text-slate-600">
+                            <span class="text-lg">⚖️</span>
+                            <span><strong>Slot Limit</strong>: 최대 3종목까지만 보유하여 리스크를 분산합니다.</span>
+                        </li>
+                    </ul>
+                </div>
             </div>
         </div>
 
@@ -368,6 +1067,33 @@
         </div>
     </footer>
 
+    <script>
+        function switchTab(ticker) {
+            // 1. Hide all tab contents
+            document.querySelectorAll('.tab-content').forEach(el => {
+                el.classList.add('hidden');
+                el.classList.remove('active-content');
+            });
+
+            // 2. Show selected tab content
+            const selectedTab = document.getElementById('tab-' + ticker);
+            if (selectedTab) {
+                selectedTab.classList.remove('hidden');
+                selectedTab.classList.add('active-content');
+            }
+
+            // 3. Update button styles
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.remove('bg-slate-800', 'text-white', 'shadow-md');
+                btn.classList.add('bg-white', 'text-slate-500', 'hover:bg-slate-100', 'border', 'border-slate-200');
+
+                if (btn.dataset.tab === ticker) {
+                    btn.classList.remove('bg-white', 'text-slate-500', 'hover:bg-slate-100', 'border', 'border-slate-200');
+                    btn.classList.add('bg-slate-800', 'text-white', 'shadow-md');
+                }
+            });
+        }
+    </script>
 </body>
 
 </html>
