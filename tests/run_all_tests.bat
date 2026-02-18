@@ -21,6 +21,14 @@ if %ERRORLEVEL% NEQ 0 (
 )
 
 echo.
+echo [3/3] Testing Auto Trader Strategy...
+call "%~dp0test_autotrader.bat"
+if %ERRORLEVEL% NEQ 0 (
+    echo ❌ Auto Trader Strategy Tests Failed!
+    exit /b 1
+)
+
+echo.
 echo ========================================================
 echo ✅ All Tests Passed!
 echo ========================================================
