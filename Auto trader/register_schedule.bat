@@ -13,7 +13,6 @@ if %errorLevel% == 0 (
     echo This script requires administrator privileges.
     echo Please right-click and select "Run as administrator".
     echo.
-    pause
     exit /b
 )
 
@@ -41,10 +40,8 @@ if %errorlevel% neq 0 (
     echo.
     echo ❌ Registration Failed!
     echo ⚠️ Please run as Administrator.
-    pause
     exit /b 1
 )
 
 echo.
 echo ✅ Schedule Registered Successfully!
-pause

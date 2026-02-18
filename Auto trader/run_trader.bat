@@ -13,11 +13,9 @@ echo.
 if %ERRORLEVEL% NEQ 0 (
     echo.
     echo ❌ Execution Failed!
-    pause
     exit /b %ERRORLEVEL%
 )
 
 echo.
 echo ✅ Execution Finished.
 echo 📊 Check 'logs/' folder or Dashboard for details.
-pause

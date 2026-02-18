@@ -39,10 +39,8 @@ if %errorlevel% neq 0 (
     echo.
     echo ❌ Registration Failed!
     echo ⚠️ Please run as Administrator.
-    pause
     exit /b 1
 )
 
 echo.
 echo ✅ Schedule Registered Successfully!
-pause

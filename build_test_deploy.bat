@@ -40,19 +40,7 @@ echo.
 echo ========================================================
 echo ✅ Deployment completed successfully!
 echo ========================================================
-pause
-goto :eof
+exit /b %ERRORLEVEL%
 
 :exit_script
-if "%1"=="auto" (
-    if %ERRORLEVEL% NEQ 0 (
-        exit /b %ERRORLEVEL%
-    )
-) else (
-    if %ERRORLEVEL% NEQ 0 (
-        pause
-        exit /b %ERRORLEVEL%
-    )
-    pause
-)
 exit /b %ERRORLEVEL%
