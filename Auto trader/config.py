@@ -34,5 +34,5 @@ RISK = {
 
 # Gemini Model Settings
 GEMINI = {
-    "model_name": "gemini-2.0-flash"
+    "model_name": "gemini-2.5-flash"
 }
