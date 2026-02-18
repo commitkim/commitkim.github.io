@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CommitKim Trading Status</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap"
+        rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+        }
+
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+        }
+    </style>
+</head>
+
+<body class="bg-slate-50 min-h-screen text-slate-800">
+
+    <!-- Header -->
+    <header class="bg-white/80 backdrop-blur-md sticky top-0 z-50 border-b border-slate-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+            <a href="index.html" class="flex items-center gap-2">
+                <span
+                    class="text-xl font-black bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-indigo-600">
+                    CommitKim
+                </span>
+            </a>
+            <nav class="hidden md:flex gap-6">
+                <a href="index.html"
+                    class="text-sm font-medium text-slate-600 hover:text-blue-600 transition-colors">Dashboard</a>
+                <a href="#" class="text-sm font-bold text-blue-600">Trading Status</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+
+        <div class="mb-10 text-center">
+            <h1 class="text-3xl font-bold text-slate-900 mb-2">🤖 AI Trading Status</h1>
+            <p class="text-slate-500">Updated: 2026-02-18 17:19:00</p>
+        </div>
+
+        <!-- KPI Cards -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
+            <!-- Total Assets -->
+            <div class="glass-panel rounded-2xl p-6 shadow-sm">
+                <h3 class="text-sm font-bold text-slate-400 uppercase tracking-wider mb-1">Total Assets</h3>
+                <p class="text-3xl font-black text-slate-800">₩ 50,001</p>
+                <div class="mt-4 flex items-center text-sm font-medium text-emerald-600">
+                    <span class="bg-emerald-100 px-2 py-0.5 rounded-md">Live</span>
+                </div>
+            </div>
+
+            <!-- KRW Balance -->
+            <div class="glass-panel rounded-2xl p-6 shadow-sm">
+                <h3 class="text-sm font-bold text-slate-400 uppercase tracking-wider mb-1">KRW Balance</h3>
+                <p class="text-3xl font-black text-slate-800">
+                    ₩ 50,001
+                </p>
+                <p class="text-xs text-slate-400 mt-2">Available for Trading</p>
+            </div>
+
+            <!-- Active Positions Count -->
+            <div class="glass-panel rounded-2xl p-6 shadow-sm">
+                <h3 class="text-sm font-bold text-slate-400 uppercase tracking-wider mb-1">Active Positions</h3>
+                <p class="text-3xl font-black text-slate-800">
+                    0 / 3
+                </p>
+                <p class="text-xs text-slate-400 mt-2">Max Holdings Configured</p>
+            </div>
+        </div>
+
+        <!-- Portfolio Table -->
+        <div class="bg-white rounded-[2rem] shadow-lg border border-slate-100 overflow-hidden mb-12">
+            <div class="p-6 border-b border-slate-100 flex justify-between items-center bg-slate-50/50">
+                <h2 class="text-xl font-bold text-slate-800">📦 Portfolio Holdings</h2>
+            </div>
+            <div class="overflow-x-auto">
+                <table class="w-full text-left text-sm text-slate-600">
+                    <thead class="bg-slate-50 text-xs uppercase font-bold text-slate-400">
+                        <tr>
+                            <th class="px-6 py-4">Asset</th>
+                            <th class="px-6 py-4 text-right">Balance</th>
+                            <th class="px-6 py-4 text-right">Avg Price</th>
+                            <th class="px-6 py-4 text-right">Value (KRW)</th>
+                            <th class="px-6 py-4 text-right">Return (%)</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-slate-100">
+                        
+                        
+                        
+
+                        <!-- Empty State -->
+                        
+                        
+                        
+                        <tr>
+                            <td colspan="5" class="px-6 py-12 text-center text-slate-400 font-medium">
+                                No active positions currently held.
+                            </td>
+                        </tr>
+                        
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Trade History -->
+        <div class="bg-white rounded-[2rem] shadow-lg border border-slate-100 overflow-hidden">
+            <div class="p-6 border-b border-slate-100 bg-slate-50/50">
+                <h2 class="text-xl font-bold text-slate-800">📝 Recent Trade Logs</h2>
+            </div>
+            <div class="divide-y divide-slate-100">
+                
+                
+                <div class="p-6 hover:bg-slate-50 transition-colors">
+                    <div class="flex items-start justify-between mb-2">
+                        <div class="flex items-center gap-3">
+                            <span class="px-2.5 py-1 rounded-lg text-xs font-black uppercase tracking-wide
+                                     bg-slate-100 text-slate-500 ">
+                                hold
+                            </span>
+                            <h3 class="text-lg font-bold text-slate-800">KRW-DOGE</h3>
+                            <span class="text-xs font-medium text-slate-400">17:18</span>
+                        </div>
+                    </div>
+                    <p
+                        class="text-slate-600 text-sm leading-relaxed bg-slate-50 p-3 rounded-xl border border-slate-100">
+                        "TREND_ALIGNMENT"
+                    </p>
+                </div>
+                
+                <div class="p-6 hover:bg-slate-50 transition-colors">
+                    <div class="flex items-start justify-between mb-2">
+                        <div class="flex items-center gap-3">
+                            <span class="px-2.5 py-1 rounded-lg text-xs font-black uppercase tracking-wide
+                                     bg-slate-100 text-slate-500 ">
+                                hold
+                            </span>
+                            <h3 class="text-lg font-bold text-slate-800">KRW-AVAX</h3>
+                            <span class="text-xs font-medium text-slate-400">17:18</span>
+                        </div>
+                    </div>
+                    <p
+                        class="text-slate-600 text-sm leading-relaxed bg-slate-50 p-3 rounded-xl border border-slate-100">
+                        "TREND_ALIGNMENT"
+                    </p>
+                </div>
+                
+                <div class="p-6 hover:bg-slate-50 transition-colors">
+                    <div class="flex items-start justify-between mb-2">
+                        <div class="flex items-center gap-3">
+                            <span class="px-2.5 py-1 rounded-lg text-xs font-black uppercase tracking-wide
+                                     bg-slate-100 text-slate-500 ">
+                                hold
+                            </span>
+                            <h3 class="text-lg font-bold text-slate-800">KRW-SOL</h3>
+                            <span class="text-xs font-medium text-slate-400">17:18</span>
+                        </div>
+                    </div>
+                    <p
+                        class="text-slate-600 text-sm leading-relaxed bg-slate-50 p-3 rounded-xl border border-slate-100">
+                        "TREND_ALIGNMENT"
+                    </p>
+                </div>
+                
+                <div class="p-6 hover:bg-slate-50 transition-colors">
+                    <div class="flex items-start justify-between mb-2">
+                        <div class="flex items-center gap-3">
+                            <span class="px-2.5 py-1 rounded-lg text-xs font-black uppercase tracking-wide
+                                     bg-slate-100 text-slate-500 ">
+                                hold
+                            </span>
+                            <h3 class="text-lg font-bold text-slate-800">KRW-XRP</h3>
+                            <span class="text-xs font-medium text-slate-400">17:18</span>
+                        </div>
+                    </div>
+                    <p
+                        class="text-slate-600 text-sm leading-relaxed bg-slate-50 p-3 rounded-xl border border-slate-100">
+                        "TREND_ALIGNMENT"
+                    </p>
+                </div>
+                
+                <div class="p-6 hover:bg-slate-50 transition-colors">
+                    <div class="flex items-start justify-between mb-2">
+                        <div class="flex items-center gap-3">
+                            <span class="px-2.5 py-1 rounded-lg text-xs font-black uppercase tracking-wide
+                                     bg-slate-100 text-slate-500 ">
+                                hold
+                            </span>
+                            <h3 class="text-lg font-bold text-slate-800">KRW-ETH</h3>
+                            <span class="text-xs font-medium text-slate-400">17:18</span>
+                        </div>
+                    </div>
+                    <p
+                        class="text-slate-600 text-sm leading-relaxed bg-slate-50 p-3 rounded-xl border border-slate-100">
+                        "TREND_ALIGNMENT"
+                    </p>
+                </div>
+                
+                <div class="p-6 hover:bg-slate-50 transition-colors">
+                    <div class="flex items-start justify-between mb-2">
+                        <div class="flex items-center gap-3">
+                            <span class="px-2.5 py-1 rounded-lg text-xs font-black uppercase tracking-wide
+                                     bg-slate-100 text-slate-500 ">
+                                hold
+                            </span>
+                            <h3 class="text-lg font-bold text-slate-800">KRW-BTC</h3>
+                            <span class="text-xs font-medium text-slate-400">17:18</span>
+                        </div>
+                    </div>
+                    <p
+                        class="text-slate-600 text-sm leading-relaxed bg-slate-50 p-3 rounded-xl border border-slate-100">
+                        "TREND_ALIGNMENT"
+                    </p>
+                </div>
+                
+                
+            </div>
+        </div>
+
+    </main>
+
+    <footer class="bg-white border-t border-slate-100 py-12 mt-20">
+        <div class="max-w-7xl mx-auto px-4 text-center">
+            <p class="text-slate-400 text-sm">&copy; 2024 CommitKim Project. Powered by Gemini 2.0 Flash.</p>
+        </div>
+    </footer>
+
+</body>
+
+</html>

@@ -1,5 +1,14 @@
 # CommitKim Project Hub 📂
 
+## 🤖 Auto Trader
+**Gemini 2.0 Flash**를 활용한 업비트(Upbit) 자동 매매 봇입니다.
+- **안전 제일**: 자본 보존을 최우선으로 하는 보수적인 알고리즘 탑재.
+- **스마트 분석**: RSI, MACD, 볼린저 밴드 등 기술적 지표를 AI가 종합 분석.
+- **자동화**: Windows 작업 스케줄러를 통해 24시간 자동 거래.
+- **대시보드**: [Trading Status](docs/trade.html) 페이지에서 실시간 자산 및 거래 내역 확인 가능.
+
+👉 [자세히 보기](Auto%20trader/README.md)
+
 **AI-Powered Development Mono-repo**
 *This project and all its documentation are generated and maintained by Google's Agentic AI.*
 
@@ -31,14 +40,26 @@
 이 프로젝트는 **GitHub Pages**를 통해 호스팅됩니다.
 `Dashboard`와 `Summariser`가 생성한 정적 파일들이 `docs/` 폴더에 모이고, 이 폴더가 웹사이트로 배포됩니다.
 
-### 자동 배포 (Daily Schedule)
-Windows 작업 스케줄러를 통해 하루 두 번 실행됩니다:
-1. **오전 09:00**: [모닝루틴] 아침 경제 뉴스 요약 및 배포
-2. **오후 18:30**: [퇴근요정] 저녁 퇴근길 경제 뉴스 요약 및 배포
+### 자동 배포 파이프라인 (Automated Pipeline)
+각 모듈이 스케줄에 따라 실행된 후, 자동으로 **통합 빌드 → 테스트 → 배포** 과정을 트리거합니다.
+
+1. **Summariser** (`register_schedule.bat`)
+   - **Morning**: 매일 09:00 / **Evening**: 매일 18:30
+   - **Flow**: [뉴스 수집/요약] → [로컬 저장] → [**전체 사이트 빌드 & 배포**] → [카톡 전송]
+
+2. **Auto Trader** (`register_schedule.bat`)
+   - **Frequency**: 10분 간격
+   - **Flow**: [시세 확인/매매] → [**전체 사이트 빌드 & 배포**]
+
+### 통합 파이프라인 (Build, Test & Deploy)
+어떤 모듈이 실행되든 마지막에는 **Root Project**의 파이프라인을 거칩니다:
+1. **Build**: `Dashboard/builder.py` (최신 데이터 반영)
+2. **Test**: `tests/run_all_tests.bat` (무결성 검증)
+3. **Deploy**: `Dashboard/deploy.py` (GitHub Pages Push)
 
 ### 수동 배포 및 관리
-- `deploy.bat`: 전체 테스트 및 빌드 후 배포 실행
-- `cleanup_old_tasks.bat`: 구버전 단일 작업 스케줄러 정리
+- `build_test_deploy.bat`: 수동으로 전체 사이트 빌드, 테스트, 배포를 일괄 실행합니다.
+- `cleanup_all_tasks.bat`: 로컬에 등록된 모든 작업 스케줄을 삭제합니다.
 
 ---
 

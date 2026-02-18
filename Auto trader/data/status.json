@@ -1,0 +1,50 @@
+{
+  "timestamp": "2026-02-18 17:19:00",
+  "total_assets": 50000.57252246,
+  "positions": {
+    "KRW": {
+      "balance": 50000.57252246,
+      "value": 50000.57252246,
+      "avg_buy_price": 0.0,
+      "return_rate": 0
+    }
+  },
+  "recent_trades": [
+    {
+      "ticker": "KRW-BTC",
+      "decision": "hold",
+      "reason": "TREND_ALIGNMENT",
+      "time": "17:18"
+    },
+    {
+      "ticker": "KRW-ETH",
+      "decision": "hold",
+      "reason": "TREND_ALIGNMENT",
+      "time": "17:18"
+    },
+    {
+      "ticker": "KRW-XRP",
+      "decision": "hold",
+      "reason": "TREND_ALIGNMENT",
+      "time": "17:18"
+    },
+    {
+      "ticker": "KRW-SOL",
+      "decision": "hold",
+      "reason": "TREND_ALIGNMENT",
+      "time": "17:18"
+    },
+    {
+      "ticker": "KRW-AVAX",
+      "decision": "hold",
+      "reason": "TREND_ALIGNMENT",
+      "time": "17:18"
+    },
+    {
+      "ticker": "KRW-DOGE",
+      "decision": "hold",
+      "reason": "TREND_ALIGNMENT",
+      "time": "17:18"
+    }
+  ]
+}

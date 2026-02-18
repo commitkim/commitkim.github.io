@@ -1,21 +1,20 @@
 @echo off
 chcp 65001 > nul
-echo 📰 Running Summariser Task...
+cd /d "%~dp0"
 
-:: Use the shared venv from Dashboard
-..\Dashboard\venv\Scripts\python main.py run %1 --no-deploy
+echo [Auto Trader] Running...
+..\Dashboard\venv\Scripts\python main.py
 
 if %ERRORLEVEL% NEQ 0 (
-    echo ❌ Summariser task failed!
+    echo ❌ Auto Trader Failed!
     exit /b %ERRORLEVEL%
 )
-echo ✅ Summariser task completed.
 
 :: --------------------------------------------------------
 :: 🚀 Global Test & Deploy (Auto Mode)
 :: --------------------------------------------------------
 echo.
-echo [Summariser] Triggering Global Deployment...
+echo [Auto Trader] Triggering Global Deployment...
 call ..\build_test_deploy.bat auto
 
 if %ERRORLEVEL% NEQ 0 (
