@@ -80,7 +80,8 @@ def map_reason_code(log):
         "UNCLEAR_TREND": "❓ 상승장인지 하락장인지 뚜렷하지 않습니다. 애매할 땐 쉬어가는 것이 상책입니다.",
         "LOW_CONFIDENCE_AND_UNCLEAR_TREND": "🤔 확신도 부족하고 추세도 애매합니다. 이럴 때 매수하면 물리기 쉽습니다.",
         "BEARISH_MOMENTUM_INDICATORS": "📉 보조지표(MACD, RSI)가 하락을 가리키고 있습니다. 매수하기엔 힘이 빠져 보입니다.",
-        "PRICE_BELOW_MAS": "📉 가격이 주요 이동평균선 아래로 처져 있습니다. 상승 추세로 돌아설 때까지 기다립니다."
+        "PRICE_BELOW_MAS": "📉 가격이 주요 이동평균선 아래로 처져 있습니다. 상승 추세로 돌아설 때까지 기다립니다.",
+        "RSI_OVERSOLD_BB_LOWER_BOUNCE": "📉 RSI가 과매도 구간(30 이하)이고, 볼린저 밴드 하단을 찍고 반등하려는 신호가 포착되었습니다. 기술적 반등을 노리고 진입합니다."
     }
     
     # Logic to handle combined codes (e.g. "LOW_CONFIDENCE | STRUCTURE_UNCLEAR")

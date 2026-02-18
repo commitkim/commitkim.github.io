@@ -108,14 +108,14 @@ class AutoTrader:
         ### STRICT RULES
         1. Capital preservation overrides every signal. When in doubt -> HOLD.
         2. Confidence Threshold: If confidence < 0.65 -> HOLD.
-        3. Risk Per Trade: Max risk 1% of total equity.
+        3. Risk Per Trade: Max risk {self.config.RISK['risk_per_trade'] * 100:.2f}% of total equity.
         4. Volatility Filter: Avoid extreme panic or zero movement.
         5. Trend Alignment: Do NOT Buy against downtrend (MA20 < MA60).
         
         ### OUTPUT FORMAT (STRICT JSON ONLY)
         {{
           "action": "BUY" | "SELL" | "HOLD",
-          "position_size_percent": 0~10 (Max 10%),
+          "position_size_percent": 0~{self.config.CAPITAL['investment_per_trade'] * 100} (Max {self.config.CAPITAL['investment_per_trade'] * 100}%),
           "stop_loss_percent": number (e.g. 0.02 for 2%),
           "take_profit_percent": number (Min 1.5x Risk),
           "confidence": 0.0~1.0,
