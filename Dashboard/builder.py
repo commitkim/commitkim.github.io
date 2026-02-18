@@ -59,7 +59,8 @@ def load_trade_status():
 
 def map_reason_code(log):
     """Maps technical reason codes to user-friendly Korean explanations."""
-    code = log.get('reason_code', '').upper()
+    # Try to get code from 'reason_code' first, then fallback to 'reason'
+    code = log.get('reason_code', log.get('reason', '')).upper()
     decision = log.get('decision', '').upper()
     confidence = log.get('confidence', 0)
     
