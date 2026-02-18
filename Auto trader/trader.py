@@ -406,7 +406,8 @@ class AutoTrader:
                 'ticker': item['ticker'],
                 'decision': item['decision'].get('action', 'HOLD').lower(),
                 'reason': item['decision'].get('reason_code', 'Unknown'),
-                'time': datetime.now().strftime("%m/%d %H:%M")
+                'time': datetime.now().strftime("%m/%d %H:%M"),
+                'confidence': item['decision'].get('confidence', 0.0)
             })
             
         self.save_status(final_results)
