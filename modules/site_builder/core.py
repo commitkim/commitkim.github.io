@@ -59,6 +59,40 @@ def load_latest_news():
     return all_news[0]
 
 
+
+def load_recent_news_list(limit=7):
+    """Loads recent news metadata for sidebar navigation."""
+    if not NEWS_DATA_DIR.exists():
+        return []
+
+    news_items = []
+    # Scan both morning and evening directories
+    for mode in ['morning', 'evening']:
+        mode_dir = NEWS_DATA_DIR / mode
+        if not mode_dir.exists():
+            continue
+            
+        for f_path in mode_dir.glob("*.json"):
+            try:
+                with open(f_path, 'r', encoding='utf-8') as f:
+                    data = json.load(f)
+                    # Extract minimal info needed for link
+                    item = {
+                        'date': f_path.stem,  # YYYYMMDD
+                        'mode': mode,
+                        'title': data.get('video_title', 'News Briefing'),
+                        'created_at': data.get('created_at', '')
+                    }
+                    news_items.append(item)
+            except Exception as e:
+                log.warning(f"Error loading news metadata {f_path}: {e}")
+                continue
+
+    # Sort by created_at descending (or date if created_at missing)
+    news_items.sort(key=lambda x: x.get('created_at', x['date']), reverse=True)
+    return news_items[:limit]
+
+
 def load_trade_status():
     """Loads the latest trade status from data/trade/status.json."""
     if TRADE_DATA_FILE.exists():
@@ -149,10 +183,12 @@ def build(output_dir=None):
     
     # 1. Load Data
     news_data = load_latest_news()
+    recent_news = load_recent_news_list()  # Fetch sidebar list
     trade_data = load_trade_status()
     
     context = {
         'news': news_data,
+        'recent_news': recent_news,  # Pass to template
         'trade': trade_data,
         'generated_at': datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
         'summary_html': markdown.markdown(news_data.get('web_report', '')) if news_data else None,

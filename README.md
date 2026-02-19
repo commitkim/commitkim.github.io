@@ -57,11 +57,11 @@ core  →  modules  →  apps
 cp .env.example .env
 # .env 파일에 실제 API 키 입력
 
-# 의존성 설치
-pip install -r Dashboard/requirements.txt
+# 의존성 설치 (pyproject.toml 기준)
+pip install google-genai google-api-python-client \
+            youtube-transcript-api pyupbit requests jinja2 markdown schedule
 ```
 
-### 2. CLI 사용법
 
 ```bash
 # 뉴스 브리핑 실행

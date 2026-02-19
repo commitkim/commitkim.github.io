@@ -24,9 +24,13 @@ jobs:
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install pyyaml python-dotenv pytest
+          pip install pyyaml python-dotenv pytest ruff
 
-      - name: Run core tests
+      - name: Lint (ruff)
+        run: |
+          ruff check .
+
+      - name: Run tests
         env:
           COMMITKIM_ENV: test
         run: |

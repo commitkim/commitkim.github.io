@@ -11,7 +11,7 @@ from datetime import datetime
 from pathlib import Path
 
 import pyupbit
-import google.generativeai as genai
+from google import genai
 
 from core.config import Config, PROJECT_ROOT
 from core.logger import get_logger
@@ -20,15 +20,27 @@ log = get_logger("crypto_trader.engine")
 STATUS_FILE = PROJECT_ROOT / "data" / "trade" / "status.json"
 
 
+# Lazy-initialized Gemini client (shared across instances)
+_gemini_client = None
+
+
+def _get_gemini_client():
+    global _gemini_client
+    if _gemini_client is None:
+        api_key = os.getenv("GEMINI_API_KEY")
+        _gemini_client = genai.Client(api_key=api_key)
+    return _gemini_client
+
+
 class CryptoEngine:
     def __init__(self):
         self.cfg = Config.instance()
-        
+
         # Load credentials
         self.access_key = os.getenv("UPBIT_ACCESS_KEY")
         self.secret_key = os.getenv("UPBIT_SECRET_KEY")
         self.gemini_api_key = os.getenv("GEMINI_API_KEY")
-        
+
         # Initialize Upbit API
         if self.access_key and self.secret_key:
             self.upbit = pyupbit.Upbit(self.access_key, self.secret_key)
@@ -36,16 +48,12 @@ class CryptoEngine:
             log.warning("⚠️ Warning: Upbit API keys not found. Running in simulation mode.")
             self.upbit = None
 
-        # Initialize Gemini API
-        if self.gemini_api_key:
-            genai.configure(api_key=self.gemini_api_key)
-            model_name = self.cfg.get("ai.model", "gemini-2.5-flash")
-            self.model = genai.GenerativeModel(model_name)
-        else:
-            # We might want to allow initialization without Gemini for testing, 
-            # but the logic depends on it. For now, log error but don't crash init.
+        # Gemini availability flag (client is lazy-initialized)
+        if not self.gemini_api_key:
             log.error("GEMINI_API_KEY is missing!")
             self.model = None
+        else:
+            self.model = self.cfg.get("ai.model", "gemini-2.5-flash")  # model name string
 
         # Config shortcuts
         self.coins = self.cfg.get("crypto_trader.coins", [])
@@ -159,7 +167,11 @@ class CryptoEngine:
         """
         
         try:
-            response = self.model.generate_content(prompt)
+            client = _get_gemini_client()
+            response = client.models.generate_content(
+                model=self.model,
+                contents=prompt,
+            )
             text = response.text.strip()
             if text.startswith("```json"):
                 text = text[7:-3]
