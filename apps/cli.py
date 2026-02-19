@@ -181,7 +181,7 @@ def _save_summary(summary, date_str, mode, video_id, title):
     from datetime import datetime
     from core.config import PROJECT_ROOT
 
-    data_dir = PROJECT_ROOT / "Summariser" / "data" / mode
+    data_dir = PROJECT_ROOT / "data" / "news" / mode
     os.makedirs(data_dir, exist_ok=True)
 
     data = {
