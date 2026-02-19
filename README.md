@@ -22,7 +22,6 @@ commitkim/
 ├── scripts/            # 운영 스크립트
 ├── tests/              # pytest 기반 테스트
 ├── docs/               # ⚠️ 자동 생성됨 — 직접 수정 금지
-├── Slot machine/       # 독립 웹 게임
 └── .github/workflows/  # CI/CD (lint, test, deploy)
 ```
 
@@ -58,8 +57,9 @@ cp .env.example .env
 # .env 파일에 실제 API 키 입력
 
 # 의존성 설치 (pyproject.toml 기준)
-pip install google-genai google-api-python-client \
-            youtube-transcript-api pyupbit requests jinja2 markdown schedule
+pip install -e .
+# 또는 개발 의존성 포함
+pip install -e ".[dev]"
 ```
 
 

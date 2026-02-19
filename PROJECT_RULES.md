@@ -105,7 +105,7 @@ def register_jobs(registry):
         name="my_module_daily",        # 유일한 ID (snake_case)
         description="모듈 설명",
         schedule="0 9 * * 1-5",       # cron 5필드 표현식
-        command="python -m apps.cli run my_module",  # ← 반드시 'python -m' 포함
+        command="apps.cli run my_module",  # ← 'python -m' 제외 (backend가 자동 추가)
         tags=["my_module"],
         enabled=enabled,
     ))
@@ -139,7 +139,7 @@ __all__ = ["MyEngine"]
 ### Step 3: `jobs.py` 작성 (위 2.4 예시 참고)
 
 - `register_jobs(registry)` 함수 반드시 구현
-- `command` 필드는 반드시 `"python -m apps.cli ..."` 형식
+- `command` 필드는 `"apps.cli ..."` 형식 (`python -m` 제외 — backend가 자동 추가)
 - `Config.instance()` 사용 (절대 `Config()` 금지)
 
 ### Step 4: `config/base.yaml`에 설정 섹션 추가
@@ -312,7 +312,7 @@ python -m pytest tests/ -k "crypto" # 특정 모듈 테스트
 - **`docs/` 폴더 수동 수정 금지** — 빌드 시 전체 덮어씌워짐
 - **모듈간 직접 import 금지** — apps 레이어에서만 조합
 - **`Config()` 직접 생성 금지** — 반드시 `Config.instance()` 사용
-- **jobs.py의 command에 `python -m` 누락 금지** — OS 스케줄러 실행 실패
+- **jobs.py의 command에 `python -m` 포함 금지** — backend가 자동 추가 (중복 시 실행 실패)
 
 ---
 
