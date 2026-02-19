@@ -1,5 +1,6 @@
 # Secrets
 .env
+kakao_tokens.json
 
 # Python
 venv/
