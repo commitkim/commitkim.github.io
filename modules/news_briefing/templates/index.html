@@ -3,6 +3,12 @@
 {% block title %}경제 뉴스 브리핑 - {{ data.video_date }}{% endblock %}
 {% block description %}{{ data.video_date }} 경제 뉴스 AI 분석 브리핑{% endblock %}
 
+{% block header_actions %}
+<a href="archive.html" class="text-sm font-bold text-slate-500 hover:text-primary-600 transition-colors no-underline">
+    🗂️ 아카이브
+</a>
+{% endblock %}
+
 {% block content %}
 <!-- 히어로 섹션 -->
 <div class="gradient-bg rounded-2xl p-6 mb-6 text-white animate-fade-in-up">

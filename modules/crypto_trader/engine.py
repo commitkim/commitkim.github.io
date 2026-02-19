@@ -353,7 +353,7 @@ class CryptoEngine:
         # Update Trade History
         recent_trades = existing_data.get('recent_trades', [])
         recent_trades.extend(trade_results)
-        recent_trades = recent_trades[-100:]
+        recent_trades = recent_trades[-1000:]
 
         data = {
             'timestamp': datetime.now().strftime("%Y-%m-%d %H:%M:%S"),

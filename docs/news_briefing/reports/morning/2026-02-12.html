@@ -44,7 +44,9 @@
         .gradient-text {
             background: linear-gradient(135deg, #6366f1, #8b5cf6);
             -webkit-background-clip: text;
+            background-clip: text;
             -webkit-text-fill-color: transparent;
+            color: transparent;
         }
 
         /* 유리 효과 카드 */
@@ -198,10 +200,13 @@
     <!-- 네비게이션 바 -->
     <nav class="sticky top-0 z-50 glass-card border-b border-surface-200">
         <div class="max-w-3xl mx-auto px-4 py-3 flex items-center justify-between">
-            <a href="../../index.html" class="flex items-center gap-2 no-underline">
-                <span class="text-xl">📈</span>
-                <span class="font-bold text-lg gradient-text">CommitKim AI 브리핑</span>
+            <a href="../../../index.html" class="flex items-center gap-2 no-underline">
+                <span
+                    class="font-bold text-xl bg-gradient-to-r from-indigo-400 to-cyan-400 bg-clip-text text-transparent">CommitKim</span>
             </a>
+            <div class="flex items-center gap-3">
+                
+            </div>
         </div>
     </nav>
 
@@ -421,7 +426,7 @@
                 AI 기반 경제 뉴스 브리핑 · 투자 조언이 아닌 정보 제공 목적
             </p>
             <p class="text-xs text-slate-300 mt-1">
-                빌드: 2026-02-20 01:45 KST
+                빌드: 2026-02-20 02:02 KST
             </p>
         </div>
     </footer>
