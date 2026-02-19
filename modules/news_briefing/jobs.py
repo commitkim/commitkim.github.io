@@ -15,7 +15,7 @@ def register_jobs(registry):
         name="news_morning",
         description="아침 경제 뉴스 브리핑 (모닝루틴)",
         schedule="0 9 * * 1-5",
-        command="python -m apps.cli run news --mode morning",
+        command="apps.cli run news --mode morning",
         tags=["news", "morning"],
         enabled=enabled,
     ))
@@ -23,7 +23,7 @@ def register_jobs(registry):
         name="news_evening",
         description="저녁 퇴근요정 브리핑",
         schedule="30 18 * * 1-5",
-        command="python -m apps.cli run news --mode evening",
+        command="apps.cli run news --mode evening",
         tags=["news", "evening"],
         enabled=enabled,
     ))

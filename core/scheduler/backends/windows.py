@@ -36,6 +36,8 @@ class WindowsSchedulerBackend(SchedulerBackend):
         self.python = python_path or sys.executable
 
     def install_jobs(self, jobs: List[JobDefinition]) -> None:
+        from core.config import PROJECT_ROOT
+
         for job in jobs:
             task_name = f"{_TASK_PREFIX}{job.name}"
             schtasks_args = self._cron_to_schtasks(job.schedule)
@@ -44,8 +46,11 @@ class WindowsSchedulerBackend(SchedulerBackend):
                 log.warning(f"Cannot convert schedule '{job.schedule}' for job '{job.name}'")
                 continue
 
-            # Build the command that Task Scheduler will execute
-            cmd = f'"{self.python}" -m {job.command}' if not job.command.startswith('"') else job.command
+            # Build the command that Task Scheduler will execute.
+            # Wrap in cmd /c so we can cd into the project root first —
+            # schtasks has no native "start in" directory option.
+            inner = f'"{self.python}" -m {job.command}'
+            cmd = f'cmd /c "cd /d {PROJECT_ROOT} && {inner}"'
 
             # Delete existing task (ignore errors if it doesn't exist)
             self._run_schtasks(["schtasks", "/delete", "/tn", task_name, "/f"], ignore_errors=True)

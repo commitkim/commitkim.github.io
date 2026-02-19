@@ -50,7 +50,17 @@ def get_logger(
     formatter = logging.Formatter(fmt)
 
     # ── Console handler ──────────────────────────────────────────────
-    console = logging.StreamHandler(sys.stdout)
+    # On Windows the default console encoding is cp949 / cp1252 which
+    # cannot render emoji.  Force UTF-8 with error-replacement so
+    # logging never crashes the process.
+    import io
+    import os
+    stream = sys.stdout
+    if os.name == "nt":
+        stream = io.TextIOWrapper(
+            sys.stdout.buffer, encoding="utf-8", errors="replace",
+        )
+    console = logging.StreamHandler(stream)
     console.setFormatter(formatter)
     console.setLevel(level)
     logger.addHandler(console)

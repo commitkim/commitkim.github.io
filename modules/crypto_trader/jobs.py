@@ -11,6 +11,6 @@ def register_jobs(registry):
         name="crypto_trade_cycle",
         description="암호화폐 자동매매 사이클 (매시 정각)",
         schedule="0 * * * *",
-        command="python -m apps.cli run trader",
+        command="apps.cli run trader",
         tags=["trader"],
     ))
