@@ -119,8 +119,8 @@ def _schedule(args):
     if getattr(args, 'list', False):
         log.info(f"Registered jobs ({len(registry)}):")
         for job in registry.get_all(include_disabled=True):
-            status = "✅" if job.enabled else "⏸️"
-            print(f"  {status} {job.name:25s} {job.schedule:15s} {job.description}")
+            status = "[ON]" if job.enabled else "[OFF]"
+            print(f"  {status:5s} {job.name:25s} {job.schedule:15s} {job.description}")
         return
 
     if getattr(args, 'install', False):
@@ -143,8 +143,8 @@ def _schedule(args):
 def _schedule_list(registry):
     """Show all registered jobs."""
     for job in registry.get_all(include_disabled=True):
-        status = "✅" if job.enabled else "⏸️"
-        print(f"  {status} {job.name:25s} {job.schedule:15s} {job.description}")
+        status = "[ON]" if job.enabled else "[OFF]"
+        print(f"  {status:5s} {job.name:25s} {job.schedule:15s} {job.description}")
 
 
 def _get_scheduler_backend():
