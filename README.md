@@ -1,75 +1,117 @@
 # 🚀 CommitKim Project Hub
 
-**CommitKim**은 **Google Gemini 2.0 Flash** 기반의 AI Agent가 100% 코딩하고 운영하는 **"자율 주행 개인 비서 프로젝트"**입니다.
-경제 뉴스 브리핑부터 암호화폐 자동 매매, 그리고 이 모든 것을 시각화하는 대시보드까지 하나의 유기적인 시스템으로 동작합니다.
+**CommitKim**은 **Google Gemini AI** 기반의 개인 자동화 프로젝트입니다.
+경제 뉴스 브리핑, 암호화폐 자동매매, 그리고 대시보드까지 하나의 시스템으로 동작합니다.
 
 👉 [**Live Dashboard 보기**](https://commitkim.github.io)
 
 ---
 
-## 🏛️ Project Architecture (Mono-repo)
+## 🏛️ Architecture (v2.0)
 
-이 프로젝트는 4개의 핵심 모듈이 독립적이면서도 유기적으로 연결되어 있습니다.
+```
+commitkim/
+├── core/               # 공유 인프라 (config, logger, errors, scheduler)
+├── modules/            # 비즈니스 로직 (순수 파이썬, 모듈간 의존 없음)
+│   ├── news_briefing/  # 뉴스 수집/요약 (was: Summariser)
+│   ├── crypto_trader/  # 자동매매 (was: Auto trader)
+│   ├── messenger/      # 카카오톡 전송 (중복 제거)
+│   └── site_builder/   # 정적 사이트 빌드/배포 (was: Dashboard)
+├── apps/               # CLI 진입점 + 오케스트레이션
+├── config/             # YAML 설정 (base, dev, prod, test)
+├── scripts/            # 운영 스크립트
+├── tests/              # pytest 기반 테스트
+├── docs/               # ⚠️ 자동 생성됨 — 직접 수정 금지
+├── Slot machine/       # 독립 웹 게임
+└── .github/workflows/  # CI/CD (lint, test, deploy)
+```
 
-| 모듈 (Module) | 역할 (Role) | 핵심 기술 (Tech Stack) |
-| :--- | :--- | :--- |
-| [**1. Summariser**](./Summariser) | **뉴스 브리핑 봇**<br>매일 아침/저녁, 경제 뉴스를 요약하여 카카오톡으로 전송합니다. | Python, YouTube API, Gemini 2.0, KakaoTalk API |
-| [**2. Auto Trader**](./Auto%20trader) | **자율 매매 봇**<br>업비트에서 24시간 시세를 감시하며 "자본 생존" 전략으로 안전하게 투자합니다. | Python, Upbit API, Gemini 2.0, Tech Analysis |
-| [**3. Dashboard**](./Dashboard) | **관제 센터**<br>뉴스 리포트 아카이브와 실시간 트레이딩 현황을 웹으로 시각화합니다. | Python (SSG), Jinja2, TailwindCSS |
-| [**4. Slot Machine**](./Slot%20machine) | **미니 게임**<br>다이어트 내기를 위한 재미있는 웹 게임입니다. | HTML5, CSS3, Vanilla JS |
+> ⚠️ **`docs/` 디렉토리는 자동 생성됩니다. 직접 수정하지 마세요.**
+> `commitkim build` 명령으로 생성되며, 수동 편집 시 다음 빌드에서 덮어씌워집니다.
 
----
+### 계층 구조 (Dependency Rule)
 
-## � Automated Pipeline (Workflows)
-
-모든 시스템은 **Windows Task Scheduler**에 의해 24시간 자동으로 돌아갑니다.
-
-### ☀️ Morning Routine (09:00)
-1.  **Summariser**가 밤사이 경제 뉴스를 수집합니다.
-2.  **Gemini AI**가 "모닝 브리핑" 스타일로 요약합니다.
-3.  **KakaoTalk**으로 요약본을 전송하고, **Web Report**를 생성합니다.
-4.  **GitHub Pages**에 자동으로 배포됩니다.
-
-### 🌙 Evening Briefing (18:30)
-1.  **Summariser**가 "퇴근요정" 모드로 실행됩니다.
-2.  오늘 하루의 주요 이슈를 정리하여 배달합니다.
-
-### 🤖 Auto Trading (Every 60 mins)
-1.  **Auto Trader**가 매시 정각 10분, 비트코인 등 주요 코인을 분석합니다.
-2.  **Capital Survival** 전략에 따라 매수/매도/관망을 결정합니다.
-3.  거래 내역과 자산 변동 사항을 **Dashboard**에 즉시 업데이트합니다.
+```
+core  →  modules  →  apps
+(의존 없음)  (core만 의존)  (modules + core 의존)
+```
 
 ---
 
-## 🛠️ Installation & Usage
+## 🤖 Automated Pipeline
 
-이 프로젝트는 로컬 Windows 환경에서 동작하도록 설계되었습니다.
+| 시간 | 모듈 | 동작 |
+|------|------|------|
+| ☀️ 09:00 (평일) | News Briefing | 아침 경제 뉴스 수집 → AI 요약 → 카카오톡 전송 |
+| 🌙 18:30 (평일) | News Briefing | 퇴근요정 뉴스 브리핑 |
+| 🤖 매시 정각 | Crypto Trader | 코인 분석 → Capital Survival 전략 매매 → 대시보드 업데이트 |
 
-### 1. 환경 설정 (Environment)
-각 모듈 폴더의 `requirements.txt`를 설치하고 `.env` 파일을 설정해야 합니다.
+---
+
+## 🛠️ Quick Start
+
+### 1. 환경 설정
+
 ```bash
-# Dashboard (Build System)
+# .env 파일 생성 (API 키 설정)
+cp .env.example .env
+# .env 파일에 실제 API 키 입력
+
+# 의존성 설치
 pip install -r Dashboard/requirements.txt
-
-# Summariser & Auto Trader
-pip install -r Summariser/requirements.txt
 ```
 
-### 2. 자동화 등록 (Scheduling)
-프로젝트 루트의 `register_schedule.bat`를 관리자 권한으로 실행하면 모든 스케줄이 등록됩니다.
+### 2. CLI 사용법
 
-### 3. 수동 배포 (Manual Deploy)
-코드 수정 후 즉시 배포하려면:
 ```bash
-build_test_deploy.bat
+# 뉴스 브리핑 실행
+python -m apps.cli run news --mode morning
+
+# 자동매매 실행
+python -m apps.cli run trader
+
+# 사이트 빌드
+python -m apps.cli build
+
+# GitHub Pages 배포
+python -m apps.cli deploy
+
+# 스케줄 확인/등록/삭제
+python -m apps.cli schedule --list
+python -m apps.cli schedule --install
+python -m apps.cli schedule --remove
+
+# 환경 지정
+python -m apps.cli --env dev run trader
+
+# 카카오톡 인증 설정
+python -m apps.cli setup kakao
 ```
+
+### 3. 테스트
+
+```bash
+python -m pytest tests/ -v
+```
+
+---
+
+## 📁 Configuration
+
+설정은 3단계로 병합됩니다:
+
+1. `config/base.yaml` — 공통 기본값
+2. `config/{env}.yaml` — 환경별 오버라이드 (dev/prod/test)
+3. `.env` — API 키 (절대 커밋하지 않음)
+
+환경 선택: `COMMITKIM_ENV=dev` 또는 `--env dev` CLI 플래그
 
 ---
 
 ## 🛡️ License & Disclaimer
 
-*   **AI-Generated Code**: 이 프로젝트의 모든 코드는 Google의 Agentic AI에 의해 작성되었습니다.
-*   **Investment Risk**: Auto Trader 모듈 사용에 따른 투자 결과의 책임은 전적으로 사용자에게 있습니다.
+- **AI-Generated Code**: 이 프로젝트의 코드는 AI Agent에 의해 작성되었습니다.
+- **Investment Risk**: Auto Trader 사용에 따른 투자 결과의 책임은 사용자에게 있습니다.
 
 ---
 *Created by CommitKim AI Agent*

@@ -1,101 +1,108 @@
-# 📜 CommitKim Project Rules & Guidelines
+# 📜 CommitKim Project Rules & Guidelines (v2.0)
 
 이 문서는 **CommitKim Project Hub**의 구조와 운영 규칙을 정의합니다.
-새로운 기능이나 폴더를 추가할 때 이 규칙을 준수하여 프로젝트의 무결성을 유지해야 합니다.
 
 ---
 
 ## 1. 📂 디렉토리 구조 및 역할
 
-프로젝트 루트의 각 폴더는 명확한 역할을 가지고 있습니다.
+```
+commitkim/
+├── core/               # 공유 인프라 — 설정, 로깅, 에러, 스케줄러
+├── modules/            # 비즈니스 로직 — 모듈간 의존 없음
+│   ├── news_briefing/  # 뉴스 수집 / AI 요약
+│   ├── crypto_trader/  # 암호화폐 자동매매
+│   ├── messenger/      # 카카오톡 전송
+│   └── site_builder/   # 정적 사이트 빌드 + Git 배포
+├── apps/               # CLI 진입점 + 파이프라인 오케스트레이션
+├── config/             # YAML 설정 파일 (base, dev, prod, test)
+├── scripts/            # 운영 스크립트 (register_all.py 등)
+├── tests/              # pytest 기반 테스트
+├── docs/               # ⚠️ 자동 생성 — 직접 수정 금지
+├── Slot machine/       # 독립 웹 게임 (HTML/JS/CSS)
+└── .github/workflows/  # CI/CD
+```
 
-| 폴더명 | 설명 | 비고 |
-| :--- | :--- | :--- |
-| **`Dashboard`** | 전체 프로젝트의 **시각화 허브** 및 **공용 가상환경** 위치. | `venv` 폴더 포함 |
-| **`Summariser`** | 뉴스 수집 및 요약 로직을 담당하는 핵심 모듈. | Gemini API 사용 |
-| **`Slot machine`** | 독립적인 웹 게임 프로젝트. | HTML/JS/CSS |
-| **`docs`** | **GitHub Pages 배포 폴더**. 빌드된 결과물이 여기에 저장됨. | **수동 수정 금지** |
-| **`tests`** | 프로젝트 전체의 테스트 스크립트 모음. | 배포 전 필수 통과 |
-| **`Auto trader`** | (진행 중) 자동 매매 관련 모듈. | |
+### 계층 규칙 (Dependency Rule)
+
+```
+core  →  modules  →  apps
+```
+
+- `core/` : 외부 의존 없음. 다른 모든 계층에서 import 가능
+- `modules/` : `core/`만 import 가능. 모듈끼리 서로 import 금지
+- `apps/` : `core/` + `modules/` import 가능. 최종 조합만 담당
 
 ---
 
-## 2. ⚙️ 핵심 시스템 규칙 (Core System Rules)
+## 2. ⚙️ 핵심 시스템 규칙
 
-### 2.1. 공용 가상환경 (Shared Virtual Environment)
-- 모든 Python 프로젝트(`Dashboard`, `Summariser`, 등)는 **`Dashboard/venv`** 를 공용 가상환경으로 사용합니다.
-- 새로운 패키지 설치 시:
-  ```bash
-  Dashboard\venv\Scripts\pip install 패키지명
-  Dashboard\venv\Scripts\pip freeze > requirements.txt
-  ```
+### 2.1. 설정 관리 (Configuration)
+```
+config/base.yaml     # 공통 기본값
+config/dev.yaml      # 개발 오버라이드
+config/prod.yaml     # 운영 오버라이드
+.env                 # 시크릿 (절대 커밋 금지)
+```
 
-### 2.2. 설정 관리 (Configuration)
-- **전역 설정**: 루트의 `config.py`에서 관리합니다. (스케줄 시간, 배포 URL 등)
-- **비밀 키**: `.env` 파일에서 관리하며, Git에 커밋하지 않습니다.
-  - 필수 키: `GEMINI_API_KEY`, `KAKAO_REST_API_KEY`, `GITHUB_TOKEN` 등
+- 설정 접근: `Config.instance().get("news_briefing.modes.morning.keyword")`
+- 시크릿 접근: `Config.instance().get_secret("GEMINI_API_KEY")`
+- 환경 선택: `COMMITKIM_ENV=dev` 또는 `--env dev` CLI 플래그
+
+### 2.2. 가상환경
+- 모든 Python 코드는 `Dashboard/venv` 공용 가상환경 사용
+- 의존성 관리: `pyproject.toml`
 
 ### 2.3. 배포 (Deployment)
-- **GitHub Pages**: `docs/` 폴더의 내용을 정적 웹사이트로 배포합니다.
-### 2.3. 배포 (Deployment & Automation Pipeline)
-- **GitHub Pages**: `docs/` 폴더의 내용을 정적 웹사이트로 배포합니다.
-- **자동화 파이프라인 (Automated Pipeline)**:
-  모든 모듈은 **[실행] -> [결과 생성] -> [전체 빌드/테스트/배포]** 순서로 동작합니다.
+- `docs/` 폴더가 GitHub Pages 루트
+- 수동: `python -m apps.cli deploy`
+- 자동: GitHub Actions (`deploy.yml`) → CI 통과 시 자동 배포
 
-  1. **Summariser (뉴스 요약 모듈)**
-     - **스케줄**: 09:00 (Morning), 18:30 (Evening)
-     - **프로세스**: 
-       1. YouTube 뉴스 수집 및 Gemini 요약 생성 -> `data/news/`에 JSON 저장.
-       2. 로컬 리포트 페이지 생성 (`docs/reports/`).
-       3. **`Canary Build`**: `build_test_deploy.bat auto` 호출.
-          - 메인 대시보드 갱신 -> 테스트 -> GitHub 배포.
-     - **알림**: 배포된 링크를 포함하여 카카오톡 전송.
-
-  2. **Auto Trader (자동 매매 모듈 - 개발 중)**
-     - **스케줄**: 10분 간격
-     - **프로세스**: 
-       1. 시세 확인 및 매매 로직 수행.
-       2. 트레이딩 현황 데이터 갱신.
-       3. **`Canary Build`**: `build_test_deploy.bat auto` 호출.
-          - 메인 대시보드 갱신 -> 테스트 -> GitHub 배포.
-
-  3. **통합 빌드 & 배포 (`build_test_deploy.bat`)**
-     - **Build**: `Dashboard/builder.py`를 실행하여 모든 데이터(뉴스, 트레이딩 등)를 통합한 `index.html` 생성.
-     - **Test**: `tests/run_all_tests.bat`로 전체 무결성 검증.
-     - **Deploy**: 검증 통과 시 `Dashboard/deploy.py`로 GitHub Push.
-
-### 2.4. 스케줄링 (Decentralized Scheduling)
-- **독립적 스케줄링**: 각 모듈은 자신의 실행 주기를 관리하는 `register_schedule.bat`를 가집니다.
-- **스케줄러 정리**: 루트의 `cleanup_all_tasks.bat`를 실행하면 등록된 모든 프로젝트 스케줄을 삭제할 수 있습니다.
-- **프로젝트 루트 역할**: 스케줄링을 직접 관리하지 않으며, `build_test_deploy.bat`를 통해 통합 빌드/테스트/배포 도구를 제공합니다.
+### 2.4. 스케줄링 (Centralized)
+- 모든 주기 작업은 `core/scheduler/registry.py`에 등록
+- 등록/조회/삭제: `python -m apps.cli schedule --install/--list/--remove`
+- OS에 맞는 백엔드가 자동 선택됨 (Windows Task Scheduler / cron)
 
 ---
 
-## 3. 👩‍💻 개발 가이드라인 (Development Guidelines)
+## 3. 👩‍💻 개발 가이드라인
 
-### 3.1. 새로운 컴포넌트/폴더 추가 시
-새로운 기능을 위해 폴더를 생성할 때는 다음 규칙을 따릅니다:
+### 3.1. 새로운 모듈 추가
+1. `modules/모듈명/` 디렉토리 생성
+2. `core.config`와 `core.logger`만 import
+3. 다른 모듈 직접 import 금지 (앱 레이어에서 조합)
+4. `jobs.py`에 스케줄 정의 추가
+5. `tests/test_모듈명.py` 테스트 작성
 
-1. **독립성 유지**: 다른 모듈과 의존성을 최소화하고, 자체적인 실행 스크립트(`automation.bat` 등)를 가져야 합니다.
-2. **공용 환경 사용**: 디스크 공간 절약을 위해 **`Dashboard/venv`** 를 공용으로 사용합니다. (필요 시 분리 가능)
-3. **빌드 통합**: 결과물이 웹에 게시되어야 한다면, 해당 모듈이 `docs/` 내의 적절한 위치로 결과물을 복사하도록 해야 합니다.
-4. **테스트 추가**: `tests/` 폴더에 해당 컴포넌트의 테스트 스크립트를 추가합니다.
+### 3.2. 파일 명명 규칙
+- **Python**: `snake_case` (예: `news_briefing.py`)
+- **HTML/CSS/JS**: `kebab-case` 또는 `camelCase`
+- **YAML 설정 키**: `snake_case` (예: `youtube_channel_id`)
 
-### 3.2. 파일 명명 규칙 (Naming Conventions)
-- **Python**: `snake_case` (예: `data_collector.py`)
-- **HTML/CSS/JS**: `kebab-case` 또는 `camelCase` (일관성 유지)
-- **배치 스크립트**: `snake_case` (예: `run_test.bat`)
+### 3.3. 에러 처리
+- 외부 API 호출: `@retry(max_retries=3)` 사용
+- 독립 실행 함수: `@isolated()` 사용 (실패해도 시스템 중단 방지)
 
-### 3.3. 테스트 (Testing)
-- 코드를 변경하거나 추가한 후에는 반드시 **전체 테스트**를 수행해야 합니다.
-  ```cmd
-  tests\run_all_tests.bat
-  ```
-- 테스트가 통과하지 않은 상태에서 `deploy.bat`를 실행하지 마십시오.
+### 3.4. 테스트
+```bash
+python -m pytest tests/ -v     # 전체 테스트
+python -m pytest tests/ -k "config"  # 특정 테스트만
+```
 
 ---
 
-## 4. 🚨 주의사항 (Caveats)
+## 4. 🤖 자동화 파이프라인
 
-- **`docs/` 폴더 수동 수정 금지**: 빌드 시 덮어씌워지므로, 원본 소스(`Dashboard/templates`, `Summariser/templates` 등)를 수정해야 합니다.
-- **API Key 노출 주의**: 코드를 공유하거나 커밋할 때 `.env` 파일이 포함되지 않도록 `.gitignore`를 확인하세요.
+| 시간 | CLI 명령 | 동작 |
+|------|---------|------|
+| 09:00 (평일) | `run news --mode morning` | 아침 뉴스 → AI 요약 → 카카오톡 → 빌드 → 배포 |
+| 18:30 (평일) | `run news --mode evening` | 저녁 뉴스 → AI 요약 → 카카오톡 → 빌드 → 배포 |
+| 매시 정각 | `run trader` | 코인 분석 → 매매 → 대시보드 업데이트 → 배포 |
+
+---
+
+## 5. 🚨 주의사항
+
+- **`docs/` 폴더 수동 수정 금지** — 빌드 시 덮어씌워짐
+- **API Key 노출 주의** — `.env`는 `.gitignore`에 등록되어 있지만 항상 확인
+- **모듈간 직접 import 금지** — 반드시 `apps/` 레이어에서만 조합

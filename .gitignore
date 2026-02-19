@@ -1,7 +1,27 @@
+# Secrets
 .env
+
+# Python
 venv/
 __pycache__/
 *.pyc
+*.egg-info/
+
+# Logs
 *.log
+logs/
+
+# OS
 .DS_Store
+
+# IDE
+.idea/
+.vscode/
+
+# Test / Build
+.pytest_cache/
+htmlcov/
+.coverage
+
+# Local scripts (not for git)
 local_scripts/
