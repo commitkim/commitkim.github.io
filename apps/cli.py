@@ -96,10 +96,39 @@ def _deploy(args=None):
     deploy()
 
 
+def _deploy_command(args):
+    """Run tests then deploy (CLI command)."""
+    if _run_tests():
+        _deploy(args)
+
+
 def _build_and_deploy():
     """Build then deploy."""
     _build()
     _deploy()
+
+
+def _run_tests():
+    """Run unit tests."""
+    import subprocess
+    import sys
+
+    log.info("Running tests before deploy...")
+    
+    # Run pytest
+    # We use sys.executable to ensure we use the same python interpreter
+    cmd = [sys.executable, "-m", "pytest", "tests/"]
+    
+    try:
+        result = subprocess.run(cmd, check=False)
+        if result.returncode != 0:
+            log.error("Tests failed! Aborting deploy.")
+            return False
+        log.info("Tests passed.")
+        return True
+    except Exception as e:
+        log.error(f"Error running tests: {e}")
+        return False
 
 
 def _schedule(args):
@@ -232,7 +261,7 @@ def main():
 
     # --- deploy ---
     deploy_parser = subparsers.add_parser("deploy", help="Deploy to GitHub Pages")
-    deploy_parser.set_defaults(func=_deploy)
+    deploy_parser.set_defaults(func=_deploy_command)
 
     # --- schedule ---
     sched_parser = subparsers.add_parser("schedule", help="Manage scheduled tasks")

@@ -57,9 +57,16 @@ def get_logger(
     import os
     stream = sys.stdout
     if os.name == "nt":
-        stream = io.TextIOWrapper(
+        # Create a wrapper that doesn't close the underlying stdout
+        class NoCloseTextIOWrapper(io.TextIOWrapper):
+            def close(self):
+                self.flush()
+                # Do NOT call super().close() to keep stdout open
+
+        stream = NoCloseTextIOWrapper(
             sys.stdout.buffer, encoding="utf-8", errors="replace",
         )
+    
     console = logging.StreamHandler(stream)
     console.setFormatter(formatter)
     console.setLevel(level)

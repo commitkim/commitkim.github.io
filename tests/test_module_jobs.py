@@ -43,8 +43,8 @@ class TestNewsBriefingJobs:
         register_jobs(registry)
 
         for job in registry.get_all(include_disabled=True):
-            assert job.command.startswith("python -m"), (
-                f"Job '{job.name}' command must start with 'python -m', got: {job.command!r}"
+            assert job.command.startswith("apps.cli"), (
+                f"Job '{job.name}' command must start with 'apps.cli', got: {job.command!r}"
             )
 
     def test_schedules_are_valid_cron(self):
@@ -99,8 +99,8 @@ class TestCryptoTraderJobs:
         register_jobs(registry)
 
         job = registry.get_by_name("crypto_trade_cycle")
-        assert job.command.startswith("python -m"), (
-            f"Expected 'python -m' prefix, got: {job.command!r}"
+        assert job.command.startswith("apps.cli"), (
+            f"Expected 'apps.cli' prefix, got: {job.command!r}"
         )
 
     def test_schedule_is_hourly(self):

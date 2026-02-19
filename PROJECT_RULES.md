@@ -274,6 +274,9 @@ python -m pytest tests/ -v          # 전체 테스트
 python -m pytest tests/ -k "crypto" # 특정 모듈 테스트
 ```
 
+> [!IMPORTANT]
+> **Test before Deploy**: 수동 배포(`apps.cli deploy`) 시에만 전체 테스트가 먼저 실행됩니다. `run news` 및 `run trader`에 의한 자동 배포는 테스트를 건너뛰고 즉시 배포합니다.
+
 ### 테스트 파일 명명 규칙
 
 | 대상 | 파일명 |
