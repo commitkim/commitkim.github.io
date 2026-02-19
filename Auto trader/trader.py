@@ -347,15 +347,24 @@ class AutoTrader:
         # Calculate Total Capital (Equity) first
         if self.upbit:
              balances = self.upbit.get_balances()
-             for b in balances:
-                 if b['currency'] == 'KRW':
-                     total_assets += float(b['balance'])
-                 else:
-                     ticker = f"KRW-{b['currency']}"
-                     current_price = pyupbit.get_current_price(ticker)
-                     if current_price:
-                        total_assets += float(b['balance']) * current_price
-        else:
+             # Validate API response (may fail due to IP whitelist etc.)
+             if not isinstance(balances, list) or (balances and not isinstance(balances[0], dict)):
+                 logging.error(f"⚠️ Upbit API returned unexpected response: {balances}")
+                 logging.error("This usually means the API key's IP whitelist doesn't include this machine.")
+                 logging.warning("Falling back to simulation mode for this cycle.")
+                 self.upbit = None
+                 total_assets = 0
+             else:
+                 for b in balances:
+                     if b['currency'] == 'KRW':
+                         total_assets += float(b['balance'])
+                     else:
+                         ticker = f"KRW-{b['currency']}"
+                         current_price = pyupbit.get_current_price(ticker)
+                         if current_price:
+                            total_assets += float(b['balance']) * current_price
+        
+        if not self.upbit:
             total_assets = 1000000 # Sim
 
         logging.info(f"💰 Total Equity: {total_assets:,.0f} KRW")
