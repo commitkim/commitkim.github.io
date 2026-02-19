@@ -4,9 +4,7 @@
 name: Crypto Trader
 
 on:
-  schedule:
-    - cron: '5 * * * *'     # 매시 05분 UTC (GitHub cron 지연 감안)
-  workflow_dispatch:         # Manual trigger
+  workflow_dispatch:         # Manual trigger only (trader runs locally due to Upbit IP whitelist)
 
 jobs:
   trade:
