@@ -1,6 +1,0 @@
-google-genai
-youtube-transcript-api
-requests
-python-dotenv
-jinja2
-markdown
