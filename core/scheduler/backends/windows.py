@@ -116,7 +116,8 @@ class WindowsSchedulerBackend(SchedulerBackend):
 
         # Every hour: "0 * * * *"
         if hour == "*" and minute.isdigit():
-            return ["/sc", "hourly", "/mo", "1"]
+            start_time = f"00:{int(minute):02d}"
+            return ["/sc", "hourly", "/mo", "1", "/st", start_time]
 
         # Specific time, specific weekdays: "0 9 * * 1-5"
         if minute.isdigit() and hour.isdigit() and day_w != "*":
