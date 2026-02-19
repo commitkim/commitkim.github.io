@@ -1,0 +1,77 @@
+# =============================================================================
+# CommitKim Project — Base Configuration
+# =============================================================================
+# This file contains shared defaults used across all environments.
+# Environment-specific overrides go in dev.yaml / prod.yaml / test.yaml.
+# Secrets (API keys) are NEVER stored here — use .env file.
+
+# =============================================================================
+# 🐙 GitHub
+# =============================================================================
+github:
+  pages_url: "https://commitkim.github.io"
+
+# =============================================================================
+# 📺 News Briefing (was: Summariser)
+# =============================================================================
+news_briefing:
+  youtube_channel_id: "UCGCGxsbmG_9nincyI7xypow"
+  modes:
+    morning:
+      keyword: "모닝루틴"
+      title_prefix: "모닝루틴 요약"
+      schedule: "0 9 * * 1-5"
+    evening:
+      keyword: "퇴근요정"
+      title_prefix: "퇴근요정 요약"
+      schedule: "30 18 * * 1-5"
+
+# =============================================================================
+# 🤖 Crypto Trader (was: Auto trader)
+# =============================================================================
+crypto_trader:
+  coins:
+    - "KRW-BTC"
+    - "KRW-ETH"
+    - "KRW-XRP"
+    - "KRW-SOL"
+    - "KRW-AVAX"
+    - "KRW-DOGE"
+  interval_minutes: 60
+  schedule: "0 * * * *"
+  capital:
+    investment_per_trade: 0.2
+    max_exposure_total: 0.5
+    max_coins_held: 3
+    consecutive_loss_limit: 3
+    max_allocation_per_coin: 0.3
+  risk:
+    risk_per_trade: 0.01
+    stop_loss_default: -0.02
+    take_profit_min: 0.03
+
+# =============================================================================
+# 🤖 AI Settings
+# =============================================================================
+ai:
+  model: "gemini-2.5-flash"
+
+# =============================================================================
+# 💬 Messenger (KakaoTalk)
+# =============================================================================
+messenger:
+  kakao:
+    redirect_uri: "http://localhost"
+
+# =============================================================================
+# 📊 Site Builder (was: Dashboard)
+# =============================================================================
+site_builder:
+  output_dir: "docs"
+
+# =============================================================================
+# 📝 Logging
+# =============================================================================
+logging:
+  level: "INFO"
+  format: "%(asctime)s [%(levelname)s] %(name)s: %(message)s"

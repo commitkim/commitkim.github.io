@@ -1,0 +1,11 @@
+# =============================================================================
+# CommitKim — Test Environment Overrides
+# =============================================================================
+# These settings override base.yaml when COMMITKIM_ENV=test
+
+logging:
+  level: "WARNING"
+
+# Disable real trading in test
+crypto_trader:
+  interval_minutes: 1

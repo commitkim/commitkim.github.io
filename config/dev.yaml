@@ -1,0 +1,11 @@
+# =============================================================================
+# CommitKim — Development Environment Overrides
+# =============================================================================
+# These settings override base.yaml when COMMITKIM_ENV=dev
+
+logging:
+  level: "DEBUG"
+
+# Use a different AI model for dev to save API costs
+# ai:
+#   model: "gemini-2.0-flash"

@@ -1,0 +1,5 @@
+# =============================================================================
+# CommitKim — Production Environment Overrides
+# =============================================================================
+# These settings override base.yaml when COMMITKIM_ENV=prod (default)
+# Currently prod uses all base.yaml defaults — add overrides here as needed.
