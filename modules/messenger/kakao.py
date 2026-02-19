@@ -34,6 +34,16 @@ def _save_tokens(tokens):
 
 
 def _load_tokens():
+    """Load tokens from env var (CI) or file (local)."""
+    # GitHub Actions: load from KAKAO_TOKENS secret
+    env_tokens = os.environ.get("KAKAO_TOKENS")
+    if env_tokens:
+        try:
+            return json.loads(env_tokens)
+        except json.JSONDecodeError:
+            log.warning("KAKAO_TOKENS env var is not valid JSON, trying file...")
+
+    # Local: load from file
     try:
         with open(_get_token_file(), "r") as f:
             return json.load(f)

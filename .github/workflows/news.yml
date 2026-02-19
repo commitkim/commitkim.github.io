@@ -1,0 +1,82 @@
+# CommitKim — News Briefing (Morning + Evening)
+# Collects YouTube news, summarizes with Gemini, sends KakaoTalk, deploys to Pages
+
+name: News Briefing
+
+on:
+  schedule:
+    - cron: '0 0 * * 1-5'   # 09:00 KST (UTC+9) 평일 Morning
+    - cron: '30 9 * * 1-5'  # 18:30 KST (UTC+9) 평일 Evening
+  workflow_dispatch:         # Manual trigger
+    inputs:
+      mode:
+        description: 'Briefing mode'
+        required: true
+        default: 'morning'
+        type: choice
+        options:
+          - morning
+          - evening
+
+jobs:
+  news:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.PAT_TOKEN }}
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install pyyaml python-dotenv google-genai youtube-transcript-api \
+                      google-api-python-client requests jinja2 markdown
+
+      - name: Determine mode
+        id: mode
+        run: |
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            echo "mode=${{ inputs.mode }}" >> $GITHUB_OUTPUT
+          else
+            HOUR=$(TZ='Asia/Seoul' date +%H)
+            if [ "$HOUR" -lt 12 ]; then
+              echo "mode=morning" >> $GITHUB_OUTPUT
+            else
+              echo "mode=evening" >> $GITHUB_OUTPUT
+            fi
+          fi
+
+      - name: Restore KakaoTalk tokens
+        run: |
+          if [ -n "${{ secrets.KAKAO_TOKENS }}" ]; then
+            echo '${{ secrets.KAKAO_TOKENS }}' > kakao_tokens.json
+          fi
+
+      - name: Run news briefing
+        env:
+          COMMITKIM_ENV: prod
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          KAKAO_REST_API_KEY: ${{ secrets.KAKAO_REST_API_KEY }}
+          KAKAO_CLIENT_SECRET: ${{ secrets.KAKAO_CLIENT_SECRET }}
+        run: |
+          python -m apps.cli run news --mode ${{ steps.mode.outputs.mode }} --no-deploy
+
+      - name: Build site
+        env:
+          COMMITKIM_ENV: prod
+        run: |
+          python -m apps.cli build
+
+      - name: Commit & Push results
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git diff --cached --quiet || git commit -m "📰 News update: ${{ steps.mode.outputs.mode }} $(TZ='Asia/Seoul' date +%Y-%m-%d)"
+          git push

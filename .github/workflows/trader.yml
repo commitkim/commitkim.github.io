@@ -1,0 +1,52 @@
+# CommitKim — Crypto Auto Trader
+# Runs trading cycle hourly, updates dashboard, deploys to Pages
+
+name: Crypto Trader
+
+on:
+  schedule:
+    - cron: '5 * * * *'     # 매시 05분 UTC (GitHub cron 지연 감안)
+  workflow_dispatch:         # Manual trigger
+
+jobs:
+  trade:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.PAT_TOKEN }}
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install pyyaml python-dotenv google-generativeai pyupbit \
+                      requests jinja2 markdown pandas schedule
+
+      - name: Run trading cycle
+        env:
+          COMMITKIM_ENV: prod
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          UPBIT_ACCESS_KEY: ${{ secrets.UPBIT_ACCESS_KEY }}
+          UPBIT_SECRET_KEY: ${{ secrets.UPBIT_SECRET_KEY }}
+        run: |
+          python -m apps.cli run trader
+
+      - name: Build site
+        env:
+          COMMITKIM_ENV: prod
+        run: |
+          python -m apps.cli build
+
+      - name: Commit & Push results
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git diff --cached --quiet || git commit -m "🤖 Trade cycle: $(TZ='Asia/Seoul' date +'%Y-%m-%d %H:%M')"
+          git push
