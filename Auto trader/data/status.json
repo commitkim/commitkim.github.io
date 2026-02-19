@@ -1,5 +1,5 @@
 {
-  "timestamp": "2026-02-19 11:05:04",
+  "timestamp": "2026-02-19 12:06:46",
   "total_assets": 49991.67757147,
   "positions": {
     "KRW": {
@@ -10,42 +10,6 @@
     }
   },
   "recent_trades": [
-    {
-      "ticker": "KRW-XRP",
-      "decision": "hold",
-      "reason": "LOW_CONFIDENCE | STRUCTURE_UNCLEAR",
-      "time": "02/18 22:46"
-    },
-    {
-      "ticker": "KRW-SOL",
-      "decision": "hold",
-      "reason": "TREND_ALIGNMENT",
-      "time": "02/18 22:47"
-    },
-    {
-      "ticker": "KRW-AVAX",
-      "decision": "hold",
-      "reason": "TREND_ALIGNMENT",
-      "time": "02/18 22:47"
-    },
-    {
-      "ticker": "KRW-DOGE",
-      "decision": "hold",
-      "reason": "TREND_ALIGNMENT",
-      "time": "02/18 22:47"
-    },
-    {
-      "ticker": "KRW-BTC",
-      "decision": "hold",
-      "reason": "TREND_ALIGNMENT",
-      "time": "02/18 22:46"
-    },
-    {
-      "ticker": "KRW-ETH",
-      "decision": "hold",
-      "reason": "LOW_CONFIDENCE",
-      "time": "02/18 22:46"
-    },
     {
       "ticker": "KRW-XRP",
       "decision": "hold",
@@ -669,6 +633,48 @@
       "reason": "TREND_ALIGNMENT",
       "time": "02/19 11:05",
       "confidence": 0.3
+    },
+    {
+      "ticker": "KRW-BTC",
+      "decision": "hold",
+      "reason": "TREND_ALIGNMENT",
+      "time": "02/19 12:06",
+      "confidence": 0.9
+    },
+    {
+      "ticker": "KRW-ETH",
+      "decision": "hold",
+      "reason": "LOW_CONFIDENCE | TREND_ALIGNMENT",
+      "time": "02/19 12:06",
+      "confidence": 0.4
+    },
+    {
+      "ticker": "KRW-XRP",
+      "decision": "hold",
+      "reason": "TREND_ALIGNMENT",
+      "time": "02/19 12:06",
+      "confidence": 1.0
+    },
+    {
+      "ticker": "KRW-SOL",
+      "decision": "hold",
+      "reason": "TREND_ALIGNMENT",
+      "time": "02/19 12:06",
+      "confidence": 0.3
+    },
+    {
+      "ticker": "KRW-AVAX",
+      "decision": "hold",
+      "reason": "TREND_ALIGNMENT | CAPITAL_PRESERVATION",
+      "time": "02/19 12:06",
+      "confidence": 1.0
+    },
+    {
+      "ticker": "KRW-DOGE",
+      "decision": "hold",
+      "reason": "TREND_ALIGNMENT",
+      "time": "02/19 12:06",
+      "confidence": 0.5
     }
   ]
 }
