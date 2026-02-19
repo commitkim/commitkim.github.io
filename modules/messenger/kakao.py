@@ -11,9 +11,10 @@ Uses core.config for API keys and core.logger for structured logging.
 import json
 import os
 import webbrowser
+
 import requests
 
-from core.config import Config, PROJECT_ROOT
+from core.config import PROJECT_ROOT, Config
 from core.logger import get_logger
 
 log = get_logger("messenger.kakao")

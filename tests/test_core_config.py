@@ -2,9 +2,6 @@
 Unit tests for core.config — YAML hierarchical config loader.
 """
 
-import os
-import tempfile
-import pytest
 from pathlib import Path
 
 

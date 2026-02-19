@@ -4,11 +4,9 @@ Unit tests for modules.site_builder — builder module
 Uses a temporary directory to isolate file I/O from the actual docs/ folder.
 """
 
+from unittest.mock import MagicMock, patch
+
 import pytest
-import tempfile
-import os
-from pathlib import Path
-from unittest.mock import patch, MagicMock
 
 
 @pytest.fixture(autouse=True)

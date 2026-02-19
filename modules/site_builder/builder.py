@@ -4,8 +4,8 @@ Static Site Builder Wrapper
 - Replaces legacy Dashboard/builder.py usage
 """
 
-from core.logger import get_logger
 from core.errors import isolated
+from core.logger import get_logger
 
 log = get_logger("site_builder")
 

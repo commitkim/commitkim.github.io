@@ -6,9 +6,9 @@ Tests validate trading logic, market analysis, and data flow in isolation.
 """
 
 import json
-import pytest
-from unittest.mock import MagicMock, patch, PropertyMock
+from unittest.mock import MagicMock, patch
 
+import pytest
 
 # ---------------------------------------------------------------------------
 # Fixtures
@@ -71,7 +71,6 @@ class TestAnalyzeMarket:
         engine._mock_client.models.generate_content.return_value = mock_resp
 
         import pandas as pd
-        import numpy as np
         n = 240
         df = pd.DataFrame({
             "close": [100.0 + i for i in range(n)],
@@ -148,7 +147,11 @@ class TestExecuteTrade:
         engine.upbit = MagicMock()
         decision = {"action": "BUY", "confidence": 0.5,
                     "position_size_percent": 20, "reason_code": "LOW_CONFIDENCE"}
-        engine.execute_trade("KRW-BTC", decision, 100_000, {"krw_balance": 500_000, "coin_balance": 0}, 1_000_000)
+        engine.execute_trade(
+            "KRW-BTC", decision, 100_000,
+            {"krw_balance": 500_000, "coin_balance": 0},
+            1_000_000
+        )
         engine.upbit.buy_market_order.assert_not_called()
 
     def test_buy_executed_on_high_confidence(self, engine):

@@ -11,7 +11,7 @@ pyyaml = ">=6.0"
 python-dotenv = ">=1.0"
 
 # News Briefing
-google-generativeai = ">=0.4"
+google-genai = ">=0.1"
 youtube-transcript-api = ">=0.6"
 google-api-python-client = ">=2.0"
 
@@ -46,7 +46,7 @@ addopts = "-v --tb=short"
 
 [tool.ruff]
 target-version = "py311"
-line-length = 100
+line-length = 120
 
 [tool.ruff.lint]
 select = ["E", "F", "I", "W"]

@@ -6,8 +6,9 @@ Gemini AI 요약 모듈
 Refactored: uses core.config for API key and model settings.
 """
 
-import re
 import json
+import re
+
 from google import genai
 
 from core.config import Config
@@ -83,7 +84,10 @@ DUAL_SUMMARY_PROMPT = """
 - 마지막에 💡 한줄 인사이트 추가
 
 예시 형식:
-"▸ 미국 CPI 둔화: 시장 예상 하회, 6월 금리인하 기대 강화\\n▸ 반도체 수출 호조: HBM 수요 지속, 삼성·하이닉스 강세\\n▸ 원화 강세: 달러 약세 전환, 외국인 순매수 지속\\n\\n💡 금리인하 기대로 성장주 중심 반등 가능성"
+"▸ 미국 CPI 둔화: 시장 예상 하회, 6월 금리인하 기대 강화\\n"
+"▸ 반도체 수출 호조: HBM 수요 지속, 삼성·하이닉스 강세\\n"
+"▸ 원화 강세: 달러 약세 전환, 외국인 순매수 지속\\n\\n"
+"💡 금리인하 기대로 성장주 중심 반등 가능성"
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 [web_report 작성 규칙] — 웹페이지용 (심층 분석)

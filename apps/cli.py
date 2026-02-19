@@ -15,11 +15,9 @@ Usage:
 
 import argparse
 import platform
-import sys
 
 from core.config import Config
 from core.logger import get_logger
-from core.errors import isolated
 
 log = get_logger("cli")
 
@@ -29,8 +27,8 @@ def _run_news(args):
     mode = getattr(args, 'mode', 'morning')
     log.info(f"Running news briefing ({mode} mode)...")
 
-    from modules.news_briefing import collector, summarizer
     from modules.messenger.kakao import send_message
+    from modules.news_briefing import collector, summarizer
 
     cfg = Config.instance()
     keyword = cfg.get(f"news_briefing.modes.{mode}.keyword")
@@ -111,8 +109,8 @@ def _schedule(args):
     registry = SchedulerRegistry()
 
     # Register all module jobs
-    from modules.news_briefing.jobs import register_jobs as register_news
     from modules.crypto_trader.jobs import register_jobs as register_trader
+    from modules.news_briefing.jobs import register_jobs as register_news
 
     register_news(registry)
     register_trader(registry)
@@ -179,6 +177,7 @@ def _save_summary(summary, date_str, mode, video_id, title):
     import json
     import os
     from datetime import datetime
+
     from core.config import PROJECT_ROOT
 
     data_dir = PROJECT_ROOT / "data" / "news" / mode

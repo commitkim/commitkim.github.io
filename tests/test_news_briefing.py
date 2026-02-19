@@ -4,9 +4,9 @@ Unit tests for modules.news_briefing — collector and summarizer
 All external network calls (YouTube RSS, YouTubeTranscriptApi, Gemini) are mocked.
 """
 
-import pytest
 from unittest.mock import MagicMock, patch
 
+import pytest
 
 # ---------------------------------------------------------------------------
 # Fixtures

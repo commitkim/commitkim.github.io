@@ -5,8 +5,8 @@ Uses the `schedule` library to run jobs within the current process.
 Useful for development, Docker containers, or single-process deployments.
 """
 
-import time
 import threading
+import time
 from typing import List
 
 import schedule as schedule_lib

@@ -5,11 +5,10 @@ Crypto Trader Wrapper
 """
 
 import json
-from pathlib import Path
 
-from core.logger import get_logger
-from core.errors import isolated
 from core.config import PROJECT_ROOT
+from core.errors import isolated
+from core.logger import get_logger
 
 log = get_logger("crypto_trader")
 STATUS_FILE = PROJECT_ROOT / "data" / "trade" / "status.json"
@@ -27,7 +26,7 @@ class CryptoTrader:
     def run_cycle(self):
         """Run one trading cycle using the new CryptoEngine."""
         from modules.crypto_trader.engine import CryptoEngine
-        
+
         log.info("Starting trading cycle (New Engine)...")
         engine = CryptoEngine()
         engine.run_cycle()

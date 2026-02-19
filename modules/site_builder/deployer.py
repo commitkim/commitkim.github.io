@@ -4,11 +4,10 @@ Git 배포 모듈 (Refactored from Dashboard/deploy.py)
 Uses core.config for Git path and GitHub credentials.
 """
 
-import os
 import subprocess
 from datetime import datetime
 
-from core.config import Config, PROJECT_ROOT
+from core.config import PROJECT_ROOT, Config
 from core.logger import get_logger
 
 log = get_logger("site_builder.deployer")

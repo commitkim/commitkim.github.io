@@ -16,14 +16,13 @@ Usage:
     url = cfg.get("github.pages_url")     # "https://commitkim.github.io"
 """
 
-import os
 import copy
+import os
 from pathlib import Path
 from typing import Any
 
 import yaml
 from dotenv import load_dotenv
-
 
 # ---------------------------------------------------------------------------
 # Resolve project root (the parent of the 'core/' directory)

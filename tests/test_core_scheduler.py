@@ -3,7 +3,8 @@ Unit tests for core.scheduler — registry and job definitions.
 """
 
 import pytest
-from core.scheduler.registry import SchedulerRegistry, JobDefinition
+
+from core.scheduler.registry import JobDefinition, SchedulerRegistry
 
 
 class TestJobDefinition:

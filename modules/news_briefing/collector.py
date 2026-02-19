@@ -7,9 +7,10 @@ Refactored: uses core.config instead of local config module.
 """
 
 import re
-import requests
 import xml.etree.ElementTree as ET
 from datetime import datetime, timedelta
+
+import requests
 from youtube_transcript_api import YouTubeTranscriptApi
 
 from core.config import Config

@@ -3,7 +3,8 @@ Unit tests for core.logger — unified logging.
 """
 
 import logging
-from core.logger import get_logger, _configured
+
+from core.logger import _configured, get_logger
 
 
 class TestLogger:

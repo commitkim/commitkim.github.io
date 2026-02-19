@@ -10,11 +10,10 @@ Usage:
     log = get_logger("news_briefing", log_dir="logs/")  # + file output
 """
 
-import sys
 import logging
-from pathlib import Path
+import sys
 from logging.handlers import TimedRotatingFileHandler
-
+from pathlib import Path
 
 # Default format matching the style already used in the project
 _DEFAULT_FMT = "%(asctime)s [%(levelname)s] %(name)s: %(message)s"

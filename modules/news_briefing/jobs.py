@@ -2,8 +2,8 @@
 News Briefing — Job definitions for the scheduler registry.
 """
 
-from core.scheduler.registry import JobDefinition
 from core.config import Config
+from core.scheduler.registry import JobDefinition
 
 
 def register_jobs(registry):

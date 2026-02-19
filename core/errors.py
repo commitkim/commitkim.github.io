@@ -21,7 +21,7 @@ Usage:
 import functools
 import time
 import traceback
-from typing import Callable, Any
+from typing import Any, Callable
 
 
 # ---------------------------------------------------------------------------

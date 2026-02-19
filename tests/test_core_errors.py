@@ -3,13 +3,14 @@ Unit tests for core.errors — exception hierarchy and @isolated decorator.
 """
 
 import pytest
+
 from core.errors import (
-    CommitKimError,
-    TradeExecutionError,
-    NewsCollectionError,
-    MessengerError,
     BuildError,
+    CommitKimError,
     ConfigError,
+    MessengerError,
+    NewsCollectionError,
+    TradeExecutionError,
     isolated,
     retry,
 )

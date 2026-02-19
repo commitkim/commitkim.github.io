@@ -4,8 +4,8 @@ CommitKim Core — Unix Cron Backend
 Translates JobDefinitions into crontab entries for Linux/macOS.
 """
 
-import subprocess
 import os
+import subprocess
 import sys
 from typing import List
 
@@ -47,7 +47,7 @@ class CronSchedulerBackend(SchedulerBackend):
         existing = self._read_crontab()
         cleaned = [line for line in existing if _MARKER not in line]
         self._write_crontab(cleaned)
-        log.info(f"🗑️ Removed all CommitKim cron entries")
+        log.info("🗑️ Removed all CommitKim cron entries")
 
     def list_installed(self) -> List[str]:
         existing = self._read_crontab()
