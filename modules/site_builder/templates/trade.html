@@ -84,7 +84,8 @@
         </div>
 
         <!-- Portfolio Table -->
-        <div class="bg-white rounded-[2rem] shadow-lg border border-slate-100 overflow-hidden mb-12">
+        <!-- Portfolio Table (Desktop) -->
+        <div class="hidden md:block bg-white rounded-[2rem] shadow-lg border border-slate-100 overflow-hidden mb-12">
             <div class="p-6 border-b border-slate-100 flex justify-between items-center bg-slate-50/50">
                 <h2 class="text-xl font-bold text-slate-800">📦 Portfolio Holdings</h2>
             </div>
@@ -135,37 +136,89 @@
             </div>
         </div>
 
+        <!-- Portfolio Cards (Mobile) -->
+        <div class="md:hidden space-y-4 mb-12">
+            <div class="flex justify-between items-center px-2 mb-2">
+                <h2 class="text-xl font-bold text-slate-800">📦 Portfolio</h2>
+            </div>
+            {% for currency, details in trade.positions.items() %}
+            {% if currency != 'KRW' and details.balance > 0 %}
+            <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-100">
+                <div class="flex justify-between items-center mb-3">
+                    <div class="flex items-center gap-2">
+                        <span class="font-bold text-lg text-slate-800">{{ currency }}</span>
+                    </div>
+                    <span class="px-2 py-1 rounded-md text-xs font-bold 
+                        {% if details.return_rate > 0 %} bg-red-50 text-red-600 
+                        {% elif details.return_rate < 0 %} bg-blue-50 text-blue-600 
+                        {% else %} bg-slate-100 text-slate-500 {% endif %}">
+                        {{ "{:+.2f}%".format(details.return_rate) }}
+                    </span>
+                </div>
+                <div class="grid grid-cols-2 gap-4 text-sm">
+                    <div>
+                        <p class="text-xs text-slate-400 mb-1">Balance</p>
+                        <p class="font-medium text-slate-700">{{ "{:,.4f}".format(details.balance) }}</p>
+                    </div>
+                    <div class="text-right">
+                        <p class="text-xs text-slate-400 mb-1">Value (KRW)</p>
+                        <p class="font-medium text-slate-700">₩ {{ "{:,.0f}".format(details.value) }}</p>
+                    </div>
+                    <div class="col-span-2 pt-3 border-t border-slate-50 flex justify-between items-center">
+                        <p class="text-xs text-slate-400">Avg Price</p>
+                        <p class="font-medium text-slate-600">₩ {{ "{:,.0f}".format(details.avg_buy_price) }}</p>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+            {% endfor %}
+
+            <!-- Empty State Mobile -->
+            {% set ns = namespace(count=0) %}
+            {% for c in trade.positions %}{% if c != 'KRW' %}{% set ns.count = ns.count + 1 %}{% endif %}{% endfor %}
+            {% if ns.count == 0 %}
+            <div class="p-8 text-center text-slate-400 bg-white rounded-2xl border border-slate-100">
+                No active positions.
+            </div>
+            {% endif %}
+        </div>
+
         <!-- Trade History -->
         <div class="bg-white rounded-[2rem] shadow-lg border border-slate-100 overflow-hidden"
             x-data="{ activeTab: 'ALL' }">
-            <div class="p-6 border-b border-slate-100 bg-slate-50/50 flex flex-wrap gap-4 justify-between items-center">
-                <h2 class="text-xl font-bold text-slate-800">📝 Recent Trade Logs</h2>
+            <div class="p-4 md:p-6 border-b border-slate-100 bg-slate-50/50">
+                <div class="flex flex-col gap-4">
+                    <!-- Row 1: Title & Filters -->
+                    <div class="flex cursor-default justify-between items-end md:items-center">
+                        <div>
+                            <h2 class="text-xl font-bold text-slate-800">📝 Recent Trade Logs</h2>
+                            <span class="text-[10px] text-slate-400">Max 1,000 logs (FIFO)</span>
+                        </div>
 
-                <div class="flex items-center gap-4">
-                    <span class="text-xs text-slate-400">Max 1,000 logs retained (FIFO)</span>
-
-                    <!-- View Filter -->
-                    <div class="flex bg-slate-100/80 rounded-lg p-1 border border-slate-200">
-                        <button onclick="setFilter('IMPORTANT')" id="filter-important"
-                            class="px-3 py-1.5 rounded-md text-xs font-bold transition-all bg-white text-blue-600 shadow-sm border border-slate-200">
-                            Action Only
-                        </button>
-                        <button onclick="setFilter('ALL')" id="filter-all"
-                            class="px-3 py-1.5 rounded-md text-xs font-bold transition-all text-slate-500 hover:text-slate-700">
-                            All Logs
-                        </button>
+                        <!-- Filter Toggle -->
+                        <div
+                            class="flex bg-white md:bg-slate-100/80 rounded-lg p-1 border border-slate-200 shadow-sm md:shadow-none">
+                            <button onclick="setFilter('IMPORTANT')" id="filter-important"
+                                class="px-3 py-1.5 rounded-md text-xs font-bold transition-all text-slate-500 hover:text-slate-700">
+                                Action Only
+                            </button>
+                            <button onclick="setFilter('ALL')" id="filter-all"
+                                class="px-3 py-1.5 rounded-md text-xs font-bold transition-all bg-white text-slate-800 shadow-sm border border-slate-200">
+                                All Logs
+                            </button>
+                        </div>
                     </div>
 
-                    <!-- Simple Tab Navigation -->
-                    <div class="flex gap-2 overflow-x-auto pb-2 md:pb-0 scrollbar-hide" id="coin-tabs">
+                    <!-- Row 2: Tabs (Scrollable) -->
+                    <div class="flex gap-2 overflow-x-auto w-full pb-1 scrollbar-hide" id="coin-tabs">
                         <button onclick="switchTab('ALL')"
-                            class="tab-btn active px-4 py-2 rounded-xl text-xs font-bold transition-all bg-slate-800 text-white shadow-md"
+                            class="tab-btn active px-4 py-2 rounded-xl text-xs font-bold transition-all bg-slate-800 text-white shadow-md flex-shrink-0"
                             data-tab="ALL">
                             ALL
                         </button>
                         {% for ticker in grouped_trades.keys()|sort %}
                         <button onclick="switchTab('{{ ticker }}')"
-                            class="tab-btn px-4 py-2 rounded-xl text-xs font-bold transition-all bg-white text-slate-500 hover:bg-slate-100 border border-slate-200"
+                            class="tab-btn px-4 py-2 rounded-xl text-xs font-bold transition-all bg-white text-slate-500 hover:bg-slate-100 border border-slate-200 flex-shrink-0"
                             data-tab="{{ ticker }}">
                             {{ ticker }}
                         </button>
@@ -219,6 +272,8 @@
                         {% else %}
                         <div class="p-12 text-center text-slate-400 font-medium">Trading history is empty.</div>
                         {% endif %}
+                        <div class="empty-msg hidden py-12 text-center text-slate-400 font-medium">No logs found for
+                            this filter.</div>
                 </div>
 
                 <!-- INDIVIDUAL COIN LOGS -->
@@ -226,23 +281,24 @@
                 <div id="tab-{{ ticker }}" class="tab-content hidden absolute inset-0 bg-white overflow-y-auto">
                     <!-- Chart Link Header -->
                     <div
-                        class="sticky top-0 z-10 bg-white/95 backdrop-blur-sm border-b border-slate-100 px-6 py-4 flex justify-between items-center shadow-sm">
+                        class="sticky top-0 z-10 bg-white/95 backdrop-blur-sm border-b border-slate-100 px-6 py-4 flex flex-wrap justify-between items-center gap-4 shadow-sm">
                         <div class="flex items-center gap-3">
                             <div
-                                class="w-10 h-10 rounded-full bg-slate-100 flex items-center justify-center text-xl font-bold text-slate-500">
+                                class="w-10 h-10 rounded-full bg-slate-100 flex items-center justify-center text-xl font-bold text-slate-500 flex-shrink-0">
                                 <!-- Simple icon placeholder based on ticker first letter -->
                                 {{ ticker.split('-')[1][0] }}
                             </div>
                             <div>
-                                <h3 class="text-lg font-bold text-slate-800 flex items-center gap-2">
+                                <h3 class="text-lg font-bold text-slate-800 flex items-center gap-2 flex-wrap">
                                     {{ coin_names[ticker] }}
-                                    <span class="text-xs font-bold text-slate-500 bg-slate-100 px-1.5 py-0.5 rounded">{{
+                                    <span
+                                        class="text-xs font-bold text-slate-500 bg-slate-100 px-1.5 py-0.5 rounded whitespace-nowrap">{{
                                         ticker }}</span>
                                 </h3>
                             </div>
                         </div>
                         <a href="https://upbit.com/exchange?code=CRIX.UPBIT.{{ ticker }}" target="_blank"
-                            class="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-blue-600 text-white text-sm font-bold hover:bg-blue-700 transition-all shadow-md hover:shadow-lg transform hover:-translate-y-0.5">
+                            class="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-blue-600 text-white text-sm font-bold hover:bg-blue-700 transition-all shadow-md hover:shadow-lg transform hover:-translate-y-0.5 flex-shrink-0 ml-auto md:ml-0">
                             <span>View Chart</span>
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
                                 fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
@@ -274,6 +330,8 @@
                         </div>
                     </div>
                     {% endfor %}
+                    <div class="empty-msg hidden py-12 text-center text-slate-400 font-medium">No logs found for this
+                        filter.</div>
                 </div>
                 {% endfor %}
             </div>
@@ -462,7 +520,7 @@
 
     <script>
         // Default Filter State
-        let currentFilter = 'IMPORTANT'; // Default to Important Only
+        let currentFilter = 'ALL'; // Default to All Logs
 
         document.addEventListener('DOMContentLoaded', () => {
             // Apply initial filter
@@ -501,6 +559,25 @@
                 } else {
                     // Show All
                     log.classList.remove('hidden-by-filter');
+                }
+            });
+            updateEmptyResults();
+        }
+
+        function updateEmptyResults() {
+            document.querySelectorAll('.tab-content').forEach(tab => {
+                const logs = tab.querySelectorAll('.log-item');
+                if (logs.length === 0) return; // No items at all (empty history)
+
+                const visible = tab.querySelectorAll('.log-item:not(.hidden-by-filter)');
+                const emptyMsg = tab.querySelector('.empty-msg');
+
+                if (emptyMsg) {
+                    if (visible.length === 0) {
+                        emptyMsg.classList.remove('hidden');
+                    } else {
+                        emptyMsg.classList.add('hidden');
+                    }
                 }
             });
         }

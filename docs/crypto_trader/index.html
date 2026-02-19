@@ -50,7 +50,7 @@
 
         <div class="mb-10 text-center">
             <h1 class="text-3xl font-bold text-slate-900 mb-2">🤖 AI Trading Status</h1>
-            <p class="text-slate-500">Updated: 2026-02-20 02:06:25</p>
+            <p class="text-slate-500">Updated: 2026-02-20 03:01:56</p>
         </div>
 
         <!-- KPI Cards -->
@@ -84,7 +84,8 @@
         </div>
 
         <!-- Portfolio Table -->
-        <div class="bg-white rounded-[2rem] shadow-lg border border-slate-100 overflow-hidden mb-12">
+        <!-- Portfolio Table (Desktop) -->
+        <div class="hidden md:block bg-white rounded-[2rem] shadow-lg border border-slate-100 overflow-hidden mb-12">
             <div class="p-6 border-b border-slate-100 flex justify-between items-center bg-slate-50/50">
                 <h2 class="text-xl font-bold text-slate-800">📦 Portfolio Holdings</h2>
             </div>
@@ -119,67 +120,91 @@
             </div>
         </div>
 
+        <!-- Portfolio Cards (Mobile) -->
+        <div class="md:hidden space-y-4 mb-12">
+            <div class="flex justify-between items-center px-2 mb-2">
+                <h2 class="text-xl font-bold text-slate-800">📦 Portfolio</h2>
+            </div>
+            
+            
+            
+
+            <!-- Empty State Mobile -->
+            
+            
+            
+            <div class="p-8 text-center text-slate-400 bg-white rounded-2xl border border-slate-100">
+                No active positions.
+            </div>
+            
+        </div>
+
         <!-- Trade History -->
         <div class="bg-white rounded-[2rem] shadow-lg border border-slate-100 overflow-hidden"
             x-data="{ activeTab: 'ALL' }">
-            <div class="p-6 border-b border-slate-100 bg-slate-50/50 flex flex-wrap gap-4 justify-between items-center">
-                <h2 class="text-xl font-bold text-slate-800">📝 Recent Trade Logs</h2>
+            <div class="p-4 md:p-6 border-b border-slate-100 bg-slate-50/50">
+                <div class="flex flex-col gap-4">
+                    <!-- Row 1: Title & Filters -->
+                    <div class="flex cursor-default justify-between items-end md:items-center">
+                        <div>
+                            <h2 class="text-xl font-bold text-slate-800">📝 Recent Trade Logs</h2>
+                            <span class="text-[10px] text-slate-400">Max 1,000 logs (FIFO)</span>
+                        </div>
 
-                <div class="flex items-center gap-4">
-                    <span class="text-xs text-slate-400">Max 1,000 logs retained (FIFO)</span>
-
-                    <!-- View Filter -->
-                    <div class="flex bg-slate-100/80 rounded-lg p-1 border border-slate-200">
-                        <button onclick="setFilter('IMPORTANT')" id="filter-important"
-                            class="px-3 py-1.5 rounded-md text-xs font-bold transition-all bg-white text-blue-600 shadow-sm border border-slate-200">
-                            Action Only
-                        </button>
-                        <button onclick="setFilter('ALL')" id="filter-all"
-                            class="px-3 py-1.5 rounded-md text-xs font-bold transition-all text-slate-500 hover:text-slate-700">
-                            All Logs
-                        </button>
+                        <!-- Filter Toggle -->
+                        <div
+                            class="flex bg-white md:bg-slate-100/80 rounded-lg p-1 border border-slate-200 shadow-sm md:shadow-none">
+                            <button onclick="setFilter('IMPORTANT')" id="filter-important"
+                                class="px-3 py-1.5 rounded-md text-xs font-bold transition-all text-slate-500 hover:text-slate-700">
+                                Action Only
+                            </button>
+                            <button onclick="setFilter('ALL')" id="filter-all"
+                                class="px-3 py-1.5 rounded-md text-xs font-bold transition-all bg-white text-slate-800 shadow-sm border border-slate-200">
+                                All Logs
+                            </button>
+                        </div>
                     </div>
 
-                    <!-- Simple Tab Navigation -->
-                    <div class="flex gap-2 overflow-x-auto pb-2 md:pb-0 scrollbar-hide" id="coin-tabs">
+                    <!-- Row 2: Tabs (Scrollable) -->
+                    <div class="flex gap-2 overflow-x-auto w-full pb-1 scrollbar-hide" id="coin-tabs">
                         <button onclick="switchTab('ALL')"
-                            class="tab-btn active px-4 py-2 rounded-xl text-xs font-bold transition-all bg-slate-800 text-white shadow-md"
+                            class="tab-btn active px-4 py-2 rounded-xl text-xs font-bold transition-all bg-slate-800 text-white shadow-md flex-shrink-0"
                             data-tab="ALL">
                             ALL
                         </button>
                         
                         <button onclick="switchTab('KRW-AVAX')"
-                            class="tab-btn px-4 py-2 rounded-xl text-xs font-bold transition-all bg-white text-slate-500 hover:bg-slate-100 border border-slate-200"
+                            class="tab-btn px-4 py-2 rounded-xl text-xs font-bold transition-all bg-white text-slate-500 hover:bg-slate-100 border border-slate-200 flex-shrink-0"
                             data-tab="KRW-AVAX">
                             KRW-AVAX
                         </button>
                         
                         <button onclick="switchTab('KRW-BTC')"
-                            class="tab-btn px-4 py-2 rounded-xl text-xs font-bold transition-all bg-white text-slate-500 hover:bg-slate-100 border border-slate-200"
+                            class="tab-btn px-4 py-2 rounded-xl text-xs font-bold transition-all bg-white text-slate-500 hover:bg-slate-100 border border-slate-200 flex-shrink-0"
                             data-tab="KRW-BTC">
                             KRW-BTC
                         </button>
                         
                         <button onclick="switchTab('KRW-DOGE')"
-                            class="tab-btn px-4 py-2 rounded-xl text-xs font-bold transition-all bg-white text-slate-500 hover:bg-slate-100 border border-slate-200"
+                            class="tab-btn px-4 py-2 rounded-xl text-xs font-bold transition-all bg-white text-slate-500 hover:bg-slate-100 border border-slate-200 flex-shrink-0"
                             data-tab="KRW-DOGE">
                             KRW-DOGE
                         </button>
                         
                         <button onclick="switchTab('KRW-ETH')"
-                            class="tab-btn px-4 py-2 rounded-xl text-xs font-bold transition-all bg-white text-slate-500 hover:bg-slate-100 border border-slate-200"
+                            class="tab-btn px-4 py-2 rounded-xl text-xs font-bold transition-all bg-white text-slate-500 hover:bg-slate-100 border border-slate-200 flex-shrink-0"
                             data-tab="KRW-ETH">
                             KRW-ETH
                         </button>
                         
                         <button onclick="switchTab('KRW-SOL')"
-                            class="tab-btn px-4 py-2 rounded-xl text-xs font-bold transition-all bg-white text-slate-500 hover:bg-slate-100 border border-slate-200"
+                            class="tab-btn px-4 py-2 rounded-xl text-xs font-bold transition-all bg-white text-slate-500 hover:bg-slate-100 border border-slate-200 flex-shrink-0"
                             data-tab="KRW-SOL">
                             KRW-SOL
                         </button>
                         
                         <button onclick="switchTab('KRW-XRP')"
-                            class="tab-btn px-4 py-2 rounded-xl text-xs font-bold transition-all bg-white text-slate-500 hover:bg-slate-100 border border-slate-200"
+                            class="tab-btn px-4 py-2 rounded-xl text-xs font-bold transition-all bg-white text-slate-500 hover:bg-slate-100 border border-slate-200 flex-shrink-0"
                             data-tab="KRW-XRP">
                             KRW-XRP
                         </button>
@@ -193,6 +218,216 @@
                 <div id="tab-ALL" class="tab-content transition-opacity duration-300">
                     
                     
+                     <!-- Show max 1000 -->
+                        <div class="p-6 hover:bg-slate-50 transition-colors log-item"
+                            data-decision="hold">
+                            <div class="flex items-start justify-between mb-2">
+                                <div class="flex items-center gap-3">
+                                    <span class="px-2.5 py-1 rounded-lg text-xs font-black uppercase tracking-wide
+                                         bg-slate-100 text-slate-500 ">
+                                        hold
+                                    </span>
+                                    <h3
+                                        class="text-lg font-bold text-slate-800 group-hover:text-blue-600 transition-colors flex items-center gap-2">
+                                        <span>KRW-DOGE</span>
+                                        <a href="https://upbit.com/exchange?code=CRIX.UPBIT.KRW-DOGE"
+                                            target="_blank" class="text-slate-400 hover:text-blue-600 transition-colors"
+                                            title="View Chart">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                                viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                                stroke-linecap="round" stroke-linejoin="round"
+                                                class="lucide lucide-bar-chart-2">
+                                                <line x1="18" x2="18" y1="20" y2="10" />
+                                                <line x1="12" x2="12" y1="20" y2="4" />
+                                                <line x1="6" x2="6" y1="20" y2="14" />
+                                            </svg>
+                                        </a>
+                                    </h3>
+                                    <span class="text-xs font-medium text-slate-400">02/20 03:01</span>
+                                </div>
+                            </div>
+                            <div
+                                class="text-slate-600 text-sm leading-relaxed bg-slate-50 p-3 rounded-xl border border-slate-100">
+                                <ul class='list-disc pl-5 space-y-1 mt-1'><li>📉 현재 가격이 장기 이동평균선(60일선) 아래에 있어 하락세가 강합니다. 안전을 위해 매수를 보류했습니다.</li></ul>
+                            </div>
+                        </div>
+                        
+                        
+                     <!-- Show max 1000 -->
+                        <div class="p-6 hover:bg-slate-50 transition-colors log-item"
+                            data-decision="hold">
+                            <div class="flex items-start justify-between mb-2">
+                                <div class="flex items-center gap-3">
+                                    <span class="px-2.5 py-1 rounded-lg text-xs font-black uppercase tracking-wide
+                                         bg-slate-100 text-slate-500 ">
+                                        hold
+                                    </span>
+                                    <h3
+                                        class="text-lg font-bold text-slate-800 group-hover:text-blue-600 transition-colors flex items-center gap-2">
+                                        <span>KRW-AVAX</span>
+                                        <a href="https://upbit.com/exchange?code=CRIX.UPBIT.KRW-AVAX"
+                                            target="_blank" class="text-slate-400 hover:text-blue-600 transition-colors"
+                                            title="View Chart">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                                viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                                stroke-linecap="round" stroke-linejoin="round"
+                                                class="lucide lucide-bar-chart-2">
+                                                <line x1="18" x2="18" y1="20" y2="10" />
+                                                <line x1="12" x2="12" y1="20" y2="4" />
+                                                <line x1="6" x2="6" y1="20" y2="14" />
+                                            </svg>
+                                        </a>
+                                    </h3>
+                                    <span class="text-xs font-medium text-slate-400">02/20 03:01</span>
+                                </div>
+                            </div>
+                            <div
+                                class="text-slate-600 text-sm leading-relaxed bg-slate-50 p-3 rounded-xl border border-slate-100">
+                                <ul class='list-disc pl-5 space-y-1 mt-1'><li>📉 현재 가격이 장기 이동평균선(60일선) 아래에 있어 하락세가 강합니다. 안전을 위해 매수를 보류했습니다.</li></ul>
+                            </div>
+                        </div>
+                        
+                        
+                     <!-- Show max 1000 -->
+                        <div class="p-6 hover:bg-slate-50 transition-colors log-item"
+                            data-decision="hold">
+                            <div class="flex items-start justify-between mb-2">
+                                <div class="flex items-center gap-3">
+                                    <span class="px-2.5 py-1 rounded-lg text-xs font-black uppercase tracking-wide
+                                         bg-slate-100 text-slate-500 ">
+                                        hold
+                                    </span>
+                                    <h3
+                                        class="text-lg font-bold text-slate-800 group-hover:text-blue-600 transition-colors flex items-center gap-2">
+                                        <span>KRW-SOL</span>
+                                        <a href="https://upbit.com/exchange?code=CRIX.UPBIT.KRW-SOL"
+                                            target="_blank" class="text-slate-400 hover:text-blue-600 transition-colors"
+                                            title="View Chart">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                                viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                                stroke-linecap="round" stroke-linejoin="round"
+                                                class="lucide lucide-bar-chart-2">
+                                                <line x1="18" x2="18" y1="20" y2="10" />
+                                                <line x1="12" x2="12" y1="20" y2="4" />
+                                                <line x1="6" x2="6" y1="20" y2="14" />
+                                            </svg>
+                                        </a>
+                                    </h3>
+                                    <span class="text-xs font-medium text-slate-400">02/20 03:01</span>
+                                </div>
+                            </div>
+                            <div
+                                class="text-slate-600 text-sm leading-relaxed bg-slate-50 p-3 rounded-xl border border-slate-100">
+                                <ul class='list-disc pl-5 space-y-1 mt-1'><li>📉 현재 가격이 장기 이동평균선(60일선) 아래에 있어 하락세가 강합니다. 안전을 위해 매수를 보류했습니다.</li></ul>
+                            </div>
+                        </div>
+                        
+                        
+                     <!-- Show max 1000 -->
+                        <div class="p-6 hover:bg-slate-50 transition-colors log-item"
+                            data-decision="hold">
+                            <div class="flex items-start justify-between mb-2">
+                                <div class="flex items-center gap-3">
+                                    <span class="px-2.5 py-1 rounded-lg text-xs font-black uppercase tracking-wide
+                                         bg-slate-100 text-slate-500 ">
+                                        hold
+                                    </span>
+                                    <h3
+                                        class="text-lg font-bold text-slate-800 group-hover:text-blue-600 transition-colors flex items-center gap-2">
+                                        <span>KRW-XRP</span>
+                                        <a href="https://upbit.com/exchange?code=CRIX.UPBIT.KRW-XRP"
+                                            target="_blank" class="text-slate-400 hover:text-blue-600 transition-colors"
+                                            title="View Chart">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                                viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                                stroke-linecap="round" stroke-linejoin="round"
+                                                class="lucide lucide-bar-chart-2">
+                                                <line x1="18" x2="18" y1="20" y2="10" />
+                                                <line x1="12" x2="12" y1="20" y2="4" />
+                                                <line x1="6" x2="6" y1="20" y2="14" />
+                                            </svg>
+                                        </a>
+                                    </h3>
+                                    <span class="text-xs font-medium text-slate-400">02/20 03:01</span>
+                                </div>
+                            </div>
+                            <div
+                                class="text-slate-600 text-sm leading-relaxed bg-slate-50 p-3 rounded-xl border border-slate-100">
+                                <ul class='list-disc pl-5 space-y-1 mt-1'><li>📉 현재 가격이 장기 이동평균선(60일선) 아래에 있어 하락세가 강합니다. 안전을 위해 매수를 보류했습니다.</li></ul>
+                            </div>
+                        </div>
+                        
+                        
+                     <!-- Show max 1000 -->
+                        <div class="p-6 hover:bg-slate-50 transition-colors log-item"
+                            data-decision="hold">
+                            <div class="flex items-start justify-between mb-2">
+                                <div class="flex items-center gap-3">
+                                    <span class="px-2.5 py-1 rounded-lg text-xs font-black uppercase tracking-wide
+                                         bg-slate-100 text-slate-500 ">
+                                        hold
+                                    </span>
+                                    <h3
+                                        class="text-lg font-bold text-slate-800 group-hover:text-blue-600 transition-colors flex items-center gap-2">
+                                        <span>KRW-ETH</span>
+                                        <a href="https://upbit.com/exchange?code=CRIX.UPBIT.KRW-ETH"
+                                            target="_blank" class="text-slate-400 hover:text-blue-600 transition-colors"
+                                            title="View Chart">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                                viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                                stroke-linecap="round" stroke-linejoin="round"
+                                                class="lucide lucide-bar-chart-2">
+                                                <line x1="18" x2="18" y1="20" y2="10" />
+                                                <line x1="12" x2="12" y1="20" y2="4" />
+                                                <line x1="6" x2="6" y1="20" y2="14" />
+                                            </svg>
+                                        </a>
+                                    </h3>
+                                    <span class="text-xs font-medium text-slate-400">02/20 03:01</span>
+                                </div>
+                            </div>
+                            <div
+                                class="text-slate-600 text-sm leading-relaxed bg-slate-50 p-3 rounded-xl border border-slate-100">
+                                <ul class='list-disc pl-5 space-y-1 mt-1'><li>📉 현재 가격이 장기 이동평균선(60일선) 아래에 있어 하락세가 강합니다. 안전을 위해 매수를 보류했습니다.</li></ul>
+                            </div>
+                        </div>
+                        
+                        
+                     <!-- Show max 1000 -->
+                        <div class="p-6 hover:bg-slate-50 transition-colors log-item"
+                            data-decision="hold">
+                            <div class="flex items-start justify-between mb-2">
+                                <div class="flex items-center gap-3">
+                                    <span class="px-2.5 py-1 rounded-lg text-xs font-black uppercase tracking-wide
+                                         bg-slate-100 text-slate-500 ">
+                                        hold
+                                    </span>
+                                    <h3
+                                        class="text-lg font-bold text-slate-800 group-hover:text-blue-600 transition-colors flex items-center gap-2">
+                                        <span>KRW-BTC</span>
+                                        <a href="https://upbit.com/exchange?code=CRIX.UPBIT.KRW-BTC"
+                                            target="_blank" class="text-slate-400 hover:text-blue-600 transition-colors"
+                                            title="View Chart">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                                viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                                stroke-linecap="round" stroke-linejoin="round"
+                                                class="lucide lucide-bar-chart-2">
+                                                <line x1="18" x2="18" y1="20" y2="10" />
+                                                <line x1="12" x2="12" y1="20" y2="4" />
+                                                <line x1="6" x2="6" y1="20" y2="14" />
+                                            </svg>
+                                        </a>
+                                    </h3>
+                                    <span class="text-xs font-medium text-slate-400">02/20 03:01</span>
+                                </div>
+                            </div>
+                            <div
+                                class="text-slate-600 text-sm leading-relaxed bg-slate-50 p-3 rounded-xl border border-slate-100">
+                                <ul class='list-disc pl-5 space-y-1 mt-1'><li>📉 현재 가격이 장기 이동평균선(60일선) 아래에 있어 하락세가 강합니다. 안전을 위해 매수를 보류했습니다.</li></ul>
+                            </div>
+                        </div>
+                        
+                        
                      <!-- Show max 1000 -->
                         <div class="p-6 hover:bg-slate-50 transition-colors log-item"
                             data-decision="hold">
@@ -4114,6 +4349,8 @@
                         
                         
                         
+                        <div class="empty-msg hidden py-12 text-center text-slate-400 font-medium">No logs found for
+                            this filter.</div>
                 </div>
 
                 <!-- INDIVIDUAL COIN LOGS -->
@@ -4121,22 +4358,23 @@
                 <div id="tab-KRW-XRP" class="tab-content hidden absolute inset-0 bg-white overflow-y-auto">
                     <!-- Chart Link Header -->
                     <div
-                        class="sticky top-0 z-10 bg-white/95 backdrop-blur-sm border-b border-slate-100 px-6 py-4 flex justify-between items-center shadow-sm">
+                        class="sticky top-0 z-10 bg-white/95 backdrop-blur-sm border-b border-slate-100 px-6 py-4 flex flex-wrap justify-between items-center gap-4 shadow-sm">
                         <div class="flex items-center gap-3">
                             <div
-                                class="w-10 h-10 rounded-full bg-slate-100 flex items-center justify-center text-xl font-bold text-slate-500">
+                                class="w-10 h-10 rounded-full bg-slate-100 flex items-center justify-center text-xl font-bold text-slate-500 flex-shrink-0">
                                 <!-- Simple icon placeholder based on ticker first letter -->
                                 X
                             </div>
                             <div>
-                                <h3 class="text-lg font-bold text-slate-800 flex items-center gap-2">
+                                <h3 class="text-lg font-bold text-slate-800 flex items-center gap-2 flex-wrap">
                                     리플
-                                    <span class="text-xs font-bold text-slate-500 bg-slate-100 px-1.5 py-0.5 rounded">KRW-XRP</span>
+                                    <span
+                                        class="text-xs font-bold text-slate-500 bg-slate-100 px-1.5 py-0.5 rounded whitespace-nowrap">KRW-XRP</span>
                                 </h3>
                             </div>
                         </div>
                         <a href="https://upbit.com/exchange?code=CRIX.UPBIT.KRW-XRP" target="_blank"
-                            class="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-blue-600 text-white text-sm font-bold hover:bg-blue-700 transition-all shadow-md hover:shadow-lg transform hover:-translate-y-0.5">
+                            class="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-blue-600 text-white text-sm font-bold hover:bg-blue-700 transition-all shadow-md hover:shadow-lg transform hover:-translate-y-0.5 flex-shrink-0 ml-auto md:ml-0">
                             <span>View Chart</span>
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
                                 fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
@@ -4148,6 +4386,23 @@
                         </a>
                     </div>
 
+                    
+                    <div class="p-6 hover:bg-slate-50 transition-colors border-b border-slate-100 log-item"
+                        data-decision="hold">
+                        <div class="flex items-start justify-between mb-2">
+                            <div class="flex items-center gap-3">
+                                <span class="px-2.5 py-1 rounded-lg text-xs font-black uppercase tracking-wide
+                                         bg-slate-100 text-slate-500 ">
+                                    hold
+                                </span>
+                                <span class="text-xs font-medium text-slate-400">02/20 03:01</span>
+                            </div>
+                        </div>
+                        <div
+                            class="text-slate-600 text-sm leading-relaxed bg-slate-50 p-3 rounded-xl border border-slate-100">
+                            <ul class='list-disc pl-5 space-y-1 mt-1'><li>📉 현재 가격이 장기 이동평균선(60일선) 아래에 있어 하락세가 강합니다. 안전을 위해 매수를 보류했습니다.</li></ul>
+                        </div>
+                    </div>
                     
                     <div class="p-6 hover:bg-slate-50 transition-colors border-b border-slate-100 log-item"
                         data-decision="hold">
@@ -4472,27 +4727,30 @@
                         </div>
                     </div>
                     
+                    <div class="empty-msg hidden py-12 text-center text-slate-400 font-medium">No logs found for this
+                        filter.</div>
                 </div>
                 
                 <div id="tab-KRW-SOL" class="tab-content hidden absolute inset-0 bg-white overflow-y-auto">
                     <!-- Chart Link Header -->
                     <div
-                        class="sticky top-0 z-10 bg-white/95 backdrop-blur-sm border-b border-slate-100 px-6 py-4 flex justify-between items-center shadow-sm">
+                        class="sticky top-0 z-10 bg-white/95 backdrop-blur-sm border-b border-slate-100 px-6 py-4 flex flex-wrap justify-between items-center gap-4 shadow-sm">
                         <div class="flex items-center gap-3">
                             <div
-                                class="w-10 h-10 rounded-full bg-slate-100 flex items-center justify-center text-xl font-bold text-slate-500">
+                                class="w-10 h-10 rounded-full bg-slate-100 flex items-center justify-center text-xl font-bold text-slate-500 flex-shrink-0">
                                 <!-- Simple icon placeholder based on ticker first letter -->
                                 S
                             </div>
                             <div>
-                                <h3 class="text-lg font-bold text-slate-800 flex items-center gap-2">
+                                <h3 class="text-lg font-bold text-slate-800 flex items-center gap-2 flex-wrap">
                                     솔라나
-                                    <span class="text-xs font-bold text-slate-500 bg-slate-100 px-1.5 py-0.5 rounded">KRW-SOL</span>
+                                    <span
+                                        class="text-xs font-bold text-slate-500 bg-slate-100 px-1.5 py-0.5 rounded whitespace-nowrap">KRW-SOL</span>
                                 </h3>
                             </div>
                         </div>
                         <a href="https://upbit.com/exchange?code=CRIX.UPBIT.KRW-SOL" target="_blank"
-                            class="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-blue-600 text-white text-sm font-bold hover:bg-blue-700 transition-all shadow-md hover:shadow-lg transform hover:-translate-y-0.5">
+                            class="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-blue-600 text-white text-sm font-bold hover:bg-blue-700 transition-all shadow-md hover:shadow-lg transform hover:-translate-y-0.5 flex-shrink-0 ml-auto md:ml-0">
                             <span>View Chart</span>
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
                                 fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
@@ -4504,6 +4762,23 @@
                         </a>
                     </div>
 
+                    
+                    <div class="p-6 hover:bg-slate-50 transition-colors border-b border-slate-100 log-item"
+                        data-decision="hold">
+                        <div class="flex items-start justify-between mb-2">
+                            <div class="flex items-center gap-3">
+                                <span class="px-2.5 py-1 rounded-lg text-xs font-black uppercase tracking-wide
+                                         bg-slate-100 text-slate-500 ">
+                                    hold
+                                </span>
+                                <span class="text-xs font-medium text-slate-400">02/20 03:01</span>
+                            </div>
+                        </div>
+                        <div
+                            class="text-slate-600 text-sm leading-relaxed bg-slate-50 p-3 rounded-xl border border-slate-100">
+                            <ul class='list-disc pl-5 space-y-1 mt-1'><li>📉 현재 가격이 장기 이동평균선(60일선) 아래에 있어 하락세가 강합니다. 안전을 위해 매수를 보류했습니다.</li></ul>
+                        </div>
+                    </div>
                     
                     <div class="p-6 hover:bg-slate-50 transition-colors border-b border-slate-100 log-item"
                         data-decision="hold">
@@ -4828,27 +5103,30 @@
                         </div>
                     </div>
                     
+                    <div class="empty-msg hidden py-12 text-center text-slate-400 font-medium">No logs found for this
+                        filter.</div>
                 </div>
                 
                 <div id="tab-KRW-AVAX" class="tab-content hidden absolute inset-0 bg-white overflow-y-auto">
                     <!-- Chart Link Header -->
                     <div
-                        class="sticky top-0 z-10 bg-white/95 backdrop-blur-sm border-b border-slate-100 px-6 py-4 flex justify-between items-center shadow-sm">
+                        class="sticky top-0 z-10 bg-white/95 backdrop-blur-sm border-b border-slate-100 px-6 py-4 flex flex-wrap justify-between items-center gap-4 shadow-sm">
                         <div class="flex items-center gap-3">
                             <div
-                                class="w-10 h-10 rounded-full bg-slate-100 flex items-center justify-center text-xl font-bold text-slate-500">
+                                class="w-10 h-10 rounded-full bg-slate-100 flex items-center justify-center text-xl font-bold text-slate-500 flex-shrink-0">
                                 <!-- Simple icon placeholder based on ticker first letter -->
                                 A
                             </div>
                             <div>
-                                <h3 class="text-lg font-bold text-slate-800 flex items-center gap-2">
+                                <h3 class="text-lg font-bold text-slate-800 flex items-center gap-2 flex-wrap">
                                     아발란체
-                                    <span class="text-xs font-bold text-slate-500 bg-slate-100 px-1.5 py-0.5 rounded">KRW-AVAX</span>
+                                    <span
+                                        class="text-xs font-bold text-slate-500 bg-slate-100 px-1.5 py-0.5 rounded whitespace-nowrap">KRW-AVAX</span>
                                 </h3>
                             </div>
                         </div>
                         <a href="https://upbit.com/exchange?code=CRIX.UPBIT.KRW-AVAX" target="_blank"
-                            class="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-blue-600 text-white text-sm font-bold hover:bg-blue-700 transition-all shadow-md hover:shadow-lg transform hover:-translate-y-0.5">
+                            class="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-blue-600 text-white text-sm font-bold hover:bg-blue-700 transition-all shadow-md hover:shadow-lg transform hover:-translate-y-0.5 flex-shrink-0 ml-auto md:ml-0">
                             <span>View Chart</span>
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
                                 fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
@@ -4860,6 +5138,23 @@
                         </a>
                     </div>
 
+                    
+                    <div class="p-6 hover:bg-slate-50 transition-colors border-b border-slate-100 log-item"
+                        data-decision="hold">
+                        <div class="flex items-start justify-between mb-2">
+                            <div class="flex items-center gap-3">
+                                <span class="px-2.5 py-1 rounded-lg text-xs font-black uppercase tracking-wide
+                                         bg-slate-100 text-slate-500 ">
+                                    hold
+                                </span>
+                                <span class="text-xs font-medium text-slate-400">02/20 03:01</span>
+                            </div>
+                        </div>
+                        <div
+                            class="text-slate-600 text-sm leading-relaxed bg-slate-50 p-3 rounded-xl border border-slate-100">
+                            <ul class='list-disc pl-5 space-y-1 mt-1'><li>📉 현재 가격이 장기 이동평균선(60일선) 아래에 있어 하락세가 강합니다. 안전을 위해 매수를 보류했습니다.</li></ul>
+                        </div>
+                    </div>
                     
                     <div class="p-6 hover:bg-slate-50 transition-colors border-b border-slate-100 log-item"
                         data-decision="hold">
@@ -5184,27 +5479,30 @@
                         </div>
                     </div>
                     
+                    <div class="empty-msg hidden py-12 text-center text-slate-400 font-medium">No logs found for this
+                        filter.</div>
                 </div>
                 
                 <div id="tab-KRW-DOGE" class="tab-content hidden absolute inset-0 bg-white overflow-y-auto">
                     <!-- Chart Link Header -->
                     <div
-                        class="sticky top-0 z-10 bg-white/95 backdrop-blur-sm border-b border-slate-100 px-6 py-4 flex justify-between items-center shadow-sm">
+                        class="sticky top-0 z-10 bg-white/95 backdrop-blur-sm border-b border-slate-100 px-6 py-4 flex flex-wrap justify-between items-center gap-4 shadow-sm">
                         <div class="flex items-center gap-3">
                             <div
-                                class="w-10 h-10 rounded-full bg-slate-100 flex items-center justify-center text-xl font-bold text-slate-500">
+                                class="w-10 h-10 rounded-full bg-slate-100 flex items-center justify-center text-xl font-bold text-slate-500 flex-shrink-0">
                                 <!-- Simple icon placeholder based on ticker first letter -->
                                 D
                             </div>
                             <div>
-                                <h3 class="text-lg font-bold text-slate-800 flex items-center gap-2">
+                                <h3 class="text-lg font-bold text-slate-800 flex items-center gap-2 flex-wrap">
                                     도지코인
-                                    <span class="text-xs font-bold text-slate-500 bg-slate-100 px-1.5 py-0.5 rounded">KRW-DOGE</span>
+                                    <span
+                                        class="text-xs font-bold text-slate-500 bg-slate-100 px-1.5 py-0.5 rounded whitespace-nowrap">KRW-DOGE</span>
                                 </h3>
                             </div>
                         </div>
                         <a href="https://upbit.com/exchange?code=CRIX.UPBIT.KRW-DOGE" target="_blank"
-                            class="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-blue-600 text-white text-sm font-bold hover:bg-blue-700 transition-all shadow-md hover:shadow-lg transform hover:-translate-y-0.5">
+                            class="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-blue-600 text-white text-sm font-bold hover:bg-blue-700 transition-all shadow-md hover:shadow-lg transform hover:-translate-y-0.5 flex-shrink-0 ml-auto md:ml-0">
                             <span>View Chart</span>
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
                                 fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
@@ -5216,6 +5514,23 @@
                         </a>
                     </div>
 
+                    
+                    <div class="p-6 hover:bg-slate-50 transition-colors border-b border-slate-100 log-item"
+                        data-decision="hold">
+                        <div class="flex items-start justify-between mb-2">
+                            <div class="flex items-center gap-3">
+                                <span class="px-2.5 py-1 rounded-lg text-xs font-black uppercase tracking-wide
+                                         bg-slate-100 text-slate-500 ">
+                                    hold
+                                </span>
+                                <span class="text-xs font-medium text-slate-400">02/20 03:01</span>
+                            </div>
+                        </div>
+                        <div
+                            class="text-slate-600 text-sm leading-relaxed bg-slate-50 p-3 rounded-xl border border-slate-100">
+                            <ul class='list-disc pl-5 space-y-1 mt-1'><li>📉 현재 가격이 장기 이동평균선(60일선) 아래에 있어 하락세가 강합니다. 안전을 위해 매수를 보류했습니다.</li></ul>
+                        </div>
+                    </div>
                     
                     <div class="p-6 hover:bg-slate-50 transition-colors border-b border-slate-100 log-item"
                         data-decision="hold">
@@ -5540,27 +5855,30 @@
                         </div>
                     </div>
                     
+                    <div class="empty-msg hidden py-12 text-center text-slate-400 font-medium">No logs found for this
+                        filter.</div>
                 </div>
                 
                 <div id="tab-KRW-BTC" class="tab-content hidden absolute inset-0 bg-white overflow-y-auto">
                     <!-- Chart Link Header -->
                     <div
-                        class="sticky top-0 z-10 bg-white/95 backdrop-blur-sm border-b border-slate-100 px-6 py-4 flex justify-between items-center shadow-sm">
+                        class="sticky top-0 z-10 bg-white/95 backdrop-blur-sm border-b border-slate-100 px-6 py-4 flex flex-wrap justify-between items-center gap-4 shadow-sm">
                         <div class="flex items-center gap-3">
                             <div
-                                class="w-10 h-10 rounded-full bg-slate-100 flex items-center justify-center text-xl font-bold text-slate-500">
+                                class="w-10 h-10 rounded-full bg-slate-100 flex items-center justify-center text-xl font-bold text-slate-500 flex-shrink-0">
                                 <!-- Simple icon placeholder based on ticker first letter -->
                                 B
                             </div>
                             <div>
-                                <h3 class="text-lg font-bold text-slate-800 flex items-center gap-2">
+                                <h3 class="text-lg font-bold text-slate-800 flex items-center gap-2 flex-wrap">
                                     비트코인
-                                    <span class="text-xs font-bold text-slate-500 bg-slate-100 px-1.5 py-0.5 rounded">KRW-BTC</span>
+                                    <span
+                                        class="text-xs font-bold text-slate-500 bg-slate-100 px-1.5 py-0.5 rounded whitespace-nowrap">KRW-BTC</span>
                                 </h3>
                             </div>
                         </div>
                         <a href="https://upbit.com/exchange?code=CRIX.UPBIT.KRW-BTC" target="_blank"
-                            class="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-blue-600 text-white text-sm font-bold hover:bg-blue-700 transition-all shadow-md hover:shadow-lg transform hover:-translate-y-0.5">
+                            class="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-blue-600 text-white text-sm font-bold hover:bg-blue-700 transition-all shadow-md hover:shadow-lg transform hover:-translate-y-0.5 flex-shrink-0 ml-auto md:ml-0">
                             <span>View Chart</span>
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
                                 fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
@@ -5572,6 +5890,23 @@
                         </a>
                     </div>
 
+                    
+                    <div class="p-6 hover:bg-slate-50 transition-colors border-b border-slate-100 log-item"
+                        data-decision="hold">
+                        <div class="flex items-start justify-between mb-2">
+                            <div class="flex items-center gap-3">
+                                <span class="px-2.5 py-1 rounded-lg text-xs font-black uppercase tracking-wide
+                                         bg-slate-100 text-slate-500 ">
+                                    hold
+                                </span>
+                                <span class="text-xs font-medium text-slate-400">02/20 03:01</span>
+                            </div>
+                        </div>
+                        <div
+                            class="text-slate-600 text-sm leading-relaxed bg-slate-50 p-3 rounded-xl border border-slate-100">
+                            <ul class='list-disc pl-5 space-y-1 mt-1'><li>📉 현재 가격이 장기 이동평균선(60일선) 아래에 있어 하락세가 강합니다. 안전을 위해 매수를 보류했습니다.</li></ul>
+                        </div>
+                    </div>
                     
                     <div class="p-6 hover:bg-slate-50 transition-colors border-b border-slate-100 log-item"
                         data-decision="hold">
@@ -5879,27 +6214,30 @@
                         </div>
                     </div>
                     
+                    <div class="empty-msg hidden py-12 text-center text-slate-400 font-medium">No logs found for this
+                        filter.</div>
                 </div>
                 
                 <div id="tab-KRW-ETH" class="tab-content hidden absolute inset-0 bg-white overflow-y-auto">
                     <!-- Chart Link Header -->
                     <div
-                        class="sticky top-0 z-10 bg-white/95 backdrop-blur-sm border-b border-slate-100 px-6 py-4 flex justify-between items-center shadow-sm">
+                        class="sticky top-0 z-10 bg-white/95 backdrop-blur-sm border-b border-slate-100 px-6 py-4 flex flex-wrap justify-between items-center gap-4 shadow-sm">
                         <div class="flex items-center gap-3">
                             <div
-                                class="w-10 h-10 rounded-full bg-slate-100 flex items-center justify-center text-xl font-bold text-slate-500">
+                                class="w-10 h-10 rounded-full bg-slate-100 flex items-center justify-center text-xl font-bold text-slate-500 flex-shrink-0">
                                 <!-- Simple icon placeholder based on ticker first letter -->
                                 E
                             </div>
                             <div>
-                                <h3 class="text-lg font-bold text-slate-800 flex items-center gap-2">
+                                <h3 class="text-lg font-bold text-slate-800 flex items-center gap-2 flex-wrap">
                                     이더리움
-                                    <span class="text-xs font-bold text-slate-500 bg-slate-100 px-1.5 py-0.5 rounded">KRW-ETH</span>
+                                    <span
+                                        class="text-xs font-bold text-slate-500 bg-slate-100 px-1.5 py-0.5 rounded whitespace-nowrap">KRW-ETH</span>
                                 </h3>
                             </div>
                         </div>
                         <a href="https://upbit.com/exchange?code=CRIX.UPBIT.KRW-ETH" target="_blank"
-                            class="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-blue-600 text-white text-sm font-bold hover:bg-blue-700 transition-all shadow-md hover:shadow-lg transform hover:-translate-y-0.5">
+                            class="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-blue-600 text-white text-sm font-bold hover:bg-blue-700 transition-all shadow-md hover:shadow-lg transform hover:-translate-y-0.5 flex-shrink-0 ml-auto md:ml-0">
                             <span>View Chart</span>
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
                                 fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
@@ -5911,6 +6249,23 @@
                         </a>
                     </div>
 
+                    
+                    <div class="p-6 hover:bg-slate-50 transition-colors border-b border-slate-100 log-item"
+                        data-decision="hold">
+                        <div class="flex items-start justify-between mb-2">
+                            <div class="flex items-center gap-3">
+                                <span class="px-2.5 py-1 rounded-lg text-xs font-black uppercase tracking-wide
+                                         bg-slate-100 text-slate-500 ">
+                                    hold
+                                </span>
+                                <span class="text-xs font-medium text-slate-400">02/20 03:01</span>
+                            </div>
+                        </div>
+                        <div
+                            class="text-slate-600 text-sm leading-relaxed bg-slate-50 p-3 rounded-xl border border-slate-100">
+                            <ul class='list-disc pl-5 space-y-1 mt-1'><li>📉 현재 가격이 장기 이동평균선(60일선) 아래에 있어 하락세가 강합니다. 안전을 위해 매수를 보류했습니다.</li></ul>
+                        </div>
+                    </div>
                     
                     <div class="p-6 hover:bg-slate-50 transition-colors border-b border-slate-100 log-item"
                         data-decision="hold">
@@ -6218,6 +6573,8 @@
                         </div>
                     </div>
                     
+                    <div class="empty-msg hidden py-12 text-center text-slate-400 font-medium">No logs found for this
+                        filter.</div>
                 </div>
                 
             </div>
@@ -6406,7 +6763,7 @@
 
     <script>
         // Default Filter State
-        let currentFilter = 'IMPORTANT'; // Default to Important Only
+        let currentFilter = 'ALL'; // Default to All Logs
 
         document.addEventListener('DOMContentLoaded', () => {
             // Apply initial filter
@@ -6445,6 +6802,25 @@
                 } else {
                     // Show All
                     log.classList.remove('hidden-by-filter');
+                }
+            });
+            updateEmptyResults();
+        }
+
+        function updateEmptyResults() {
+            document.querySelectorAll('.tab-content').forEach(tab => {
+                const logs = tab.querySelectorAll('.log-item');
+                if (logs.length === 0) return; // No items at all (empty history)
+
+                const visible = tab.querySelectorAll('.log-item:not(.hidden-by-filter)');
+                const emptyMsg = tab.querySelector('.empty-msg');
+
+                if (emptyMsg) {
+                    if (visible.length === 0) {
+                        emptyMsg.classList.remove('hidden');
+                    } else {
+                        emptyMsg.classList.add('hidden');
+                    }
                 }
             });
         }
