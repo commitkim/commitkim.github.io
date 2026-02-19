@@ -66,7 +66,7 @@ def get_logger(
         stream = NoCloseTextIOWrapper(
             sys.stdout.buffer, encoding="utf-8", errors="replace",
         )
-    
+
     console = logging.StreamHandler(stream)
     console.setFormatter(formatter)
     console.setLevel(level)

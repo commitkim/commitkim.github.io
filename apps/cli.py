@@ -114,11 +114,11 @@ def _run_tests():
     import sys
 
     log.info("Running tests before deploy...")
-    
+
     # Run pytest
     # We use sys.executable to ensure we use the same python interpreter
     cmd = [sys.executable, "-m", "pytest", "tests/"]
-    
+
     try:
         result = subprocess.run(cmd, check=False)
         if result.returncode != 0:
