@@ -77,8 +77,9 @@ def _run_trader(args):
     trader = CryptoTrader()
     trader.run_cycle()
 
-    # Build & Deploy to update dashboard
-    _build_and_deploy()
+    # Build & Deploy to update dashboard (skip in CI)
+    if not getattr(args, 'no_deploy', False):
+        _build_and_deploy()
 
 
 def _build(args=None):
@@ -223,6 +224,7 @@ def main():
 
     # run trader
     trader_parser = run_sub.add_parser("trader", help="Run crypto trading cycle")
+    trader_parser.add_argument("--no-deploy", action="store_true", help="Skip build and deployment")
     trader_parser.set_defaults(func=_run_trader)
 
     # --- build ---

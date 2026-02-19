@@ -38,7 +38,6 @@ class CryptoTrader:
         self.coins = self.cfg.get("crypto_trader.coins", [])
         self.interval = self.cfg.get("crypto_trader.interval_minutes", 60)
 
-    @isolated("crypto_trader")
     def run_cycle(self):
         """Run one trading cycle using the legacy AutoTrader."""
         # Import the legacy AutoTrader
@@ -75,7 +74,12 @@ def _build_legacy_config(cfg: Config):
             "interval": "minute60",
         }
         CAPITAL = cfg.get("crypto_trader.capital", {})
-        RISK = cfg.get("crypto_trader.risk", {})
+        # Map new YAML keys to old keys expected by trader.py
+        RISK = {
+            "risk_per_trade": cfg.get("crypto_trader.risk.risk_per_trade", 0.01),
+            "stop_loss": cfg.get("crypto_trader.risk.stop_loss_default", -0.02),
+            "take_profit": cfg.get("crypto_trader.risk.take_profit_min", 0.03),
+        }
         GEMINI = {"model_name": cfg.get("ai.model", "gemini-2.5-flash")}
 
     return LegacyConfig()

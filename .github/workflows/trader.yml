@@ -35,7 +35,7 @@ jobs:
           UPBIT_ACCESS_KEY: ${{ secrets.UPBIT_ACCESS_KEY }}
           UPBIT_SECRET_KEY: ${{ secrets.UPBIT_SECRET_KEY }}
         run: |
-          python -m apps.cli run trader
+          python -m apps.cli run trader --no-deploy
 
       - name: Build site
         env:
