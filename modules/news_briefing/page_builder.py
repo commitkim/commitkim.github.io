@@ -19,7 +19,7 @@ log = get_logger("news_briefing.page_builder")
 # Paths
 MODULE_DIR = PROJECT_ROOT / "modules" / "news_briefing"
 TEMPLATES_DIR = MODULE_DIR / "templates"
-DOCS_DIR = PROJECT_ROOT / "docs"
+DOCS_DIR = PROJECT_ROOT / "docs" / "news_briefing"  # Changed to subdirectory
 NEWS_DATA_DIR = PROJECT_ROOT / "data" / "news"
 
 
@@ -83,6 +83,7 @@ def build_all():
     log.info("Building news sub-site...")
 
     # 1. Prepare Output Dirs
+    DOCS_DIR.mkdir(parents=True, exist_ok=True)
     (DOCS_DIR / "reports").mkdir(parents=True, exist_ok=True)
     (DOCS_DIR / "data").mkdir(parents=True, exist_ok=True)
 
@@ -114,7 +115,7 @@ def build_all():
                 prev_date=prev_data['_date'] if prev_data else None,
                 next_date=next_data['_date'] if next_data else None,
                 web_report_html=_render_markdown(data.get('web_report', '')),
-                base_path='../../', # reports/mode/ directory
+                base_path='../../', # reports/mode/ -> docs/news_briefing/
                 build_time=_get_build_time()
             )
 
@@ -128,28 +129,26 @@ def build_all():
     log.info(f"Generated {len(all_data)} detail pages.")
 
     # 5. Build Main Report (Latest)
-    # The main index.html for news is typically report.html?
-    # Legacy output to DOCS_DIR / 'report.html'
+    # Output to docs/news_briefing/index.html
     latest = all_data[0]
-    # Note: Using index.html template but saving as report.html because root index.html is the Dashboard
     index_template = env.get_template('index.html')
 
     html = index_template.render(
         data=latest,
         recent_list=all_data[:5],
         web_report_html=_render_markdown(latest.get('web_report', '')),
-        base_path='',
+        base_path='',  # docs/news_briefing/ -> docs/news_briefing/
         build_time=_get_build_time()
     )
 
-    with open(DOCS_DIR / 'report.html', 'w', encoding='utf-8') as f:
+    with open(DOCS_DIR / 'index.html', 'w', encoding='utf-8') as f:
         f.write(html)
 
     # 6. Archive Page
     archive_template = env.get_template('archive.html')
     html = archive_template.render(
         mode_groups=mode_groups,
-        base_path='',
+        base_path='', # docs/news_briefing/ -> docs/news_briefing/
         build_time=_get_build_time()
     )
     with open(DOCS_DIR / 'archive.html', 'w', encoding='utf-8') as f:

@@ -189,9 +189,9 @@ def build_trade_page(output_dir, context):
     template = env.get_template('trade.html')
     output = template.render(context)
 
-    with open(output_dir / 'trade.html', 'w', encoding='utf-8') as f:
+    with open(output_dir / 'index.html', 'w', encoding='utf-8') as f:
         f.write(output)
-    log.info("[OK] Built trade.html")
+    log.info("[OK] Built crypto_trader/index.html")
 
 
 def build(output_dir=None):
@@ -234,8 +234,11 @@ def build(output_dir=None):
     log.info(f"[OK] Built index.html at {output_dir}")
 
     # 3. Render Trade Page
+    # Output to docs/crypto_trader/index.html
     if trade_data:
-        build_trade_page(output_dir, context)
+        trade_dir = output_dir / "crypto_trader"
+        trade_dir.mkdir(parents=True, exist_ok=True)
+        build_trade_page(trade_dir, context)
 
     # 4. Copy Static Files
     if STATIC_DIR.exists():

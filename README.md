@@ -21,7 +21,9 @@ commitkim/
 ├── config/             # YAML 설정 (base, dev, prod, test)
 ├── scripts/            # 운영 스크립트
 ├── tests/              # pytest 기반 테스트
-├── docs/               # ⚠️ 자동 생성됨 — 직접 수정 금지
+├── docs/               # ⚠️ 자동 생성됨
+│   ├── news_briefing/  # 뉴스 브리핑 문서
+│   └── crypto_trader/  # 매매 현황 문서
 └── .github/workflows/  # CI/CD (lint, test, deploy)
 ```
 

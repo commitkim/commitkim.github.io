@@ -228,7 +228,17 @@ tests/test_my_module.py
 - 폰트: 시스템 기본 폰트 (한국어 호환)
 - 반응형: 모바일에서는 사이드바 숨김
 
-### 4.4. KakaoTalk 메시지 포맷
+### 4.4. 문서 구조 (Documentation Structure)
+
+문서는 `docs/` 폴더에 생성되며, GitHub Pages를 통해 배포됩니다.
+
+- **Root (`docs/`)**: 프로젝트 전체 대시보드 (`index.html`) 및 공용 자산 (`static/`)
+- **Module Specific**: 각 모듈은 `docs/<module_name>/` 하위에 자신의 문서를 생성해야 합니다.
+  - 예: `docs/news_briefing/index.html`, `docs/crypto_trader/index.html`
+- **Asset Links**: 공용 자산은 `../../static/` 경로로 접근합니다.
+
+
+### 4.5. KakaoTalk 메시지 포맷
 
 ```
 📰 {title_prefix}
