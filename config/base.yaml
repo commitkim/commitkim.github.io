@@ -15,6 +15,7 @@ github:
 # 📺 News Briefing (was: Summariser)
 # =============================================================================
 news_briefing:
+  schedule_enabled: false
   youtube_channel_id: "UCGCGxsbmG_9nincyI7xypow"
   modes:
     morning:

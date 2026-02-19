@@ -6,6 +6,9 @@ name: Crypto Trader
 on:
   workflow_dispatch:         # Manual trigger only (trader runs locally due to Upbit IP whitelist)
 
+env:
+  TZ: 'Asia/Seoul'
+
 jobs:
   trade:
     runs-on: ubuntu-latest

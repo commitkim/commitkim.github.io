@@ -59,9 +59,9 @@ class WindowsSchedulerBackend(SchedulerBackend):
 
             success = self._run_schtasks(create_cmd)
             if success:
-                log.info(f"✅ Registered: {task_name} ({job.schedule})")
+                log.info(f"[OK] Registered: {task_name} ({job.schedule})")
             else:
-                log.error(f"❌ Failed to register: {task_name}")
+                log.error(f"[ERR] Failed to register: {task_name}")
 
     def remove_all(self, prefix: str = "CommitKim") -> None:
         """Remove all tasks matching the prefix."""
@@ -70,14 +70,14 @@ class WindowsSchedulerBackend(SchedulerBackend):
         for task_name in installed:
             if task_name.startswith(full_prefix):
                 self._run_schtasks(["schtasks", "/delete", "/tn", task_name, "/f"])
-                log.info(f"🗑️ Removed: {task_name}")
+                log.info(f"[DEL] Removed: {task_name}")
 
     def list_installed(self) -> List[str]:
         """List all CommitKim tasks in Task Scheduler."""
         try:
             result = subprocess.run(
                 ["schtasks", "/query", "/fo", "CSV", "/nh"],
-                capture_output=True, text=True, encoding="utf-8",
+                capture_output=True, text=True, encoding="cp949", errors="replace",
             )
             tasks = []
             for line in result.stdout.strip().split("\n"):
@@ -147,7 +147,7 @@ class WindowsSchedulerBackend(SchedulerBackend):
         """Run a schtasks command and return success status."""
         try:
             result = subprocess.run(
-                cmd, capture_output=True, text=True, encoding="utf-8",
+                cmd, capture_output=True, text=True, encoding="cp949", errors="replace",
             )
             if result.returncode != 0 and not ignore_errors:
                 log.debug(f"schtasks error: {result.stderr}")
