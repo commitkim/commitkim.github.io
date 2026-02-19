@@ -19,6 +19,10 @@
             backdrop-filter: blur(10px);
             border: 1px solid rgba(255, 255, 255, 0.5);
         }
+
+        .hidden-by-filter {
+            display: none !important;
+        }
     </style>
 </head>
 
@@ -137,22 +141,36 @@
             <div class="p-6 border-b border-slate-100 bg-slate-50/50 flex flex-wrap gap-4 justify-between items-center">
                 <h2 class="text-xl font-bold text-slate-800">📝 Recent Trade Logs</h2>
 
-                <!-- Simple Tab Navigation (Requires Alpine.js or vanilla JS) -->
-                <!-- Assuming no heavy JS framework, using simple vanilla JS logic via inline onclick for now if x-data not available, 
-                     but let's implement a simple tab system with vanilla JS script at bottom -->
-                <div class="flex gap-2 overflow-x-auto pb-2 md:pb-0 scrollbar-hide" id="coin-tabs">
-                    <button onclick="switchTab('ALL')"
-                        class="tab-btn active px-4 py-2 rounded-xl text-xs font-bold transition-all bg-slate-800 text-white shadow-md"
-                        data-tab="ALL">
-                        ALL
-                    </button>
-                    {% for ticker in grouped_trades.keys()|sort %}
-                    <button onclick="switchTab('{{ ticker }}')"
-                        class="tab-btn px-4 py-2 rounded-xl text-xs font-bold transition-all bg-white text-slate-500 hover:bg-slate-100 border border-slate-200"
-                        data-tab="{{ ticker }}">
-                        {{ ticker }}
-                    </button>
-                    {% endfor %}
+                <div class="flex items-center gap-4">
+                    <span class="text-xs text-slate-400">Max 1,000 logs retained (FIFO)</span>
+
+                    <!-- View Filter -->
+                    <div class="flex bg-slate-100/80 rounded-lg p-1 border border-slate-200">
+                        <button onclick="setFilter('IMPORTANT')" id="filter-important"
+                            class="px-3 py-1.5 rounded-md text-xs font-bold transition-all bg-white text-blue-600 shadow-sm border border-slate-200">
+                            Action Only
+                        </button>
+                        <button onclick="setFilter('ALL')" id="filter-all"
+                            class="px-3 py-1.5 rounded-md text-xs font-bold transition-all text-slate-500 hover:text-slate-700">
+                            All Logs
+                        </button>
+                    </div>
+
+                    <!-- Simple Tab Navigation -->
+                    <div class="flex gap-2 overflow-x-auto pb-2 md:pb-0 scrollbar-hide" id="coin-tabs">
+                        <button onclick="switchTab('ALL')"
+                            class="tab-btn active px-4 py-2 rounded-xl text-xs font-bold transition-all bg-slate-800 text-white shadow-md"
+                            data-tab="ALL">
+                            ALL
+                        </button>
+                        {% for ticker in grouped_trades.keys()|sort %}
+                        <button onclick="switchTab('{{ ticker }}')"
+                            class="tab-btn px-4 py-2 rounded-xl text-xs font-bold transition-all bg-white text-slate-500 hover:bg-slate-100 border border-slate-200"
+                            data-tab="{{ ticker }}">
+                            {{ ticker }}
+                        </button>
+                        {% endfor %}
+                    </div>
                 </div>
             </div>
 
@@ -161,8 +179,9 @@
                 <div id="tab-ALL" class="tab-content transition-opacity duration-300">
                     {% if trade.recent_trades %}
                     {% for log in trade.recent_trades|reverse %}
-                    {% if loop.index <= 100 %} <!-- Show max 100 mixed logs -->
-                        <div class="p-6 hover:bg-slate-50 transition-colors">
+                    {% if loop.index <= 1000 %} <!-- Show max 1000 -->
+                        <div class="p-6 hover:bg-slate-50 transition-colors log-item"
+                            data-decision="{{ log.decision | lower }}">
                             <div class="flex items-start justify-between mb-2">
                                 <div class="flex items-center gap-3">
                                     <span class="px-2.5 py-1 rounded-lg text-xs font-black uppercase tracking-wide
@@ -236,7 +255,8 @@
                     </div>
 
                     {% for log in logs|reverse %}
-                    <div class="p-6 hover:bg-slate-50 transition-colors border-b border-slate-100">
+                    <div class="p-6 hover:bg-slate-50 transition-colors border-b border-slate-100 log-item"
+                        data-decision="{{ log.decision | lower }}">
                         <div class="flex items-start justify-between mb-2">
                             <div class="flex items-center gap-3">
                                 <span class="px-2.5 py-1 rounded-lg text-xs font-black uppercase tracking-wide
@@ -273,7 +293,8 @@
                         <span>📉</span> 추세 정렬 (MA60)
                     </h3>
                     <p class="text-xs text-slate-500 leading-relaxed">
-                        가격이 <strong>60일 이동평균선</strong>보다 아래에 있으면 '하락 추세'로 봅니다. 이 때는 아무리 좋아 보여도 매수하지 않고 기다리는 것이 안전합니다.
+                        가격이 <strong>60일 이동평균선</strong>보다 아래에 있으면 '하락 추세'로 봅니다. 이 때는 아무리 좋아 보여도 매수하지 않고 기다리는 것이
+                        안전합니다.
                     </p>
                 </div>
 
@@ -350,7 +371,8 @@
                         </li>
                         <li class="flex items-start gap-2 text-sm text-slate-600">
                             <span class="w-1.5 h-1.5 rounded-full bg-blue-400 mt-1.5 flex-shrink-0"></span>
-                            <span><strong>Technical Indicators</strong>: RSI(14), MACD, Bollinger Bands(20,2), Moving
+                            <span><strong>Technical Indicators</strong>: RSI(14), MACD, Bollinger Bands(20,2),
+                                Moving
                                 Averages(MA20, 60)</span>
                         </li>
                         <li class="flex items-start gap-2 text-sm text-slate-600">
@@ -373,7 +395,8 @@
                             <div
                                 class="flex-shrink-0 w-8 h-8 rounded-full bg-slate-100 text-slate-500 font-bold flex items-center justify-center text-xs">
                                 1</div>
-                            <p class="text-sm text-slate-600"><strong>Analyze All</strong>: 모든 대상 코인을 1차적으로 분석하여 AI의 판단을
+                            <p class="text-sm text-slate-600"><strong>Analyze All</strong>: 모든 대상 코인을 1차적으로 분석하여 AI의
+                                판단을
                                 수집합니다.</p>
                         </div>
                         <div class="flex items-center gap-3">
@@ -388,8 +411,10 @@
                             <div
                                 class="flex-shrink-0 w-8 h-8 rounded-full bg-indigo-100 text-indigo-600 font-bold flex items-center justify-center text-xs">
                                 3</div>
-                            <p class="text-sm text-slate-600"><strong>Ranked Buy</strong>: '매수(BUY)' 신호 코인들을 <strong>AI
-                                    확신도(Confidence) 순으로 정렬</strong>하여, 상위 종목부터 빈 슬롯(Max 3)에 진입합니다.</p>
+                            <p class="text-sm text-slate-600"><strong>Ranked Buy</strong>: '매수(BUY)' 신호 코인들을
+                                <strong>AI
+                                    확신도(Confidence) 순으로 정렬</strong>하여, 상위 종목부터 빈 슬롯(Max 3)에 진입합니다.
+                            </p>
                         </div>
                     </div>
                 </div>
@@ -436,6 +461,50 @@
     </footer>
 
     <script>
+        // Default Filter State
+        let currentFilter = 'IMPORTANT'; // Default to Important Only
+
+        document.addEventListener('DOMContentLoaded', () => {
+            // Apply initial filter
+            applyFilter();
+        });
+
+        function setFilter(type) {
+            currentFilter = type;
+
+            // UI Updates
+            const btnImportant = document.getElementById('filter-important');
+            const btnAll = document.getElementById('filter-all');
+
+            if (type === 'IMPORTANT') {
+                btnImportant.className = "px-3 py-1.5 rounded-md text-xs font-bold transition-all bg-white text-blue-600 shadow-sm border border-slate-200";
+                btnAll.className = "px-3 py-1.5 rounded-md text-xs font-bold transition-all text-slate-500 hover:text-slate-700";
+            } else {
+                btnAll.className = "px-3 py-1.5 rounded-md text-xs font-bold transition-all bg-white text-slate-800 shadow-sm border border-slate-200";
+                btnImportant.className = "px-3 py-1.5 rounded-md text-xs font-bold transition-all text-slate-500 hover:text-slate-700";
+            }
+
+            applyFilter();
+        }
+
+        function applyFilter() {
+            const logs = document.querySelectorAll('.log-item');
+            logs.forEach(log => {
+                const decision = log.getAttribute('data-decision');
+                if (currentFilter === 'IMPORTANT') {
+                    // Show only buy/sell
+                    if (decision === 'buy' || decision === 'sell') {
+                        log.classList.remove('hidden-by-filter');
+                    } else {
+                        log.classList.add('hidden-by-filter');
+                    }
+                } else {
+                    // Show All
+                    log.classList.remove('hidden-by-filter');
+                }
+            });
+        }
+
         function switchTab(ticker) {
             // 1. Hide all tab contents
             document.querySelectorAll('.tab-content').forEach(el => {

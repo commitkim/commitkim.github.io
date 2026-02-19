@@ -5,9 +5,9 @@ from pathlib import Path
 PROJECT_ROOT = Path(__file__).resolve().parent.parent
 sys.path.append(str(PROJECT_ROOT))
 
-# noqa: E402
-from google import genai
-from core.config import Config
+from google import genai  # noqa: E402
+
+from core.config import Config  # noqa: E402
 
 
 def list_models():
