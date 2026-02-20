@@ -37,6 +37,25 @@ core  →  modules  →  apps
 (의존 없음)  (core만 의존)  (modules + core 의존)
 ```
 
+
+---
+
+## 📜 Command Reference
+
+프로젝트의 주요 명령어 목록입니다.
+
+| Command | Description | Note |
+| :--- | :--- | :--- |
+| **`python -m apps.cli run news`** | 뉴스 브리핑 실행 | `--mode morning` or `evening` |
+| **`python -m apps.cli run trader`** | 암호화폐 자동매매 실행 | 매시 정각 실행 권장 |
+| **`python -m apps.cli build`** | 대시보드 사이트 빌드 | `docs/` 폴더 갱신 |
+| **`python -m apps.cli deploy`** | GitHub Pages 배포 | `docs/` → `gh-pages` |
+| **`python -m apps.cli schedule`** | 스케줄 관리 | `--install`, `--remove`, `--list` |
+| `scripts/check_models.py` | Google Gemini 모델 확인 | 사용 가능한 모델 리스트 출력 |
+| `data/trade/run_trader.bat` | 자동매매 간편 실행 | 윈도우용 배치 파일 |
+
+더 자세한 옵션은 `python -m apps.cli --help`를 참고하세요.
+
 ---
 
 ## 🤖 Automated Pipeline
