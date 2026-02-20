@@ -153,8 +153,8 @@ def _schedule(args):
 
     # Register all module jobs
     from modules.crypto_trader.jobs import register_jobs as register_trader
-    from modules.news_briefing.jobs import register_jobs as register_news
     from modules.microgpt.jobs import register_jobs as register_microgpt
+    from modules.news_briefing.jobs import register_jobs as register_news
 
     register_news(registry)
     register_trader(registry)

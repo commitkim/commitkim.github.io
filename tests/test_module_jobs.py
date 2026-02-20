@@ -115,3 +115,29 @@ class TestCryptoTraderJobs:
         assert job.schedule.startswith("0 * * * *"), (
             f"Expected hourly cron '0 * * * *', got: {job.schedule!r}"
         )
+
+
+class TestMicroGPTJobs:
+    def test_registers_microgpt_job(self):
+        """microgpt.jobs should register the microgpt_train job."""
+        from core.scheduler.registry import SchedulerRegistry
+        from modules.microgpt.jobs import register_jobs
+
+        registry = SchedulerRegistry()
+        register_jobs(registry)
+
+        job = registry.get_by_name("microgpt_train")
+        assert job is not None
+
+    def test_command_has_python_m_prefix(self):
+        """MicroGPT command must start with 'apps.cli'."""
+        from core.scheduler.registry import SchedulerRegistry
+        from modules.microgpt.jobs import register_jobs
+
+        registry = SchedulerRegistry()
+        register_jobs(registry)
+
+        job = registry.get_by_name("microgpt_train")
+        assert job.command.startswith("apps.cli"), (
+            f"Expected 'apps.cli' prefix, got: {job.command!r}"
+        )

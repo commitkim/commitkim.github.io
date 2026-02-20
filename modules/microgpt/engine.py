@@ -1,13 +1,11 @@
 
+import json
 import math
 import random
-import json
-import os
 import urllib.request
-from pathlib import Path
 
-from core.logger import get_logger
 from core.config import PROJECT_ROOT
+from core.logger import get_logger
 
 log = get_logger("microgpt.engine")
 
@@ -288,12 +286,10 @@ class MicroGPTVisualizer:
         # Limit depth or nodes to avoid massive JSON
         # For visualization, we might only want the immediate calculation of the loss for the last token
         
-        nodes, edges = set(), set()
+        _nodes, _edges = set(), set()
         
         # DFS with depth limit
-        stack = [(root, 0)]
         visited = set()
-        max_depth = 500  # Safety 
         
         node_list = []
         edge_list = []
@@ -310,7 +306,8 @@ class MicroGPTVisualizer:
             return id_map[v]
 
         def walk(v, depth):
-            if v in visited: return
+            if v in visited:
+                return
             visited.add(v)
             if depth > 10: # Only go 10 layers deep for visual sanity
                  return
@@ -390,7 +387,7 @@ class MicroGPTVisualizer:
             sample_tokens = []
             for pos_id in range(self.block_size):
                 logits = self.gpt(token_id, pos_id, keys, values)
-                probs = self.softmax([l * (1.0/temperature) for l in logits])
+                probs = self.softmax([logit * (1.0 / temperature) for logit in logits])
                 
                 # Sample
                 p_data = [p.data for p in probs]

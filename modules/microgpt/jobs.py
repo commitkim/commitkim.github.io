@@ -1,6 +1,7 @@
 
-from core.scheduler.registry import JobDefinition
 from core.config import Config
+from core.scheduler.registry import JobDefinition
+
 
 def register_jobs(registry):
     # This module is primarily for educational visualization and runs on demand
