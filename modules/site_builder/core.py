@@ -271,9 +271,8 @@ def build(output_dir=None):
         trade_dir.mkdir(parents=True, exist_ok=True)
         build_trade_page(trade_dir, context)
 
-    # 4. Built MicroGPT Page
-    if microgpt_data:
-        build_microgpt_page(output_dir, context)
+    # 4. Built MicroGPT Page - Always build as it is client-side now
+    build_microgpt_page(output_dir, context)
 
     # 5. Copy Static Files
     if STATIC_DIR.exists():

@@ -46,6 +46,15 @@
         .arch-block {
             transition: all 0.2s ease;
             border: 2px solid #e2e8f0;
+            cursor: help;
+            /* Indicate hoverable */
+            position: relative;
+        }
+
+        .arch-block:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            z-index: 10;
         }
 
         .arch-block.active {
@@ -53,6 +62,95 @@
             background-color: #eef2ff;
             transform: scale(1.05);
             box-shadow: 0 4px 12px rgba(99, 102, 241, 0.2);
+        }
+
+        /* Highlight active word in dataset */
+        .word-active {
+            background-color: #e0e7ff;
+            /* indigo-100 */
+            color: #4338ca;
+            /* indigo-700 */
+            font-weight: bold;
+            border-radius: 4px;
+            padding: 0 4px;
+            display: inline-block;
+        }
+
+        /* Tooltip styling using attribute */
+        [data-tooltip]:hover::after {
+            content: attr(data-tooltip);
+            position: absolute;
+            bottom: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #1e293b;
+            color: white;
+            padding: 0.5rem 0.75rem;
+            border-radius: 0.5rem;
+            font-size: 0.75rem;
+            white-space: nowrap;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+            margin-bottom: 0.5rem;
+            z-index: 50;
+            pointer-events: none;
+        }
+
+        [data-tooltip]:hover::before {
+            content: '';
+            position: absolute;
+            bottom: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            border: 6px solid transparent;
+            border-top-color: #1e293b;
+            margin-bottom: -6px;
+            /* Adjust overlap */
+            z-index: 50;
+        }
+
+        /* Correct Answer Animation */
+        @keyframes correct-pop {
+            0% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.05);
+            }
+
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        .correct-answer {
+            animation: correct-pop 0.3s ease-out;
+            background-color: #d1fae5 !important;
+            /* emerald-100 */
+            border-color: #34d399 !important;
+            /* emerald-400 */
+            color: #065f46 !important;
+            /* emerald-800 */
+            font-weight: bold;
+        }
+
+        /* Custom Scrollbar for panels */
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: #f1f5f9;
+            border-radius: 4px;
+        }
+
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 4px;
+        }
+
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
         }
     </style>
 </head>
@@ -89,7 +187,7 @@
     <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
 
         <!-- Controls -->
-        <div class="bg-white rounded-[2rem] shadow-sm border border-surface-200 p-8 mb-10 sticky top-20 z-40">
+        <div class="bg-white rounded-[2rem] shadow-sm border border-surface-200 p-8 mb-10 z-40">
             <div class="flex flex-col xl:flex-row justify-between items-center gap-8">
                 <div class="flex-1 w-full">
                     <h2 class="text-2xl font-bold text-slate-900 mb-2">🧠 Live MicroGPT</h2>
@@ -99,25 +197,22 @@
                     <div class="flex flex-col sm:flex-row gap-3">
                         <select id="dataSelector" onchange="changeDataset()"
                             class="px-4 py-2 rounded-xl border border-slate-200 bg-slate-50 text-slate-700 focus:ring-2 focus:ring-indigo-200 outline-none font-medium">
-                            <option value="fruits">🍎 Fruits (사과, 바나나...)</option>
-                            <option value="colors">🎨 Colors (빨강, 파랑...)</option>
-                            <option value="custom">✏️ Custom (직접 입력)</option>
+                            <option value="fruits">🍎 Fruits (과일 이름)</option>
+                            <option value="colors">🎨 Colors (색깔 이름)</option>
                         </select>
-                        <textarea id="customInput"
-                            class="hidden flex-1 px-4 py-2 rounded-xl border border-slate-200 text-sm font-mono h-[42px] min-h-[42px] resize-none focus:h-[100px] transition-all"
-                            placeholder="Enter words separated by newline..."></textarea>
                     </div>
                 </div>
 
                 <!-- Action Buttons -->
                 <div class="flex gap-3">
                     <button onclick="trainStep(1)" id="btnTrain1"
-                        class="px-5 py-3 bg-indigo-600 text-white rounded-xl font-bold hover:bg-indigo-700 transition-all shadow-lg shadow-indigo-500/30 flex items-center gap-2 active:scale-95 whitespace-nowrap">
+                        class="px-5 py-3 bg-indigo-500 text-white rounded-xl font-bold hover:bg-indigo-600 transition-all shadow-lg shadow-indigo-500/20 flex items-center gap-2 active:scale-95 whitespace-nowrap">
                         <span>▶️</span> 1 Step
                     </button>
-                    <button onclick="trainStep(10)" id="btnTrain10"
-                        class="px-5 py-3 bg-indigo-500 text-white rounded-xl font-bold hover:bg-indigo-600 transition-all shadow-lg shadow-indigo-500/20 flex items-center gap-2 active:scale-95 whitespace-nowrap">
-                        <span>⏩</span> 10 Steps
+                    <!-- UPDATED: 10000 Steps with Progress -->
+                    <button onclick="trainStep(10000)" id="btnTrain10000"
+                        class="px-5 py-3 bg-indigo-600 text-white rounded-xl font-bold hover:bg-indigo-700 transition-all shadow-lg shadow-indigo-500/30 flex items-center gap-2 active:scale-95 whitespace-nowrap">
+                        <span>🚀</span> 10,000 Steps
                     </button>
                     <button onclick="resetModel(true)"
                         class="px-5 py-3 bg-slate-100 text-slate-600 rounded-xl font-bold hover:bg-slate-200 transition-all flex items-center gap-2 active:scale-95">
@@ -158,80 +253,206 @@
             </div>
         </div>
 
-        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 mb-12">
+        <!-- Main Layout: Absolute Positioning Strategy for Desktop -->
+        <!-- Right Column dictates the height. Left Column matches it. -->
+        <div class="flex flex-col lg:flex-row gap-6 mb-12 relative items-start">
 
-            <!-- Left: Architecture & Data -->
-            <div class="lg:col-span-4 space-y-6">
-                <!-- Training Data Viewer -->
-                <div class="glass-panel rounded-2xl p-6 shadow-sm max-h-[400px] flex flex-col">
+            <!-- Left: Training Data -->
+            <!-- Desktop: lg:w-4/12 relative (but height is not set by content). -->
+            <!-- Wait, in Flex, if items-stretch is NOT on, items have natural height. -->
+            <!-- IF we want Left to match Right, we MUST use items-stretch on the container? -->
+            <!-- NO. If we use `lg:absolute`, it removes it from flow. -->
+            <!-- But we need it to take up WIDTH. -->
+            <!-- Standard "Sticky Sidebar" pattern is difficult without knowing height. -->
+            <!-- SOLUTION: Use `items-stretch`. Left Panel is `relative`. Inner is `absolute inset-0`. -->
+            <!-- This allows Left Panel to stretch to Right Panel height, and Inner to fill it. -->
+
+            <!-- Container: items-stretch (default in flex). -->
+            <!-- Left Wrapper: lg:w-4/12 relative w-full -->
+            <!-- Left Inner: lg:absolute lg:inset-0 -->
+
+            <div class="w-full lg:w-4/12 relative flex flex-col min-h-[500px] lg:min-h-0 self-stretch">
+                <!-- Inner Content: Absolute on Desktop to ignore text height and just fill the flex-stretched wrapper -->
+                <div
+                    class="lg:absolute lg:inset-0 flex flex-col h-full rounded-2xl glass-panel shadow-sm p-6 overflow-hidden">
                     <h3 class="text-lg font-bold text-slate-800 mb-2 flex items-center gap-2">
                         <span class="text-xl">📚</span> Training Dataset
                     </h3>
                     <p class="text-xs text-slate-500 mb-3 leading-relaxed">
-                        이 단어들을 한 글자씩 밀어가며(Sliding Window) 학습합니다.<br>
-                        예: apple → <span class="bg-slate-100 px-1 rounded">app</span>->l, <span
-                            class="bg-slate-100 px-1 rounded">ppl</span>->e
+                        <span class="text-indigo-600 font-bold">보라색 하이라이트</span>는 현재 학습 중인 단어입니다.
                     </p>
                     <div id="datasetDisplay"
-                        class="flex-1 overflow-y-auto custom-scrollbar bg-slate-50 p-3 rounded-xl border border-slate-100 font-mono text-sm text-slate-600 leading-relaxed whitespace-pre-wrap">
+                        class="flex-1 overflow-y-auto custom-scrollbar bg-slate-50 p-4 rounded-xl border border-slate-100 font-mono text-sm text-slate-600 leading-relaxed whitespace-pre-wrap shadow-inner">
                         Loading...</div>
-                </div>
-
-                <!-- Architecture Diagram -->
-                <div class="glass-panel rounded-2xl p-6 shadow-sm">
-                    <h3 class="text-lg font-bold text-slate-800 mb-6 flex items-center gap-2">
-                        <span class="text-xl">🏗️</span> Model Architecture
-                    </h3>
-
-                    <div class="relative flex flex-col items-center gap-3 text-sm font-medium text-slate-600"
-                        id="arch-container">
-                        <div id="blk-input" class="arch-block w-full text-center py-3 rounded-lg bg-slate-50">Input
-                            (Indices)</div>
-                        <div class="h-4 border-l-2 border-slate-200 border-dashed"></div>
-                        <div id="blk-emb" class="arch-block w-full flex gap-2">
-                            <div class="flex-1 text-center py-3 rounded-lg bg-blue-50">Token Emb</div>
-                            <div class="flex-1 text-center py-3 rounded-lg bg-blue-50">Pos Emb</div>
-                        </div>
-                        <div class="h-4 border-l-2 border-slate-200 border-dashed"></div>
-                        <div id="blk-transformer"
-                            class="arch-block w-full p-4 rounded-xl bg-indigo-50 border-indigo-100 flex flex-col gap-2">
-                            <div class="text-xs text-center text-indigo-400 uppercase tracking-widest mb-1">Transformer
-                            </div>
-                            <div class="w-full text-center py-2 rounded bg-orange-100 text-orange-700">Self-Attention
-                            </div>
-                            <div class="w-full text-center py-2 rounded bg-green-100 text-green-700">MLP</div>
-                        </div>
-                        <div class="h-4 border-l-2 border-slate-200 border-dashed"></div>
-                        <div id="blk-head"
-                            class="arch-block w-full text-center py-3 rounded-lg bg-pink-50 text-pink-700">Linear Head
-                        </div>
-                        <div class="h-4 border-l-2 border-slate-200 border-dashed"></div>
-                        <div id="blk-softmax" class="arch-block w-full text-center py-3 rounded-lg bg-slate-100">Softmax
-                            & Loss</div>
-                    </div>
                 </div>
             </div>
 
-            <!-- Right: Results & Log -->
-            <div class="lg:col-span-8 space-y-6">
+            <!-- Right: Results & Panels (Source of Truth for Height) -->
+            <div class="w-full lg:w-8/12 flex flex-col gap-6">
+
                 <!-- Loss Chart -->
-                <div class="glass-panel rounded-2xl p-6 shadow-sm">
-                    <h3 class="text-lg font-bold text-slate-800 mb-4">📉 Loss History</h3>
+                <div class="glass-panel rounded-2xl p-6 shadow-sm shrink-0">
+                    <h3 class="text-lg font-bold text-slate-800 mb-1">📉 Loss History</h3>
+                    <p class="text-xs text-slate-500 mb-4">
+                        * Loss(손실)는 <strong class="text-indigo-600">AI의 오답률</strong>입니다. 0에 가까울수록 완벽하게 예측하는 것입니다.<br>
+                        그래프가 우하향(↘️)할수록 학습이 잘 되고 있다는 뜻입니다.
+                    </p>
                     <div class="h-[200px]">
                         <canvas id="lossChart"></canvas>
                     </div>
                 </div>
 
                 <!-- Generated Samples -->
-                <div class="glass-panel rounded-2xl p-6 shadow-sm min-h-[250px]">
+                <div class="glass-panel rounded-2xl p-6 shadow-sm shrink-0 min-h-[300px]">
                     <h3 class="text-lg font-bold text-slate-800 mb-2 flex justify-between items-center">
                         <span>✍️ Generated Samples</span>
-                        <span class="text-xs bg-indigo-100 text-indigo-700 px-2 py-1 rounded">Auto-generated</span>
+                        <button onclick="generateSamples()"
+                            class="text-xs bg-indigo-100 text-indigo-700 px-3 py-1.5 rounded hover:bg-indigo-200 transition-colors font-bold flex items-center gap-1">
+                            <span>🎲</span> Generate Now
+                        </button>
                     </h3>
-                    <p class="text-xs text-slate-500 mb-4">학습된 AI가 '배운 내용을 바탕으로' 새로 만들어낸 단어들입니다. 처음엔 엉망이지만 갈수록 비슷해집니다.
+                    <div class="flex flex-col gap-1 mb-4 text-xs text-slate-500">
+                        <p>첫 글자는 <strong>랜덤</strong>으로 선택하고, 그 다음부터는 <strong>AI가 학습한 규칙</strong>대로 예측합니다.</p>
+                        <div class="flex items-center gap-2 mt-1">
+                            <span
+                                class="inline-flex items-center px-2 py-0.5 rounded text-xs font-bold bg-green-100 text-green-800 border border-green-200">
+                                ✅ 정답 발견
+                            </span>
+                            <span>: 학습 데이터에 있는 단어를 정확히 만들어 냈을 때 표시됩니다.</span>
+                        </div>
+                    </div>
+
+                    <div id="samples-container" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div class="text-slate-400 text-sm italic py-2 md:col-span-2 text-center">Ready to generate...
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Persistence -->
+                <div class="glass-panel rounded-2xl p-6 shadow-sm flex flex-col">
+                    <h3 class="text-lg font-bold text-slate-800 mb-2 flex items-center gap-2">
+                        <span>💾 Parameters & Persistence</span>
+                    </h3>
+                    <p class="text-xs text-slate-500 mb-2">
+                        브라우저 <code>localStorage</code>에 모델 상태(가중치)가 자동 저장됩니다.
                     </p>
-                    <div id="samples-container" class="space-y-2 grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <div class="text-slate-400 text-sm italic py-2 md:col-span-2">Ready to generate...</div>
+                    <div
+                        class="font-mono text-xs bg-slate-800 text-slate-200 p-4 rounded-xl overflow-x-auto shadow-inner flex flex-col justify-center">
+                        <div class="flex justify-between border-b border-slate-700 pb-2 mb-2">
+                            <span class="text-indigo-400">Current Storage State</span>
+                            <span id="storage-size" class="text-emerald-400">...</span>
+                        </div>
+                        <div id="persistence-preview" class="whitespace-pre">Not saved yet...</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Bottom: Architecture (Vertical Layout) -->
+        <div class="w-full mb-12">
+            <div class="glass-panel rounded-2xl p-8 shadow-sm">
+                <h3 class="text-lg font-bold text-slate-800 mb-6 flex items-center gap-2">
+                    <span class="text-xl">🏗️</span> Model Architecture
+                </h3>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-start">
+                    <!-- Vertical Diagram -->
+                    <div class="flex flex-col items-center gap-4 max-w-sm mx-auto w-full">
+                        <!-- Input -->
+                        <div id="blk-input"
+                            class="arch-block w-full text-center py-3 rounded-lg bg-slate-50 relative group"
+                            data-tooltip="입력 단어">
+                            <span class="font-bold text-slate-700">Input (Indices)</span>
+                        </div>
+                        <div class="w-0 h-6 border-l-2 border-slate-300 border-dashed"></div>
+
+                        <!-- Embedding -->
+                        <div id="blk-emb" class="arch-block w-full flex gap-2 p-1 bg-blue-50/50 rounded-lg group"
+                            data-tooltip="단어와 위치를 벡터로 변환">
+                            <div class="flex-1 text-center py-2 rounded bg-blue-50 text-xs text-blue-800 font-bold">
+                                Token Emb</div>
+                            <div class="flex-1 text-center py-2 rounded bg-blue-50 text-xs text-blue-800 font-bold">Pos
+                                Emb</div>
+                        </div>
+                        <div class="w-0 h-6 border-l-2 border-slate-300 border-dashed"></div>
+
+                        <!-- Transformer -->
+                        <div id="blk-transformer"
+                            class="arch-block w-full p-4 rounded-xl bg-indigo-50 border-indigo-100 flex flex-col gap-2 group"
+                            data-tooltip="관계 파악 및 추론">
+                            <div class="text-[10px] text-center text-indigo-400 uppercase tracking-widest font-bold">
+                                Transformer Block</div>
+                            <div
+                                class="w-full text-center py-2 rounded bg-white border border-orange-100 text-orange-700 text-xs font-bold shadow-sm">
+                                Self-Attention</div>
+                            <div
+                                class="w-full text-center py-2 rounded bg-white border border-green-100 text-green-700 text-xs font-bold shadow-sm">
+                                MLP (Feed Forward)</div>
+                        </div>
+                        <div class="w-0 h-6 border-l-2 border-slate-300 border-dashed"></div>
+
+                        <!-- Head -->
+                        <div id="blk-head"
+                            class="arch-block w-full text-center py-3 rounded-lg bg-pink-50 text-pink-700 font-bold group"
+                            data-tooltip="차원 변환">
+                            Linear Head
+                        </div>
+                        <div class="w-0 h-6 border-l-2 border-slate-300 border-dashed"></div>
+
+                        <!-- Softmax -->
+                        <div id="blk-softmax"
+                            class="arch-block w-full text-center py-3 rounded-lg bg-slate-100 text-slate-600 font-bold group"
+                            data-tooltip="확률 계산">
+                            Softmax
+                        </div>
+                    </div>
+
+                    <!-- Explanations (Vertical List matches diagram flow) -->
+                    <div class="flex flex-col justify-between h-auto py-4 space-y-6">
+                        <div class="pl-6 border-l-4 border-slate-200 space-y-8">
+                            <div class="relative">
+                                <div
+                                    class="absolute -left-[31px] top-0 w-4 h-4 rounded-full bg-slate-400 ring-4 ring-white">
+                                </div>
+                                <h4 class="font-bold text-slate-800 mb-1">1. Input</h4>
+                                <p class="text-xs text-slate-500 leading-relaxed">
+                                    사람의 단어를 컴퓨터가 이해할 수 있는 <b>숫자(Index)</b>로 변환합니다.
+                                </p>
+                            </div>
+                            <div class="relative">
+                                <div
+                                    class="absolute -left-[31px] top-0 w-4 h-4 rounded-full bg-blue-400 ring-4 ring-white">
+                                </div>
+                                <h4 class="font-bold text-slate-800 mb-1">2. Embeddings</h4>
+                                <p class="text-xs text-slate-500 leading-relaxed">
+                                    숫자를 고차원의 <b>벡터(Vector)</b>로 바꿉니다. 단어의 의미(Token)와 문장 내 위치(Pos) 정보를 모두 담습니다.
+                                </p>
+                            </div>
+                            <div class="relative">
+                                <div
+                                    class="absolute -left-[31px] top-0 w-4 h-4 rounded-full bg-indigo-400 ring-4 ring-white">
+                                </div>
+                                <h4 class="font-bold text-slate-800 mb-1">3. Transformer</h4>
+                                <p class="text-xs text-slate-500 leading-relaxed">
+                                    <b>Self-Attention:</b> 단어들 사이의 관계(문맥)를 파악합니다.<br>
+                                    <b>MLP:</b> 파악한 정보를 바탕으로 더욱 복잡한 패턴을 처리하고 기억합니다.
+                                </p>
+                            </div>
+                            <div class="relative">
+                                <div
+                                    class="absolute -left-[31px] top-0 w-4 h-4 rounded-full bg-pink-400 ring-4 ring-white">
+                                </div>
+                                <h4 class="font-bold text-slate-800 mb-1">4. Linear Head & Softmax</h4>
+                                <p class="text-xs text-slate-500 leading-relaxed">
+                                    처리된 데이터를 단어장 크기로 변환한 뒤, 다음 단어로 올 <b>확률(%)</b>을 계산합니다.
+                                </p>
+                            </div>
+                        </div>
+
+                        <div
+                            class="bg-indigo-50 p-4 rounded-xl border border-indigo-100 text-xs text-indigo-800 mt-4 leading-relaxed">
+                            💡 <b>Tip:</b> 이 구조는 ChatGPT(GPT-3, GPT-4)의 축소판입니다. 규모는 작지만 작동 원리는 동일합니다!
+                        </div>
                     </div>
                 </div>
             </div>
@@ -247,7 +468,11 @@
             colors: "red\norange\nyellow\ngreen\nblue\npurple\npink\nblack\nwhite\ngray\nbrown\ncyan\nmagenta\n"
         };
 
-        // --- 1. Autograd & Models (Minified for brevity but fully functional) ---
+        // Massive List Update
+        datasets.fruits += "raspberry\nstrawberry\ntangerine\nugli\nwatermelon\nblueberries\ncantaloupe\ndragonfruit\nblackberries\ncranberries\ngrapefruit\nguava\nlime\nlychee\npassionfruit\npeach\npear\npineapple\nplum\npomegranate\napricot\navocado\nblackberry\nboysenberry\ncoconut\ncurrant\ndurian\ngooseberry\nkumquat\nmulberry\npersimmon\nquince\nstarfruit\n";
+        datasets.colors += "lavender\nindigo\nturquoise\nmaroon\nnavy\nolive\nteal\nviolet\nbeige\ncharcoal\ncoral\ncrimson\ngold\nivory\nkhaki\nlime\nmint\nochre\npeach\nsalmon\nsepia\nsienna\nsilver\ntan\ntomato\nwheat\nazure\nbronze\nchocolate\ncopper\nemerald\nfuchsia\njade\nlilac\nmaurve\nperiwinkle\nruby\nsapphire\nscarlet\n";
+
+        // --- 1. Autograd & Models ---
         class Value { constructor(t, e = [], s = "", i = "") { this.data = t, this.grad = 0, this._prev = new Set(e), this._op = s, this.label = i, this._backward = () => { } } add(t) { t = t instanceof Value ? t : new Value(t); const e = new Value(this.data + t.data, [this, t], "+"); return e._backward = () => { this.grad += 1 * e.grad, t.grad += 1 * e.grad }, e } mul(t) { t = t instanceof Value ? t : new Value(t); const e = new Value(this.data * t.data, [this, t], "*"); return e._backward = () => { this.grad += t.data * e.grad, t.grad += this.data * e.grad }, e } tanh() { const t = this.data, e = Math.tanh(t), s = new Value(e, [this], "tanh"); return s._backward = () => { this.grad += (1 - e * e) * s.grad }, s } exp() { const t = this.data, e = new Value(Math.exp(t), [this], "exp"); return e._backward = () => { this.grad += e.data * e.grad }, e } pow(t) { const e = this.data, s = new Value(Math.pow(e, t), [this], `**${t}`); return s._backward = () => { this.grad += t * Math.pow(e, t - 1) * s.grad }, s } log() { const t = new Value(Math.log(this.data), [this], "log"); return t._backward = () => { this.grad += 1 / this.data * t.grad }, t } backward() { const t = [], e = new Set, s = i => { if (!e.has(i)) { e.add(i); for (let t of i._prev) s(t); t.push(i) } }; s(this), this.grad = 1; for (let e = t.length - 1; e >= 0; e--)t[e]._backward() } }
         function gaussian(t = 0, e = 1) { const s = 1 - Math.random(), i = Math.random(); return Math.sqrt(-2 * Math.log(s)) * Math.cos(2 * Math.PI * i) * e + t }
         class Module { zeroGrad() { for (let t of this.parameters()) t.grad = 0 } parameters() { return [] } }
@@ -258,54 +483,49 @@
 
         // --- 2. State Management ---
         let model, stoi, itos, vocabSize;
-        let X = [], Y = [];
+        let X = [], Y = [], SourceIndices = []; // To track where each sample came from
         let step = 0;
         let lossHistory = [];
         const blockSize = 3;
+        let rawDataLines = [];
+        let rawDataString = ""; // Needed for validation
 
         function init() {
             loadState();
         }
 
         function changeDataset() {
-            const sel = document.getElementById('dataSelector').value;
-            const inputArea = document.getElementById('customInput');
-
-            if (sel === 'custom') {
-                inputArea.classList.remove('hidden');
-                // Give user a chance to type; we wait for them to finish or click train
-            } else {
-                inputArea.classList.add('hidden');
-                resetModel(true); // Hard reset if switching predefined types
-            }
+            resetModel(true); // Always reset when changing type
         }
 
         function getDataset() {
             const sel = document.getElementById('dataSelector').value;
-            if (sel === 'custom') {
-                const val = document.getElementById('customInput').value.trim();
-                return val.length > 0 ? val : "hello\nworld\ncommit\nkim\n";
-            }
-            return datasets[sel];
+            return datasets[sel] || datasets.fruits;
         }
 
         function buildDataset() {
             const rawData = getDataset();
-            document.getElementById('datasetDisplay').innerText = rawData;
+            rawDataString = rawData; // Store globally for validation
+            const container = document.getElementById('datasetDisplay');
+
+            // Build HTML with highlightable spans
+            rawDataLines = rawData.split('\n').filter(w => w.length > 0);
+            container.innerHTML = rawDataLines.map((line, i) => `<span id="word-${i}" class="block py-0.5 px-1 rounded transition-colors">${line}</span>`).join('');
 
             const chars = Array.from(new Set(rawData.replace(/\n/g, '.'))).sort();
             stoi = {}; itos = {};
             chars.forEach((c, i) => { stoi[c] = i; itos[i] = c; });
             vocabSize = chars.length;
 
-            X = []; Y = [];
-            const words = rawData.split('\n').filter(w => w.length > 0);
-            for (let w of words) {
-                let ctx = Array(blockSize).fill(0); // Assuming 0 is '.' or first char
+            X = []; Y = []; SourceIndices = [];
+            for (let i = 0; i < rawDataLines.length; i++) {
+                let w = rawDataLines[i];
+                let ctx = Array(blockSize).fill(0);
                 for (let ch of w + '.') {
                     const ix = stoi[ch === '\n' ? '.' : ch] || 0;
                     X.push([...ctx]);
                     Y.push(ix);
+                    SourceIndices.push(i); // This X comes from word i
                     ctx.shift();
                     ctx.push(ix);
                 }
@@ -324,12 +544,6 @@
                     if (state.dataset === document.getElementById('dataSelector').value) {
                         // Restore logic
                         model = new MicroModel(vocabSize, 8, blockSize);
-                        // Restore weights (simplified: we just restore step/loss for demo, 
-                        // implementing full weight serialization for random JS objects is heavy)
-                        // For this lightweight demo, let's just restore the step count and loss history,
-                        // BUT we must re-train or random init. 
-                        // To be truly persistent, we should save parameters.
-                        // Let's implement parameter saving/loading.
                         if (state.params && state.params.length > 0) {
                             const params = model.parameters();
                             if (params.length === state.params.length) {
@@ -340,6 +554,7 @@
                                 lossHistory = state.lossHistory;
                                 updateStats(lossHistory[lossHistory.length - 1] || 0);
                                 updateChart();
+                                updateStoragePreview();
                                 if (step > 0) lockSelector();
                                 console.log("State restored.");
                                 return;
@@ -355,6 +570,7 @@
             lossHistory = [];
             updateChart();
             updateStats(0);
+            updateStoragePreview();
             document.getElementById('dispLoss').innerText = '-';
             unlockSelector();
         }
@@ -363,28 +579,55 @@
             const params = model.parameters().map(p => p.data);
             const state = {
                 dataset: document.getElementById('dataSelector').value,
-                // input: document.getElementById('customInput').value, // save custom text too if needed
                 step: step,
                 lossHistory: lossHistory,
                 params: params
             };
-            localStorage.setItem('microgpt_state', JSON.stringify(state));
+            try {
+                const s = JSON.stringify(state);
+                localStorage.setItem('microgpt_state', s);
+                updateStoragePreview(s.length);
+            } catch (e) {
+                console.error("Storage limit reached");
+            }
+        }
+
+        function updateStoragePreview(size) {
+            const preview = document.getElementById('persistence-preview');
+            const sizeLabel = document.getElementById('storage-size');
+
+            if (!size) {
+                const s = localStorage.getItem('microgpt_state');
+                size = s ? s.length : 0;
+            }
+
+            sizeLabel.innerText = `${(size / 1024).toFixed(2)} KB used`;
+
+            if (step === 0) {
+                preview.innerText = "// Initialized (No weights saved)";
+                return;
+            }
+
+            // Fake a JSON preview of the model state
+            preview.innerHTML = `<span class="text-blue-400">"step"</span>: <span class="text-green-400">${step}</span>,
+<span class="text-blue-400">"dataset"</span>: <span class="text-orange-400">"${document.getElementById('dataSelector').value}"</span>,
+<span class="text-blue-400">"loss"</span>: <span class="text-green-400">[${lossHistory.slice(-3).map(n => n.toFixed(3)).join(', ')}...]</span>,
+<span class="text-blue-400">"params"</span>: [
+  <span class="text-slate-500">// ${model.parameters().length} float values (weights)</span>
+  ${model.parameters().slice(0, 3).map(p => p.data.toFixed(4)).join(', ')}, ...
+]`;
         }
 
         function loadState() {
+            // Already handled in initModel logic mostly, just ensuring UI sync
             const savedState = localStorage.getItem('microgpt_state');
             if (savedState) {
                 try {
                     const state = JSON.parse(savedState);
                     document.getElementById('dataSelector').value = state.dataset || 'fruits';
-                    if (state.dataset === 'custom') {
-                        document.getElementById('customInput').value = "user defined..."; // partial restore limitation
-                        document.getElementById('customInput').classList.remove('hidden');
-                    }
                 } catch (e) { }
             }
-            changeDataset(); // Visual update
-            initModel(false); // Load Logic
+            initModel(false);
         }
 
         function resetModel(force = true) {
@@ -394,12 +637,10 @@
 
         function lockSelector() {
             document.getElementById('dataSelector').disabled = true;
-            document.getElementById('customInput').disabled = true;
         }
 
         function unlockSelector() {
             document.getElementById('dataSelector').disabled = false;
-            document.getElementById('customInput').disabled = false;
         }
 
         // --- 3. Training Loop ---
@@ -407,21 +648,47 @@
             lockSelector();
 
             const btn1 = document.getElementById('btnTrain1');
-            const btn10 = document.getElementById('btnTrain10');
-            btn1.disabled = true; btn10.disabled = true;
+            const btn10000 = document.getElementById('btnTrain10000');
+            const originalText = btn10000 ? btn10000.innerText : "🚀 10,000 Steps";
+
+            if (btn1) btn1.disabled = true;
+            if (btn10000) btn10000.disabled = true;
+
+            // Update visually less often for high step counts to keep performance
+            const visualFreq = count >= 100 ? 50 : 1;
 
             for (let i = 0; i < count; i++) {
+                // Progress Indicator for long runs
+                if (count >= 1000 && i % 100 === 0 && btn10000) {
+                    const pct = Math.round((i / count) * 100);
+                    btn10000.innerHTML = `<span>⏳</span> Training... ${pct}%`;
+                    await new Promise(r => setTimeout(r, 0)); // Force UI refresh
+                }
+
                 const ri = Math.floor(Math.random() * X.length);
                 const x = X[ri];
                 const y = Y[ri];
+                const sourceIdx = SourceIndices[ri];
 
-                // Update UI
-                const inputChars = x.map(ix => itos[ix]).join('').replace(/\./g, '·');
-                const targetChar = itos[y].replace(/\./g, 'END');
+                // Update visuals
+                if (i % visualFreq === 0 || i === count - 1) {
+                    const inputChars = x.map(ix => itos[ix]).join('').replace(/\./g, '·');
+                    const targetChar = itos[y].replace(/\./g, 'END');
 
-                if (i === count - 1 || count === 1) {
                     document.getElementById('batchInput').innerText = `"${inputChars}"`;
                     document.getElementById('batchTarget').innerText = `"${targetChar}"`;
+
+                    document.querySelectorAll('.word-active').forEach(el => el.classList.remove('word-active'));
+                    const el = document.getElementById(`word-${sourceIdx}`);
+                    const container = document.getElementById('datasetDisplay');
+
+                    if (el && container) {
+                        el.classList.add('word-active');
+                        // Manual scroll to avoid page jumping - use scrollTop within container
+                        const top = el.offsetTop - container.offsetTop;
+                        const centerOffset = (container.clientHeight - el.clientHeight) / 2;
+                        container.scrollTo({ top: top - centerOffset, behavior: 'smooth' });
+                    }
                 }
 
                 // Forward & Backward
@@ -440,19 +707,27 @@
                 step++;
                 lossHistory.push(loss.data);
 
-                if (i === count - 1) {
+                if (i % visualFreq === 0) {
                     updateStats(loss.data);
                     updateChart();
+                    await new Promise(r => setTimeout(r, 0)); // Yield UI
                 }
             }
 
-            saveState(); // Auto-save
+            saveState();
 
-            if (step % 10 === 0 || count >= 10 || step < 20) {
-                generateSamples();
+            // Final Update
+            updateStats(lossHistory[lossHistory.length - 1]);
+            updateChart();
+            // ALWAYS generate samples after training step
+            generateSamples();
+
+            // Reset UI
+            if (btn1) btn1.disabled = false;
+            if (btn10000) {
+                btn10000.innerText = "🚀 10,000 Steps"; // Text resets here
+                btn10000.disabled = false;
             }
-
-            btn1.disabled = false; btn10.disabled = false;
         }
 
         function updateStats(loss) {
@@ -462,30 +737,46 @@
 
         function generateSamples() {
             let out = [];
-            for (let k = 0; k < 4; k++) {
-                let ctx = Array(blockSize).fill(0);
+            for (let k = 0; k < 6; k++) {
+                let ctx = Array(blockSize).fill(0); // '.' context
                 let res = "";
+
                 for (let t = 0; t < 12; t++) {
                     const logits = model.call(ctx);
-                    let maxLogit = -99999;
-                    let maxIx = 0;
-                    logits.forEach((v, i) => { if (v.data > maxLogit) { maxLogit = v.data; maxIx = i; } });
 
-                    if (maxIx === 0) break;
-                    const char = itos[maxIx];
+                    // Weighted random choice
+                    const counts = logits.map(v => Math.exp(v.data));
+                    const sum = counts.reduce((a, b) => a + b, 0);
+                    let r = Math.random() * sum;
+                    let nextIx = 0;
+                    for (let i = 0; i < counts.length; i++) {
+                        r -= counts[i];
+                        if (r <= 0) { nextIx = i; break; }
+                    }
+
+                    if (nextIx === 0) break; // EOS
+                    const char = itos[nextIx];
                     res += char;
                     ctx.shift();
-                    ctx.push(maxIx);
+                    ctx.push(nextIx);
                 }
-                out.push(res);
+                if (res.length > 0) out.push(res);
             }
 
             const container = document.getElementById('samples-container');
-            container.innerHTML = out.map(s =>
-                `<div class="bg-indigo-50 text-indigo-800 p-3 rounded-lg font-mono text-sm border border-indigo-100 flex items-center justify-between group">
-                    <span>${s}</span>
-                </div>`
-            ).join('');
+            container.innerHTML = out.map(s => {
+                // Check correctness
+                const isCorrect = rawDataLines.includes(s);
+                const styleClass = isCorrect
+                    ? "bg-emerald-100 border-emerald-400 text-emerald-800 correct-answer shadow-sm"
+                    : "bg-indigo-50 border-indigo-100 text-indigo-800";
+
+                const icon = isCorrect ? "✅ " : "";
+
+                return `<div class="${styleClass} px-3 py-2 rounded-lg font-mono text-sm border flex items-center justify-between group transition-all duration-300">
+                    <span>${icon}${s}</span>
+                </div>`;
+            }).join('');
         }
 
         // --- Chart ---
@@ -497,7 +788,6 @@
         });
 
         function updateChart() {
-            // Decimate for performance if too long
             const maxPoints = 100;
             let data = lossHistory;
             let labels = lossHistory.map((_, i) => i);
