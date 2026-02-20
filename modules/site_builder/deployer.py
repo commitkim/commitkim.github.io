@@ -88,6 +88,10 @@ def deploy(commit_message=None):
     log.info(f"커밋 완료: {commit_message}")
 
     # 5. Push
+    # Pull first to avoid conflicts
+    log.info("원격 변경사항 확인 중 (git pull)...")
+    _run_git("pull", "--rebase", "origin", "main")
+
     result = _run_git("push", "origin", "main")
     if result is None or result.returncode != 0:
         log.warning("'main' 브랜치 push 실패. 'master' 시도...")
