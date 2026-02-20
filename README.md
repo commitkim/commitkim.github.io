@@ -28,7 +28,7 @@ commitkim/
 ```
 
 > ⚠️ **`docs/` 디렉토리는 자동 생성됩니다. 직접 수정하지 마세요.**
-> `commitkim build` 명령으로 생성되며, 수동 편집 시 다음 빌드에서 덮어씌워집니다.
+> `python -m apps.cli build` 명령으로 생성되며, 수동 편집 시 다음 빌드에서 덮어씌워집니다.
 
 ### 계층 구조 (Dependency Rule)
 
