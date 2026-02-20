@@ -80,6 +80,20 @@ def _run_trader(args):
         _build_and_deploy()
 
 
+def _run_microgpt(args):
+    """Run MicroGPT training and visualization."""
+    log.info("Running MicroGPT...")
+
+    from modules.microgpt.engine import MicroGPTVisualizer
+    
+    viz = MicroGPTVisualizer()
+    viz.run()
+    
+    # Build & Deploy to update dashboard
+    if not getattr(args, 'no_deploy', False):
+        _build_and_deploy()
+
+
 def _build(args=None):
     """Build the static site."""
     log.info("Building static site...")
@@ -140,9 +154,11 @@ def _schedule(args):
     # Register all module jobs
     from modules.crypto_trader.jobs import register_jobs as register_trader
     from modules.news_briefing.jobs import register_jobs as register_news
+    from modules.microgpt.jobs import register_jobs as register_microgpt
 
     register_news(registry)
     register_trader(registry)
+    register_microgpt(registry)
 
     if getattr(args, 'list', False):
         log.info(f"Registered jobs ({len(registry)}):")
@@ -254,6 +270,11 @@ def main():
     trader_parser = run_sub.add_parser("trader", help="Run crypto trading cycle")
     trader_parser.add_argument("--no-deploy", action="store_true", help="Skip build and deployment")
     trader_parser.set_defaults(func=_run_trader)
+
+    # run microgpt
+    microgpt_parser = run_sub.add_parser("microgpt", help="Run MicroGPT visualization")
+    microgpt_parser.add_argument("--no-deploy", action="store_true", help="Skip build and deployment")
+    microgpt_parser.set_defaults(func=_run_microgpt)
 
     # --- build ---
     build_parser = subparsers.add_parser("build", help="Build static site")

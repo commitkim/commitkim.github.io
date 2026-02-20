@@ -26,7 +26,9 @@ DOCS_DIR = PROJECT_ROOT / "docs"
 # Data Paths (Unified)
 DATA_DIR = PROJECT_ROOT / "data"
 NEWS_DATA_DIR = DATA_DIR / "news"
+NEWS_DATA_DIR = DATA_DIR / "news"
 TRADE_DATA_FILE = DATA_DIR / "trade" / "status.json"
+MICROGPT_DATA_FILE = DATA_DIR / "microgpt" / "trace.json"
 
 
 def load_latest_news():
@@ -163,6 +165,18 @@ def map_reason_code(log_entry):
     return log_entry
 
 
+
+def load_microgpt_data():
+    """Loads the latest microgpt trace from data/microgpt/trace.json."""
+    if MICROGPT_DATA_FILE.exists():
+        try:
+            with open(MICROGPT_DATA_FILE, 'r', encoding='utf-8') as f:
+                return json.load(f)
+        except Exception as e:
+            log.error(f"Error loading microgpt data: {e}")
+    return None
+
+
 def build_trade_page(output_dir, context):
     """Builds the dedicated trading status page."""
 
@@ -194,6 +208,21 @@ def build_trade_page(output_dir, context):
     log.info("[OK] Built crypto_trader/index.html")
 
 
+def build_microgpt_page(output_dir, context):
+    """Builds the microgpt visualization page."""
+    env = Environment(loader=FileSystemLoader(str(TEMPLATES_DIR)))
+    template = env.get_template('microgpt.html')
+    output = template.render(context)
+
+    # Output to docs/microgpt/index.html
+    microgpt_dir = output_dir / "microgpt"
+    microgpt_dir.mkdir(parents=True, exist_ok=True)
+    
+    with open(microgpt_dir / 'index.html', 'w', encoding='utf-8') as f:
+        f.write(output)
+    log.info("[OK] Built microgpt/index.html")
+
+
 def build(output_dir=None):
     """Main build function."""
     if output_dir is None:
@@ -207,11 +236,13 @@ def build(output_dir=None):
     news_data = load_latest_news()
     recent_news = load_recent_news_list()  # Fetch sidebar list
     trade_data = load_trade_status()
+    microgpt_data = load_microgpt_data()
 
     context = {
         'news': news_data,
         'recent_news': recent_news,  # Pass to template
         'trade': trade_data,
+        'microgpt': microgpt_data,
         'generated_at': datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
         'summary_html': markdown.markdown(news_data.get('web_report', '')) if news_data else None,
         'coin_names': {
@@ -240,7 +271,11 @@ def build(output_dir=None):
         trade_dir.mkdir(parents=True, exist_ok=True)
         build_trade_page(trade_dir, context)
 
-    # 4. Copy Static Files
+    # 4. Built MicroGPT Page
+    if microgpt_data:
+        build_microgpt_page(output_dir, context)
+
+    # 5. Copy Static Files
     if STATIC_DIR.exists():
         static_dst = output_dir / 'static'
         if static_dst.exists():

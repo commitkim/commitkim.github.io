@@ -76,3 +76,14 @@ site_builder:
 logging:
   level: "INFO"
   format: "%(asctime)s [%(levelname)s] %(name)s: %(message)s"
+
+# =============================================================================
+# 🧠 MicroGPT
+# =============================================================================
+microgpt:
+  schedule_enabled: false
+  model_params:
+    n_layer: 1
+    n_embd: 16
+    n_head: 4
+    block_size: 16
