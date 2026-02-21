@@ -90,15 +90,31 @@ def deploy(commit_message=None):
     # 5. Push
     # Pull first to avoid conflicts
     log.info("원격 변경사항 확인 중 (git pull)...")
-    _run_git("pull", "--rebase", "origin", "main")
+    pull_result = _run_git("pull", "--rebase", "origin", "main")
+
+    if pull_result is None or pull_result.returncode != 0:
+        log.warning("Pull(rebase) 중 충돌 발생. Rebase 취소 후 원격 우선 병합 시도...")
+        _run_git("rebase", "--abort")
+        
+        # merge strategy-option theirs means KEEP REMOTE changes on conflict
+        merge_result = _run_git("pull", "--no-rebase", "-X", "theirs", "origin", "main")
+        if merge_result is None or merge_result.returncode != 0:
+            log.error("자동 병합 실패. 수동 (git pull) 확인이 필요합니다.")
+            return False
+            
+        log.info("병합 완료. 변경된 데이터로 사이트를 다시 빌드하여 충돌을 정리합니다.")
+        try:
+            from modules.site_builder.builder import build_all
+            build_all()
+            _run_git("add", "docs/")
+            _run_git("commit", "-m", "Auto-resolve: Rebuild docs after merge")
+        except Exception as e:
+            log.error(f"재빌드 중 오류: {e}")
 
     result = _run_git("push", "origin", "main")
     if result is None or result.returncode != 0:
-        log.warning("'main' 브랜치 push 실패. 'master' 시도...")
-        result = _run_git("push", "origin", "master")
-        if result is None or result.returncode != 0:
-            log.error("Git push 실패. 브랜치 이름을 확인하세요.")
-            return False
+        log.warning("'main' 브랜치 push 실패. 강제 진행을 시도하지 않습니다. 로그를 확인하세요.")
+        return False
 
     log.info("Git push 완료! GitHub Pages에 곧 반영됩니다.")
     return True
