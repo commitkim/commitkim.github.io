@@ -645,22 +645,27 @@
         }
 
         // --- 3. Training Loop ---
+        let timelineSamples = []; // To store chronological progress
+
         async function trainStep(count) {
             lockSelector();
 
             const btn1 = document.getElementById('btnTrain1');
             const btn10000 = document.getElementById('btnTrain10000');
-            const originalText = btn10000 ? btn10000.innerText : "🚀 10,000 Steps";
+            const isLongRun = count >= 1000;
+
+            if (isLongRun) timelineSamples = []; // Reset timeline for long runs
 
             if (btn1) btn1.disabled = true;
             if (btn10000) btn10000.disabled = true;
 
-            // Update visually less often for high step counts to keep performance
-            const visualFreq = count >= 100 ? 50 : 1;
+            // Visual update frequencies
+            const visualFreq = count >= 100 ? Math.floor(count / 20) : 1; // UI update
+            const sampleFreq = count >= 1000 ? Math.floor(count / 10) : count; // 10 checkpoints for long runs
 
             for (let i = 0; i < count; i++) {
                 // Progress Indicator for long runs
-                if (count >= 1000 && i % 100 === 0 && btn10000) {
+                if (isLongRun && i % (count / 100) === 0 && btn10000) {
                     const pct = Math.round((i / count) * 100);
                     btn10000.innerHTML = `<span>⏳</span> ${pct}%`;
                     await new Promise(r => setTimeout(r, 0)); // Force UI refresh
@@ -694,7 +699,12 @@
 
                 // Forward & Backward
                 const logits = model.call(x);
-                const counts = logits.map(v => v.exp());
+
+                // Numeric stability for softmax: subtract max logit
+                let maxLogit = -Infinity;
+                for (let v of logits) if (v.data > maxLogit) maxLogit = v.data;
+                const counts = logits.map(v => new Value(v.data - maxLogit).exp());
+
                 const sum = counts.reduce((a, b) => a.add(b), new Value(0));
                 const prob = counts[y].mul(sum.pow(-1));
                 const loss = prob.log().mul(new Value(-1));
@@ -702,11 +712,19 @@
                 model.zeroGrad();
                 loss.backward();
 
-                const lr = 0.1;
+                // Learning rate decay: start at 0.1, decay to 0.01
+                const lr = 0.1 - (0.09 * (i / count));
                 for (let p of model.parameters()) p.data -= lr * p.grad;
 
                 step++;
                 lossHistory.push(loss.data);
+
+                if (i > 0 && isLongRun && i % sampleFreq === 0) {
+                    // Generate intermediate samples and store them
+                    const midSamples = runGeneration();
+                    timelineSamples.push({ percent: Math.round((i / count) * 100), samples: midSamples });
+                    renderTimelineSamples();
+                }
 
                 if (i % visualFreq === 0) {
                     updateStats(loss.data);
@@ -720,13 +738,20 @@
             // Final Update
             updateStats(lossHistory[lossHistory.length - 1]);
             updateChart();
-            // ALWAYS generate samples after training step
-            generateSamples();
+
+            // Generate final samples
+            const finalSamples = runGeneration();
+            if (isLongRun) {
+                timelineSamples.push({ percent: 100, samples: finalSamples });
+                renderTimelineSamples();
+            } else {
+                renderSingleSamples(finalSamples);
+            }
 
             // Reset UI
             if (btn1) btn1.disabled = false;
             if (btn10000) {
-                btn10000.innerHTML = `<span>🚀</span> 10k Steps`; // Text resets here
+                btn10000.innerHTML = `<span>🚀</span> 10k Steps`;
                 btn10000.disabled = false;
             }
         }
@@ -736,7 +761,7 @@
             document.getElementById('dispLoss').innerText = typeof loss === 'number' ? loss.toFixed(4) : '-';
         }
 
-        function generateSamples() {
+        function runGeneration() {
             let out = [];
             for (let k = 0; k < 6; k++) {
                 let ctx = Array(blockSize).fill(0); // '.' context
@@ -745,8 +770,11 @@
                 for (let t = 0; t < 12; t++) {
                     const logits = model.call(ctx);
 
-                    // Weighted random choice
-                    const counts = logits.map(v => Math.exp(v.data));
+                    // Weighted random choice with numeric stability
+                    let maxData = -Infinity;
+                    for (let v of logits) if (v.data > maxData) maxData = v.data;
+                    const counts = logits.map(v => Math.exp(v.data - maxData));
+
                     const sum = counts.reduce((a, b) => a + b, 0);
                     let r = Math.random() * sum;
                     let nextIx = 0;
@@ -763,21 +791,48 @@
                 }
                 if (res.length > 0) out.push(res);
             }
+            return out;
+        }
 
+        function generateSamples() {
+            renderSingleSamples(runGeneration());
+        }
+
+        function renderSingleSamples(samples) {
             const container = document.getElementById('samples-container');
-            container.innerHTML = out.map(s => {
-                // Check correctness
+            container.innerHTML = samples.map(s => {
                 const isCorrect = rawDataLines.includes(s);
                 const styleClass = isCorrect
                     ? "bg-emerald-100 border-emerald-400 text-emerald-800 correct-answer shadow-sm"
                     : "bg-indigo-50 border-indigo-100 text-indigo-800";
-
                 const icon = isCorrect ? "✅ " : "";
-
-                return `<div class="${styleClass} px-3 py-2 rounded-lg font-mono text-sm border flex items-center justify-between group transition-all duration-300">
+                return `<div class="${styleClass} px-3 py-2 rounded-lg font-mono text-sm border flex items-center justify-between transition-all duration-300">
                     <span>${icon}${s}</span>
                 </div>`;
             }).join('');
+        }
+
+        function renderTimelineSamples() {
+            const container = document.getElementById('samples-container');
+            // Change container layout to vertical for timeline
+            container.className = "flex flex-col gap-4";
+
+            container.innerHTML = timelineSamples.map(checkpoint => {
+                const sampleHtml = checkpoint.samples.map(s => {
+                    const isCorrect = rawDataLines.includes(s);
+                    const styleClass = isCorrect
+                        ? "bg-emerald-100 border-emerald-400 text-emerald-800 font-bold"
+                        : "bg-white border-slate-200 text-slate-600";
+                    return `<span class="${styleClass} px-2 py-1 rounded text-xs border inline-block mr-1 mb-1">${s}</span>`;
+                }).join('');
+
+                return `
+                <div class="border-l-2 border-indigo-200 pl-3 py-1 relative animate-fade-in-up">
+                    <div class="absolute -left-[5px] top-2 w-2 h-2 rounded-full bg-indigo-500"></div>
+                    <div class="text-[10px] font-bold text-indigo-400 mb-1">Training ${checkpoint.percent}%</div>
+                    <div class="flex flex-wrap">${sampleHtml}</div>
+                </div>`;
+            }).reverse().join(''); // Reverse to show latest at top
         }
 
         // --- Chart ---
