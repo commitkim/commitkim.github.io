@@ -5,7 +5,7 @@ name: News Briefing
 
 on:
   schedule:
-    - cron: '50 23 * * 0-4'   # 08:50 KST (UTC+9) 평일 Morning (Sun-Thu UTC)
+    - cron: '0 0 * * 1-5'     # 09:00 KST (UTC+9) 평일 Morning (Mon-Fri UTC)
     - cron: '30 9 * * 1-5'    # 18:30 KST (UTC+9) 평일 Evening
   workflow_dispatch:         # Manual trigger
     inputs:

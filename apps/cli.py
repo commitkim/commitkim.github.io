@@ -25,6 +25,7 @@ log = get_logger("cli")
 def _run_news(args):
     """Run the news briefing pipeline."""
     mode = getattr(args, 'mode', 'morning')
+    target_date = getattr(args, 'date', None)
     log.info(f"Running news briefing ({mode} mode)...")
 
     from modules.messenger.kakao import send_message
@@ -34,7 +35,7 @@ def _run_news(args):
     keyword = cfg.get(f"news_briefing.modes.{mode}.keyword")
 
     # 1. Collect videos
-    candidates = collector.find_todays_videos(keyword=keyword)
+    candidates = collector.find_todays_videos(keyword=keyword, target_date=target_date)
     if not candidates:
         log.warning("오늘자 영상을 찾지 못했습니다.")
         return
@@ -263,6 +264,7 @@ def main():
     # run news
     news_parser = run_sub.add_parser("news", help="Run news briefing")
     news_parser.add_argument("--mode", choices=["morning", "evening"], default="morning")
+    news_parser.add_argument("--date", help="Target date (YYYYMMDD) for video search, e.g. 20260223")
     news_parser.add_argument("--no-deploy", action="store_true", help="Skip deployment")
     news_parser.set_defaults(func=_run_news)
 

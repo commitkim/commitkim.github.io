@@ -19,7 +19,7 @@ from core.logger import get_logger
 log = get_logger("news_briefing.collector")
 
 
-def find_todays_videos(channel_id=None, keyword=None):
+def find_todays_videos(channel_id=None, keyword=None, target_date=None):
     """
     RSS 피드에서 오늘 날짜의 영상을 검색합니다.
 
@@ -50,8 +50,8 @@ def find_todays_videos(channel_id=None, keyword=None):
         entries = root.findall('atom:entry', ns)
         log.debug(f"발견된 영상 수: {len(entries)}")
 
-        today_str = datetime.now().strftime("%Y%m%d")
-        log.debug(f"오늘 날짜 기준: {today_str}")
+        today_str = target_date or datetime.now().strftime("%Y%m%d")
+        log.debug(f"대상 날짜 기준: {today_str}")
 
         candidates = []
 
