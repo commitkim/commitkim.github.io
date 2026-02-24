@@ -219,7 +219,7 @@ def _setup(args):
 
 
 def _save_summary(summary, date_str, mode, video_id, title):
-    """Save summary data to JSON file."""
+    """Save summary data to JSON file in legacy format."""
     import json
     import os
     from datetime import datetime
@@ -231,12 +231,16 @@ def _save_summary(summary, date_str, mode, video_id, title):
 
     data = {
         "video_id": video_id,
-        "title": title,
-        "date": date_str,
+        "video_title": title,
+        "video_date": date_str,
+        "video_url": f"https://youtube.com/watch?v={video_id}",
         "mode": mode,
         "created_at": datetime.now().isoformat(),
         **summary
     }
+    
+    if 'market_summary' not in data:
+        data['market_summary'] = {}
 
     filepath = data_dir / f"{date_str}.json"
     with open(filepath, 'w', encoding='utf-8') as f:

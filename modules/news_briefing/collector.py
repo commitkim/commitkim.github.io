@@ -107,42 +107,27 @@ def extract_transcript(video_id):
     try:
         yt = YouTubeTranscriptApi()
 
-        # list() 메서드로 자막 목록 가져오기
-        if hasattr(yt, 'list'):
-            transcript_list = yt.list(video_id)
-        else:
-            try:
-                transcript_list = YouTubeTranscriptApi.list_transcripts(video_id)
-            except AttributeError:
-                if hasattr(yt, 'get_transcript'):
-                    transcript_data = yt.get_transcript(video_id, languages=['ko'])
-                    if transcript_data and hasattr(transcript_data[0], 'text'):
-                        return " ".join([item.text for item in transcript_data])
-                    else:
-                        return " ".join([item['text'] for item in transcript_data])
-                else:
-                    raise Exception("자막 메서드를 찾을 수 없습니다.")
+        # Fetch transcript list object
+        transcript_list = yt.list(video_id)
 
-        # 한국어 자막 찾기
+        # 1. Try manual or auto-generated Korean captions
         try:
             transcript = transcript_list.find_transcript(['ko'])
         except Exception:
-            log.info("한국어 자막 없음, 자동 생성 자막 검색...")
+            log.info("정식 한국어 자막 없음, 자동 생성 자막 검색...")
             try:
                 transcript = transcript_list.find_generated_transcript(['ko'])
             except Exception:
-                log.warning("한국어 자동 생성 자막도 없음.")
+                log.warning("한국어 관련 자막이 전혀 존재하지 않거나 비활성화 되어 있습니다.")
                 return None
 
+        # Fetch the actual caption data
         transcript_data = transcript.fetch()
 
         if transcript_data:
-            first_item = transcript_data[0]
-            if hasattr(first_item, 'text'):
-                return " ".join([item.text for item in transcript_data])
-            else:
-                return " ".join([item['text'] for item in transcript_data])
-
+            # Reconstruct transcript text
+            return " ".join([item.text for item in transcript_data])
+            
         return None
 
     except Exception as e:
