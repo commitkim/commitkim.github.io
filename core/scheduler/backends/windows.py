@@ -64,6 +64,13 @@ class WindowsSchedulerBackend(SchedulerBackend):
 
             success = self._run_schtasks(create_cmd)
             if success:
+                # Enable "Run task as soon as possible after a scheduled start is missed"
+                # so the task runs on boot if the computer was asleep at the scheduled time.
+                ps_cmd = [
+                    "powershell", "-Command",
+                    f"Set-ScheduledTask -TaskName {task_name} -Settings (New-ScheduledTaskSettingsSet -StartWhenAvailable)"
+                ]
+                self._run_schtasks(ps_cmd, ignore_errors=True)
                 log.info(f"[OK] Registered: {task_name} ({job.schedule})")
             else:
                 log.error(f"[ERR] Failed to register: {task_name}")
