@@ -67,24 +67,36 @@ def find_todays_videos(channel_id=None, keyword=None, target_date=None):
             # published 날짜 파싱
             published = entry.find('atom:published', ns).text
 
-            # 제목에서 날짜 추출 (YYYYMMDD)
+            # 제목에서 날짜 추출 (YYYYMMDD) 패턴 또는 M월 D일 패턴
             date_match = re.search(r'20\d{6}', title)
+            kr_date_match = re.search(r'(\d{1,2})월\s*(\d{1,2})일', title)
+            
+            extracted_date_str = None
             if date_match:
                 raw_date = date_match.group()
                 video_date = f"{raw_date[:4]}-{raw_date[4:6]}-{raw_date[6:]}"
+                extracted_date_str = raw_date
+            elif kr_date_match:
+                m, d = kr_date_match.groups()
+                # Use current year for 'M월 D일' formats since year is omitted
+                current_year = today_str[:4]
+                extracted_date_str = f"{current_year}{int(m):02d}{int(d):02d}"
+                video_date = f"{current_year}-{int(m):02d}-{int(d):02d}"
             else:
                 # KST 변환
                 try:
                     published_dt = datetime.strptime(published, "%Y-%m-%dT%H:%M:%S+00:00")
                     published_dt = published_dt + timedelta(hours=9)
                     video_date = published_dt.strftime("%Y-%m-%d")
+                    extracted_date_str = published_dt.strftime("%Y%m%d")
                 except Exception:
                     video_date = published[:10]
+                    extracted_date_str = video_date.replace("-", "")
 
             video_id = entry.find('yt:videoId', ns).text
 
-            # 오늘 날짜 매칭 확인
-            if today_str in title:
+            # 오늘 날짜 매칭 확인 (제목에 today_str가 있거나, 추출된 날짜가 today_str와 일치하는지)
+            if today_str in title or extracted_date_str == today_str:
                 candidates.append((video_id, title, video_date))
                 log.info(f"오늘자 영상 발견: {title} ({video_date})")
             else:
