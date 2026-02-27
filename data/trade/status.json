@@ -1,5 +1,5 @@
 {
-  "timestamp": "2026-02-27 19:02:10",
+  "timestamp": "2026-02-27 20:02:25",
   "total_assets": 49991.67757147,
   "positions": {
     "KRW": {
@@ -10,48 +10,6 @@
     }
   },
   "recent_trades": [
-    {
-      "ticker": "KRW-XRP",
-      "decision": "hold",
-      "reason": "TREND_ALIGNMENT | RSI_FILTER",
-      "time": "02/20 21:02",
-      "confidence": 1.0
-    },
-    {
-      "ticker": "KRW-SOL",
-      "decision": "hold",
-      "reason": "RSI_FILTER",
-      "time": "02/20 21:02",
-      "confidence": 0.9
-    },
-    {
-      "ticker": "KRW-AVAX",
-      "decision": "hold",
-      "reason": "RSI_FILTER",
-      "time": "02/20 21:02",
-      "confidence": 1.0
-    },
-    {
-      "ticker": "KRW-DOGE",
-      "decision": "hold",
-      "reason": "TREND_ALIGNMENT",
-      "time": "02/20 21:02",
-      "confidence": 0.0
-    },
-    {
-      "ticker": "KRW-BTC",
-      "decision": "hold",
-      "reason": "RSI_FILTER",
-      "time": "02/20 22:02",
-      "confidence": 1.0
-    },
-    {
-      "ticker": "KRW-ETH",
-      "decision": "hold",
-      "reason": "TREND_ALIGNMENT",
-      "time": "02/20 22:02",
-      "confidence": 1.0
-    },
     {
       "ticker": "KRW-XRP",
       "decision": "hold",
@@ -7009,6 +6967,48 @@
       "reason": "TREND_ALIGNMENT",
       "time": "02/27 19:02",
       "confidence": 1.0
+    },
+    {
+      "ticker": "KRW-BTC",
+      "decision": "hold",
+      "reason": "RSI_FILTER",
+      "time": "02/27 20:02",
+      "confidence": 0.2
+    },
+    {
+      "ticker": "KRW-ETH",
+      "decision": "hold",
+      "reason": "TREND_ALIGNMENT",
+      "time": "02/27 20:02",
+      "confidence": 0.9
+    },
+    {
+      "ticker": "KRW-XRP",
+      "decision": "hold",
+      "reason": "TREND_ALIGNMENT",
+      "time": "02/27 20:02",
+      "confidence": 1.0
+    },
+    {
+      "ticker": "KRW-SOL",
+      "decision": "hold",
+      "reason": "RSI_FILTER_NOT_MET",
+      "time": "02/27 20:02",
+      "confidence": 0.2
+    },
+    {
+      "ticker": "KRW-AVAX",
+      "decision": "hold",
+      "reason": "RSI_FILTER",
+      "time": "02/27 20:02",
+      "confidence": 0.9
+    },
+    {
+      "ticker": "KRW-DOGE",
+      "decision": "hold",
+      "reason": "TREND_ALIGNMENT",
+      "time": "02/27 20:02",
+      "confidence": 0.1
     }
   ]
 }
