@@ -1,12 +1,12 @@
 {
-  "timestamp": "2026-03-01 03:02:32",
-  "total_assets": 49271.59072896,
+  "timestamp": "2026-03-01 04:02:35",
+  "total_assets": 49655.93987965,
   "positions": {
     "BTC": {
       "balance": 0.00020735,
-      "value": 19818.9277,
+      "value": 19940.64215,
       "avg_buy_price": 95835000.0,
-      "return_rate": -0.26399540877549954
+      "return_rate": 0.3485156779882089
     },
     "KRW": {
       "balance": 7334.25367085,
@@ -16,54 +16,12 @@
     },
     "XRP": {
       "balance": 11.41890003,
-      "value": 22118.40935811,
+      "value": 22381.0440588,
       "avg_buy_price": 1937.33339252,
-      "return_rate": -0.017208835675221527
+      "return_rate": 1.1699900268851655
     }
   },
   "recent_trades": [
-    {
-      "ticker": "KRW-XRP",
-      "decision": "hold",
-      "reason": "RSI_FILTER_NOT_MET",
-      "time": "02/22 06:01",
-      "confidence": 0.9
-    },
-    {
-      "ticker": "KRW-SOL",
-      "decision": "hold",
-      "reason": "RSI_FILTER",
-      "time": "02/22 06:01",
-      "confidence": 1.0
-    },
-    {
-      "ticker": "KRW-AVAX",
-      "decision": "hold",
-      "reason": "RSI_FILTER",
-      "time": "02/22 06:01",
-      "confidence": 1.0
-    },
-    {
-      "ticker": "KRW-DOGE",
-      "decision": "hold",
-      "reason": "RSI_FILTER_NOT_MET",
-      "time": "02/22 06:01",
-      "confidence": 0.9
-    },
-    {
-      "ticker": "KRW-BTC",
-      "decision": "hold",
-      "reason": "RSI_FILTER_BUY_CONDITION_NOT_MET",
-      "time": "02/22 07:02",
-      "confidence": 1.0
-    },
-    {
-      "ticker": "KRW-ETH",
-      "decision": "hold",
-      "reason": "RSI_FILTER_NOT_MET",
-      "time": "02/22 07:02",
-      "confidence": 1.0
-    },
     {
       "ticker": "KRW-XRP",
       "decision": "hold",
@@ -7021,6 +6979,48 @@
       "reason": "MAX_COINS_REACHED",
       "time": "03/01 03:02",
       "confidence": 0.65
+    },
+    {
+      "ticker": "KRW-BTC",
+      "decision": "hold",
+      "reason": "STRONG_MOMENTUM",
+      "time": "03/01 04:02",
+      "confidence": 0.85
+    },
+    {
+      "ticker": "KRW-ETH",
+      "decision": "buy",
+      "reason": "STRONG_MOMENTUM",
+      "time": "03/01 04:02",
+      "confidence": 0.85
+    },
+    {
+      "ticker": "KRW-XRP",
+      "decision": "hold",
+      "reason": "MAX_COINS_REACHED",
+      "time": "03/01 04:02",
+      "confidence": 0.8
+    },
+    {
+      "ticker": "KRW-SOL",
+      "decision": "buy",
+      "reason": "STRONG_MOMENTUM",
+      "time": "03/01 04:02",
+      "confidence": 0.85
+    },
+    {
+      "ticker": "KRW-AVAX",
+      "decision": "buy",
+      "reason": "STRONG_MOMENTUM",
+      "time": "03/01 04:02",
+      "confidence": 0.85
+    },
+    {
+      "ticker": "KRW-DOGE",
+      "decision": "hold",
+      "reason": "MAX_COINS_REACHED",
+      "time": "03/01 04:02",
+      "confidence": 0.85
     }
   ]
 }
