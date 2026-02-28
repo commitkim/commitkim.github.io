@@ -125,9 +125,9 @@ class CryptoEngine:
             ohlcv_json = df.tail(24).to_json(orient='records')
 
             prompt = f"""
-            You are an autonomous crypto trading decision engine operating a very small account (approx 50,000 KRW).
-            Your PRIMARY objective is long-term capital survival. Profit is secondary.
-            If uncertain, DO NOT trade.
+            You are an autonomous crypto trading decision engine operating an account.
+            Your PRIMARY objective is aggressive capital growth and profit maximization.
+            Take calculated risks when momentum is favorable.
 
             ### MARKET DATA ({ticker})
             Current Price: {current_price}
@@ -140,24 +140,23 @@ class CryptoEngine:
             Current Position: {balance_info}
 
             ### TRADING RULES
-            1. Capital Preservation: if Total Equity < 50,000 KRW, be extremely conservative.
-            2. RSI Filter: Buy only if RSI < 35 (Oversold). Sell if RSI > 70.
+            1. Profit Maximization: Aggressively seek entry points during uptrends or strong momentum.
+            2. RSI Filter: Buy when RSI suggests strong momentum (e.g., RSI > 40) or opportunistic dips. Avoid buying at extreme overbought levels (RSI > 85) unless momentum is exceptional.
             3. Risk Management:
-               - Position Size: Max 20% of equity per trade.
-               - Stop Loss: -2% from entry.
-               - Take Profit: +4% from entry.
-            4. Volatility Filter: Avoid extreme panic or zero movement.
-            5. Trend Alignment: Do NOT Buy against downtrend (MA20 < MA60).
+               - Position Size: Max {self.investment_per_trade_pct * 100}% of equity per trade.
+               - Stop Loss: {self.stop_loss_default * 100}% from entry.
+               - Take Profit: {self.take_profit_min * 100}% from entry.
+            4. Trend Alignment: Favor buying when momentum is strong. You can buy even if MA20 < MA60 if there is a clear reversal or breakout signal.
 
             ### OUTPUT FORMAT (STRICT JSON ONLY)
             {{
               "action": "BUY" | "SELL" | "HOLD",
-              "position_size_percent": number (1-30),
+              "position_size_percent": number (1-{int(self.investment_per_trade_pct * 100)}),
               "limit_price": number (optional),
               "stop_loss_price": number,
-              "take_profit_price": number (Min 1.5x Risk),
+              "take_profit_price": number,
               "confidence": 0.0~1.0,
-              "reason_code": "TREND_ALIGNMENT | VOLATILITY_FILTER | RISK_MANAGEMENT | LOW_CONFIDENCE | ..."
+              "reason_code": "STRONG_MOMENTUM | BREAKOUT | DIP_BUY | RISK_MANAGEMENT | LOW_CONFIDENCE | ..."
             }}
 
             Analyze the following OHLCV data and provide your decision:
@@ -191,8 +190,8 @@ class CryptoEngine:
         action = decision.get('action', 'HOLD')
         confidence = decision.get('confidence', 0)
 
-        # 1. Global Filter: Low Confidence
-        if confidence < 0.65 and action != 'SELL':
+        # 1. Global Filter: Low Confidence (Lowered for aggressive strategy)
+        if confidence < 0.55 and action != 'SELL':
              log.info(f"✋ Low Confidence ({confidence:.2f}) -> HOLD {ticker}")
              return
 
@@ -370,35 +369,34 @@ class CryptoEngine:
         """Maps technical codes to friendly Korean messages."""
         conf = float(conf)
         mapping = {
-            "TREND_ALIGNMENT": ("[TREND] 현재 가격이 장기 이동평균선(60일선) 아래에 있어 "
-                                "하락세가 강합니다. 안전을 위해 매수를 보류했습니다."),
-            "VOLATILITY_FILTER": ("[VOL] 시장의 변동성이 너무 적거나 반대로 너무 극심합니다. "
-                                  "예측이 어려워 진입하지 않았습니다."),
-            "LOW_CONFIDENCE": (f"[LOW] 상승 확신도가 기준치(0.65)보다 낮은 {conf:.2f}입니다. "
-                               "더 확실한 기회를 기다립니다."),
-            "MAX_COINS_REACHED": ("[LIMIT] 이미 최대 보유 종목 수(3개)를 채웠습니다. "
-                                  "새로운 종목을 매수하려면 기존 종목이 매도되어야 합니다."),
-            "ASSET_ALLOCATION": ("[LIMIT] 한 종목에 담을 수 있는 최대 비중을 초과하게 됩니다. "
-                                 "리스크 관리를 위해 추가 매수를 제한합니다."),
-            "CONSECUTIVE_LOSS_PROTECTION": ("[COOL] 최근 연속으로 손실이 발생하여 '쿨다운' 중입니다. "
-                                            "잠시 머리를 식히며 시장을 관망합니다."),
-            "LOSS_CUT": ("[LOSS] 아쉽지만 손절매 라인(-3%)을 건드렸습니다. "
-                         "더 큰 손실을 막기 위해 원칙대로 매도하여 자본을 지킵니다."),
-            "TAKE_PROFIT": ("[PROFIT] 목표 수익률(+5%)에 도달했습니다! "
-                            "욕심부리지 않고 수익을 확정 지어 주머니에 넣습니다."),
-            "STRUCTURE_UNCLEAR": ("[UNCLEAR] 차트의 흐름이 위인지 아래인지 명확하지 않습니다. "
-                                  "방향이 결정될 때까지 지켜보는 게 좋겠습니다."),
-            "API_ERROR": "[ERR] 일시적인 시스템/통신 오류가 발생했습니다. 안전을 위해 이번 턴은 건너뜁니다.",
-            "CAPITAL_PRESERVATION": ("[SAVE] 지금은 돈을 버는 것보다 지키는 것이 더 중요한 시기입니다. "
-                                     "무리하지 않고 현금을 보유합니다."),
-            "UNCLEAR_TREND": ("[UNCLEAR] 상승장인지 하락장인지 뚜렷하지 않습니다. "
-                              "애매할 땐 쉬어가는 것이 상책입니다."),
-            "LOW_CONFIDENCE_AND_UNCLEAR_TREND": ("[WEAK] 확신도 부족하고 추세도 애매합니다. "
-                                                 "이럴 때 매수하면 물리기 쉽습니다."),
-            "BEARISH_MOMENTUM_INDICATORS": ("[BEAR] 보조지표(MACD, RSI)가 하락을 가리키고 있습니다. "
-                                            "매수하기엔 힘이 빠져 보입니다."),
-            "PRICE_BELOW_MAS": ("[DOWN] 가격이 주요 이동평균선 아래로 처져 있습니다. "
-                                "상승 추세로 돌아설 때까지 기다립니다.")
+            "TREND_ALIGNMENT": ("[TREND] 하락세가 강하지만, 모멘텀을 지켜보며 기회를 엿보고 있습니다."),
+            "VOLATILITY_FILTER": ("[VOL] 시장의 변동성을 주시하며 적극적인 진입 타이밍을 계산 중입니다."),
+            "LOW_CONFIDENCE": (f"[LOW] 확신도({conf:.2f})가 아직 진입 기준(0.55)에 못 미칩니다. 조금 더 강한 시그널을 기다립니다."),
+            "MAX_COINS_REACHED": ("[LIMIT] 이미 공격적으로 투자하여 최대 보유 종목 수에 도달했습니다. "
+                                  "수익 실현 후 새로운 기회를 노리겠습니다."),
+            "ASSET_ALLOCATION": ("[LIMIT] 한 종목에 집중 투자할 수 있는 공격적 한계치에 도달했습니다. "
+                                 "리스크 분산을 위해 추가 진입을 보류합니다."),
+            "CONSECUTIVE_LOSS_PROTECTION": ("[COOL] 잦은 타격으로 잠시 전열을 가다듬고 있습니다. "
+                                            "곧 다시 공격적인 매매를 재개할 예정입니다."),
+            "LOSS_CUT": ("[LOSS] 공격적인 손절매 처리! "
+                         "더 좋은 기회로 빠르게 갈아타기 위해 손실을 짧게 끊어냈습니다."),
+            "TAKE_PROFIT": ("[PROFIT] 과감한 익절 적중! "
+                            "빠르게 수익을 챙기고 다음 사냥감을 찾습니다."),
+            "STRUCTURE_UNCLEAR": ("[UNCLEAR] 변동성이 애매합니다. "
+                                  "큰 파도가 오기 전까지는 체력을 비축합니다."),
+            "API_ERROR": "[ERR] 시스템 오류가 발생하여 작전을 일시 중지합니다.",
+            "CAPITAL_PRESERVATION": ("[SAVE] 현재는 베팅하기 좋은 장세가 아닙니다. "
+                                     "다음 기회를 위해 화력을 보존합니다."),
+            "UNCLEAR_TREND": ("[UNCLEAR] 흐름이 불분명하여 무리한 진입을 자제합니다."),
+            "LOW_CONFIDENCE_AND_UNCLEAR_TREND": ("[WEAK] 확신도와 추세 모두 돌파력이 부족합니다. "
+                                                 "승률이 높은 곳에만 타격합니다."),
+            "BEARISH_MOMENTUM_INDICATORS": ("[BEAR] 보조지표가 꺾였습니다. "
+                                            "물러서야 할 때를 아는 것도 실력입니다."),
+            "PRICE_BELOW_MAS": ("[DOWN] 저항선 아래에 갇혀 있습니다. "
+                                "돌파하는 순간을 노리겠습니다."),
+            "STRONG_MOMENTUM": ("[HOT] 강력한 상승 모멘텀 포착! 공격적으로 진입합니다."),
+            "BREAKOUT": ("[BREAK] 주요 저항선 돌파 시그널! 과감하게 승부를 겁니다."),
+            "DIP_BUY": ("[DIP] 단기 과대 낙폭 포착. 상승 반전을 노려 공격적으로 매수합니다.")
         }
         return mapping.get(code, code)
 

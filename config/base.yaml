@@ -41,15 +41,15 @@ crypto_trader:
   interval_minutes: 60
   schedule: "0 * * * *"
   capital:
-    investment_per_trade: 0.2
-    max_exposure_total: 0.5
-    max_coins_held: 3
+    investment_per_trade: 0.4
+    max_exposure_total: 0.7
+    max_coins_held: 5
     consecutive_loss_limit: 3
-    max_allocation_per_coin: 0.3
+    max_allocation_per_coin: 0.5
   risk:
-    risk_per_trade: 0.01
-    stop_loss_default: -0.02
-    take_profit_min: 0.03
+    risk_per_trade: 0.02
+    stop_loss_default: -0.05
+    take_profit_min: 0.05
 
 # =============================================================================
 # 🤖 AI Settings
