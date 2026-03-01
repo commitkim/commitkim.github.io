@@ -56,8 +56,8 @@ class CryptoEngine:
 
         # Config shortcuts
         self.coins = self.cfg.get("crypto_trader.coins", [])
-        self.interval = self.cfg.get("crypto_trader.interval_minutes", 60)
-        self.interval_str = "minute60" # Hardcoded in legacy, map from interval if needed
+        self.interval = self.cfg.get("crypto_trader.interval_minutes", 15)
+        self.interval_str = f"minute{self.interval}"  # Dynamically use interval from config
 
         # Capital Config
         self.max_coins_held = self.cfg.get("crypto_trader.capital.max_coins_held", 3)
@@ -142,10 +142,10 @@ class CryptoEngine:
             ### TRADING RULES
             1. Profit Maximization: Aggressively seek entry points during uptrends or strong momentum.
             2. RSI Filter: Buy when RSI suggests strong momentum (e.g., RSI > 40) or opportunistic dips. Avoid buying at extreme overbought levels (RSI > 85) unless momentum is exceptional.
-            3. Risk Management:
-               - Position Size: Max {self.investment_per_trade_pct * 100}% of equity per trade.
+            3. Risk Management & Trailing Stop:
+               - Position Size: Max {self.investment_per_trade_pct * 100}% of equity per trade. The absolute minimum trade amount MUST be >= 5000 KRW.
                - Stop Loss: {self.stop_loss_default * 100}% from entry.
-               - Take Profit: {self.take_profit_min * 100}% from entry.
+               - Trailing Stop (Take Profit): If position is in profit >= {self.take_profit_min * 100}%, DO NOT SELL immediately. Let the profit run! Only SELL if the price drops by 2% from the local peak, or if a clear bearish reversal occurs.
             4. Trend Alignment: Favor buying when momentum is strong. You can buy even if MA20 < MA60 if there is a clear reversal or breakout signal.
 
             ### OUTPUT FORMAT (STRICT JSON ONLY)
@@ -156,7 +156,7 @@ class CryptoEngine:
               "stop_loss_price": number,
               "take_profit_price": number,
               "confidence": 0.0~1.0,
-              "reason_code": "STRONG_MOMENTUM | BREAKOUT | DIP_BUY | RISK_MANAGEMENT | LOW_CONFIDENCE | ..."
+              "reason_code": "STRONG_MOMENTUM | BREAKOUT | DIP_BUY | RISK_MANAGEMENT | TRAILING_STOP_TRIGGERED | LET_PROFIT_RUN | LOW_CONFIDENCE | ..."
             }}
 
             Analyze the following OHLCV data and provide your decision:
@@ -396,7 +396,22 @@ class CryptoEngine:
                                 "돌파하는 순간을 노리겠습니다."),
             "STRONG_MOMENTUM": ("[HOT] 강력한 상승 모멘텀 포착! 공격적으로 진입합니다."),
             "BREAKOUT": ("[BREAK] 주요 저항선 돌파 시그널! 과감하게 승부를 겁니다."),
-            "DIP_BUY": ("[DIP] 단기 과대 낙폭 포착. 상승 반전을 노려 공격적으로 매수합니다.")
+            "DIP_BUY": ("[DIP] 단기 과대 낙폭 포착. 상승 반전을 노려 공격적으로 매수합니다."),
+            "REVERSAL_SIGNAL": ("[REV] 추세 반전 시그널 포착! 공격적으로 올라탑니다."),
+            "POTENTIAL_REVERSAL": ("[REV] 반전 가능성이 높은 구간입니다. 선취매에 들어갑니다."),
+            "REVERSAL_DIVERGENCE": ("[REV] 다이버전스 포착! 하락 추세가 끝나고 상승으로 반전할 것으로 예측합니다."),
+            "REVERSAL_CANDIDATE": ("[REV] 반전 유력 후보군. 분할 매수로 접근합니다."),
+            "FAVORABLE_MOMENTUM": ("[MOMENTUM] 유리한 모멘텀 형성. 상승 파도에 편승합니다."),
+            "RSI_FILTER": ("[RSI] RSI 수치가 진입 조건에 맞지 않습니다."),
+            "RSI_FILTER_NOT_MET": ("[RSI] RSI 조건 미달로 진입을 보류합니다."),
+            "RSI_FILTER_CONDITION_NOT_MET": ("[RSI] RSI 상세 조건이 충족되지 않았습니다."),
+            "RSI_FILTER_NO_BUY_SIGNAL": ("[RSI] RSI 상 뚜렷한 매수 시그널이 나오지 않았습니다."),
+            "RSI_FILTER_OVERBOUGHT": ("[RSI] 과매수 구간(RSI Overbought)입니다. 추격 매수는 자제합니다."),
+            "RSI_OVERBOUGHT": ("[RSI] RSI가 너무 높습니다. 단기 고점일 수 있어 진입하지 않습니다."),
+            "RSI_NOT_OVERSOLD": ("[RSI] 충분한 과매도 상태(Oversold)가 아니라 매력적인 자리가 아닙니다."),
+            "RSI_FILTER_NO_ENTRY": ("[RSI] 종합적인 RSI 필터 결과, 진입하기에 부적절한 타점입니다."),
+            "TRAILING_STOP_TRIGGERED": ("[TRAILING] 최고점 대비 2% 하락 발생! 트레일링 스탑을 작동시켜 수익을 굳힙니다."),
+            "LET_PROFIT_RUN": ("[RUN] 아직 상승 추세가 꺾이지 않았습니다. 수익을 끝까지 끌고 가기 위해 매도하지 않습니다.")
         }
         return mapping.get(code, code)
 

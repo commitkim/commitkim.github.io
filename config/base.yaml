@@ -38,12 +38,12 @@ crypto_trader:
     - "KRW-SOL"
     - "KRW-AVAX"
     - "KRW-DOGE"
-  interval_minutes: 60
-  schedule: "0 * * * *"
+  interval_minutes: 15
+  schedule: "*/15 * * * *"
   capital:
     investment_per_trade: 0.4
-    max_exposure_total: 0.7
-    max_coins_held: 5
+    max_exposure_total: 1.0
+    max_coins_held: 100
     consecutive_loss_limit: 3
     max_allocation_per_coin: 0.5
   risk:
