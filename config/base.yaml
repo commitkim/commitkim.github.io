@@ -38,8 +38,8 @@ crypto_trader:
     - "KRW-SOL"
     - "KRW-AVAX"
     - "KRW-DOGE"
-  interval_minutes: 15
-  schedule: "*/15 * * * *"
+  interval_minutes: 60
+  schedule: "0 * * * *"
   capital:
     investment_per_trade: 0.4
     max_exposure_total: 1.0
@@ -55,7 +55,7 @@ crypto_trader:
 # 🤖 AI Settings
 # =============================================================================
 ai:
-  model: "gemini-2.5-pro"
+  model: "gemini-2.5-flash"
 
 # =============================================================================
 # 💬 Messenger (KakaoTalk)
