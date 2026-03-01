@@ -416,9 +416,12 @@ class CryptoEngine:
             "RSI_FILTER_OVERBOUGHT": ("[RSI] 과매수 구간(RSI Overbought)입니다. 추격 매수는 자제합니다."),
             "RSI_OVERBOUGHT": ("[RSI] RSI가 너무 높습니다. 단기 고점일 수 있어 진입하지 않습니다."),
             "RSI_FILTER_NO_ENTRY": ("[RSI] 종합적인 RSI 필터 결과, 진입하기에 부적절한 타점입니다."),
-            "AWAITING_REVERSAL_CONFIRMATION": ("[WAIT] 반등의 조짐은 보이나, 확실한 추세 전환 신호가 나올 때까지 대기합니다."),
-            "OVERSOLD_BOUNCE_MONITORING": ("[WAIT] 과매도(Oversold) 구간입니다. 반등(Bounce) 시그널 발생을 집중 모니터링 중입니다."),
-            "OVERSOLD_HOLDING_FOR_REBOUND": ("[RUN] 과매도 상태이므로 기술적 반등(Rebound) 폭이 클 것으로 기대되어 홀딩합니다."),
+            "AWAITING_REVERSAL_CONFIRMATION": ("⏳ 반등의 조짐은 보이나, 확실한 추세 전환 "
+                                               "신호가 나올 때까지 대기합니다."),
+            "OVERSOLD_BOUNCE_MONITORING": ("👀 과매도(Oversold) 구간입니다. 반등(Bounce) 시그널 "
+                                           "발생을 집중 모니터링 중입니다."),
+            "OVERSOLD_HOLDING_FOR_REBOUND": ("🧘‍♂️ 과매도 상태이므로 기술적 반등(Rebound) 폭이 클 "
+                                             "것으로 기대되어 홀딩합니다."),
             "TRAILING_STOP_TRIGGERED": (
                 "[TRAILING] 최고점 대비 2% 하락 발생! 트레일링 스탑을 작동시켜 수익을 굳힙니다."
             ),
