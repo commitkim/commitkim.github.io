@@ -408,10 +408,10 @@ class CryptoEngine:
             "RSI_FILTER_NO_BUY_SIGNAL": ("[RSI] RSI 상 뚜렷한 매수 시그널이 나오지 않았습니다."),
             "RSI_FILTER_OVERBOUGHT": ("[RSI] 과매수 구간(RSI Overbought)입니다. 추격 매수는 자제합니다."),
             "RSI_OVERBOUGHT": ("[RSI] RSI가 너무 높습니다. 단기 고점일 수 있어 진입하지 않습니다."),
-            "RSI_NOT_OVERSOLD": ("[RSI] 충분한 과매도 상태(Oversold)가 아니라 매력적인 자리가 아닙니다."),
             "RSI_FILTER_NO_ENTRY": ("[RSI] 종합적인 RSI 필터 결과, 진입하기에 부적절한 타점입니다."),
             "TRAILING_STOP_TRIGGERED": ("[TRAILING] 최고점 대비 2% 하락 발생! 트레일링 스탑을 작동시켜 수익을 굳힙니다."),
-            "LET_PROFIT_RUN": ("[RUN] 아직 상승 추세가 꺾이지 않았습니다. 수익을 끝까지 끌고 가기 위해 매도하지 않습니다.")
+            "LET_PROFIT_RUN": ("[RUN] 아직 상승 추세가 꺾이지 않았습니다. 수익을 끝까지 끌고 가기 위해 매도하지 않습니다."),
+            "OPPORTUNITY_SWAP": ("[SWAP] 기회비용 극대화! 부진한 종목을 매도하고 훨씬 더 강력한 상승 모델로 강제 스위칭합니다.")
         }
         return mapping.get(code, code)
 
@@ -493,7 +493,13 @@ class CryptoEngine:
         current_slots = self.get_held_coin_count()
 
         for item in buys:
-            if current_slots < self.max_coins_held:
+            # Check KRW balance BEFORE trying to buy
+            # Upbit updates balance instantly after self.execute_trade, but here we estimate
+            # Or we can just try to execute and let execute_trade handle Insufficient KRW.
+            # But for SWAPPING, we need to know if we are out of cash.
+            current_krw = self.get_balance_info(item['ticker'])['krw_balance'] if self.upbit else 1000000
+
+            if current_slots < self.max_coins_held and current_krw >= 5000:
                 log.info(f"🚀 Executing Ranked BUY for {item['ticker']} "
                          f"(Rank #{buys.index(item)+1}, Conf: {item['decision'].get('confidence'):.2f})")
                 self.execute_trade(
@@ -502,7 +508,50 @@ class CryptoEngine:
                 )
                 current_slots += 1
             else:
-                log.warning(f"🚫 Slot Full ({current_slots}/{self.max_coins_held}). "
+                # OPTIONAL: Opportunity Cost Switching (Swap)
+                # We are out of cash or slots. Can we swap a weak coin for this strong buy?
+                buy_conf = float(item['decision'].get('confidence', 0))
+                
+                # Find the weakest held coin
+                held_coins = [
+                    res for res in analysis_results 
+                    if res['balance_info']['coin_balance'] * res['current_price'] > 5000
+                ]
+                
+                if held_coins:
+                    # Sort held coins by confidence (lowest first)
+                    held_coins.sort(key=lambda x: float(x['decision'].get('confidence', 0)))
+                    weakest_coin = held_coins[0]
+                    weak_conf = float(weakest_coin['decision'].get('confidence', 0))
+                    
+                    # Threshold for switching: at least 0.20 (20%p) difference to cover 0.1% fee + slippage
+                    if (buy_conf - weak_conf) >= 0.20:
+                        log.info(f"🔄 [SWAP INITIATED] Strong Buy ({item['ticker']}, Conf: {buy_conf:.2f}) beats "
+                                 f"Weak Hold ({weakest_coin['ticker']}, Conf: {weak_conf:.2f}). Differnce: {(buy_conf - weak_conf):.2f}")
+                        
+                        # 1. Force Sell Weak Coin
+                        weak_sell_decision = {'action': 'SELL', 'reason_code': 'OPPORTUNITY_SWAP', 'confidence': weak_conf}
+                        self.execute_trade(
+                            weakest_coin['ticker'], weak_sell_decision, weakest_coin['current_price'],
+                            weakest_coin['balance_info'], weakest_coin['total_assets']
+                        )
+                        
+                        # Wait a bit for Upbit balance to update
+                        time.sleep(0.5)
+                        
+                        # 2. Re-fetch current info for the new buy to ensure updated KRW balance
+                        updated_balance_info = self.get_balance_info(item['ticker'])
+                        
+                        # 3. Buy Strong Coin
+                        item['decision']['reason_code'] = 'OPPORTUNITY_SWAP'
+                        self.execute_trade(
+                            item['ticker'], item['decision'], item['current_price'],
+                            updated_balance_info, item['total_assets']
+                        )
+                        continue # Done with this item
+
+                # If no swap happened, just HOLD
+                log.warning(f"🚫 Slot Full or No Cash ({current_slots}/{self.max_coins_held}). "
                             f"Skipping BUY for {item['ticker']}")
                 item['decision']['action'] = 'HOLD' # Change to HOLD for logging
                 item['decision']['reason_code'] = 'MAX_COINS_REACHED'
