@@ -141,12 +141,16 @@ class CryptoEngine:
 
             ### TRADING RULES
             1. Profit Maximization: Aggressively seek entry points during uptrends or strong momentum.
-            2. RSI Filter: Buy when RSI suggests strong momentum (e.g., RSI > 40) or opportunistic dips. Avoid buying at extreme overbought levels (RSI > 85) unless momentum is exceptional.
+            2. RSI Filter: Buy when RSI suggests strong momentum (e.g., RSI > 40) or opportunistic dips. 
+               Avoid buying at extreme overbought levels (RSI > 85) unless momentum is exceptional.
             3. Risk Management & Trailing Stop:
-               - Position Size: Max {self.investment_per_trade_pct * 100}% of equity per trade. The absolute minimum trade amount MUST be >= 5000 KRW.
+               - Position Size: Max {self.investment_per_trade_pct * 100}% of equity per trade. 
+                 The absolute minimum trade amount MUST be >= 5000 KRW.
                - Stop Loss: {self.stop_loss_default * 100}% from entry.
-               - Trailing Stop (Take Profit): If position is in profit >= {self.take_profit_min * 100}%, DO NOT SELL immediately. Let the profit run! Only SELL if the price drops by 2% from the local peak, or if a clear bearish reversal occurs.
-            4. Trend Alignment: Favor buying when momentum is strong. You can buy even if MA20 < MA60 if there is a clear reversal or breakout signal.
+               - Trailing Stop: If position is in profit >= {self.take_profit_min * 100}%, DO NOT SELL yet.
+                 Let the profit run! Only SELL if price drops by 2% from peak, or upon clear bearish reversal.
+            4. Trend Alignment: Favor buying when momentum is strong. You can buy even if MA20 < MA60 
+               if there is a clear reversal or breakout signal.
 
             ### OUTPUT FORMAT (STRICT JSON ONLY)
             {{
@@ -156,7 +160,7 @@ class CryptoEngine:
               "stop_loss_price": number,
               "take_profit_price": number,
               "confidence": 0.0~1.0,
-              "reason_code": "STRONG_MOMENTUM | BREAKOUT | DIP_BUY | RISK_MANAGEMENT | TRAILING_STOP_TRIGGERED | LET_PROFIT_RUN | LOW_CONFIDENCE | ..."
+              "reason_code": "STRONG_MOMENTUM | BREAKOUT | DIP_BUY | TRAILING_STOP_TRIGGERED | LET_PROFIT_RUN | ..."
             }}
 
             Analyze the following OHLCV data and provide your decision:
@@ -371,7 +375,10 @@ class CryptoEngine:
         mapping = {
             "TREND_ALIGNMENT": ("[TREND] 하락세가 강하지만, 모멘텀을 지켜보며 기회를 엿보고 있습니다."),
             "VOLATILITY_FILTER": ("[VOL] 시장의 변동성을 주시하며 적극적인 진입 타이밍을 계산 중입니다."),
-            "LOW_CONFIDENCE": (f"[LOW] 확신도({conf:.2f})가 아직 진입 기준(0.55)에 못 미칩니다. 조금 더 강한 시그널을 기다립니다."),
+            "LOW_CONFIDENCE": (
+                f"[LOW] 확신도({conf:.2f})가 아직 진입 기준(0.55)에 못 미칩니다. "
+                "조금 더 강한 시그널을 기다립니다."
+            ),
             "MAX_COINS_REACHED": ("[LIMIT] 이미 공격적으로 투자하여 최대 보유 종목 수에 도달했습니다. "
                                   "수익 실현 후 새로운 기회를 노리겠습니다."),
             "ASSET_ALLOCATION": ("[LIMIT] 한 종목에 집중 투자할 수 있는 공격적 한계치에 도달했습니다. "
@@ -409,9 +416,15 @@ class CryptoEngine:
             "RSI_FILTER_OVERBOUGHT": ("[RSI] 과매수 구간(RSI Overbought)입니다. 추격 매수는 자제합니다."),
             "RSI_OVERBOUGHT": ("[RSI] RSI가 너무 높습니다. 단기 고점일 수 있어 진입하지 않습니다."),
             "RSI_FILTER_NO_ENTRY": ("[RSI] 종합적인 RSI 필터 결과, 진입하기에 부적절한 타점입니다."),
-            "TRAILING_STOP_TRIGGERED": ("[TRAILING] 최고점 대비 2% 하락 발생! 트레일링 스탑을 작동시켜 수익을 굳힙니다."),
-            "LET_PROFIT_RUN": ("[RUN] 아직 상승 추세가 꺾이지 않았습니다. 수익을 끝까지 끌고 가기 위해 매도하지 않습니다."),
-            "OPPORTUNITY_SWAP": ("[SWAP] 기회비용 극대화! 부진한 종목을 매도하고 훨씬 더 강력한 상승 모델로 강제 스위칭합니다.")
+            "TRAILING_STOP_TRIGGERED": (
+                "[TRAILING] 최고점 대비 2% 하락 발생! 트레일링 스탑을 작동시켜 수익을 굳힙니다."
+            ),
+            "LET_PROFIT_RUN": (
+                "[RUN] 아직 상승 추세가 꺾이지 않았습니다. 수익을 끝까지 끌고 가기 위해 매도하지 않습니다."
+            ),
+            "OPPORTUNITY_SWAP": (
+                "[SWAP] 기회비용 극대화! 부진한 종목을 매도하고 훨씬 더 강력한 상승 모델로 강제 스위칭합니다."
+            )
         }
         return mapping.get(code, code)
 
@@ -526,11 +539,16 @@ class CryptoEngine:
                     
                     # Threshold for switching: at least 0.20 (20%p) difference to cover 0.1% fee + slippage
                     if (buy_conf - weak_conf) >= 0.20:
-                        log.info(f"🔄 [SWAP INITIATED] Strong Buy ({item['ticker']}, Conf: {buy_conf:.2f}) beats "
-                                 f"Weak Hold ({weakest_coin['ticker']}, Conf: {weak_conf:.2f}). Differnce: {(buy_conf - weak_conf):.2f}")
+                        log.info(f"🔄 [SWAP INITIATED] Strong Buy ({item['ticker']}, Conf: {buy_conf:.2f}) "
+                                 f"beats Weak ({weakest_coin['ticker']}, Conf: {weak_conf:.2f}). "
+                                 f"Diff: {(buy_conf - weak_conf):.2f}")
                         
                         # 1. Force Sell Weak Coin
-                        weak_sell_decision = {'action': 'SELL', 'reason_code': 'OPPORTUNITY_SWAP', 'confidence': weak_conf}
+                        weak_sell_decision = {
+                            'action': 'SELL', 
+                            'reason_code': 'OPPORTUNITY_SWAP', 
+                            'confidence': weak_conf
+                        }
                         self.execute_trade(
                             weakest_coin['ticker'], weak_sell_decision, weakest_coin['current_price'],
                             weakest_coin['balance_info'], weakest_coin['total_assets']

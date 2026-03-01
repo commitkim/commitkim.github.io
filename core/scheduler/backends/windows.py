@@ -68,7 +68,8 @@ class WindowsSchedulerBackend(SchedulerBackend):
                 # so the task runs on boot if the computer was asleep at the scheduled time.
                 ps_cmd = [
                     "powershell", "-Command",
-                    f"Set-ScheduledTask -TaskName {task_name} -Settings (New-ScheduledTaskSettingsSet -StartWhenAvailable)"
+                    (f"Set-ScheduledTask -TaskName {task_name} "
+                     "-Settings (New-ScheduledTaskSettingsSet -StartWhenAvailable)")
                 ]
                 self._run_schtasks(ps_cmd, ignore_errors=True)
                 log.info(f"[OK] Registered: {task_name} ({job.schedule})")
