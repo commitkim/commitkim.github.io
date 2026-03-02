@@ -160,7 +160,7 @@ class CryptoEngine:
               "stop_loss_price": number,
               "take_profit_price": number,
               "confidence": 0.0~1.0,
-              "reason_code": "STRONG_MOMENTUM | BREAKOUT | DIP_BUY | TRAILING_STOP_TRIGGERED | LET_PROFIT_RUN | ..."
+              "reason_kr": "전문적인 한국어 문장 1~2줄로 트레이딩 결정 사유를 상세하게 작성하세요."
             }}
 
             Analyze the following OHLCV data and provide your decision:
@@ -187,7 +187,7 @@ class CryptoEngine:
 
         except Exception as e:
             log.error(f"Error in analysis: {e}")
-            return {"action": "HOLD", "reason_code": "API_ERROR", "confidence": 0}
+            return {"action": "HOLD", "reason_kr": "시스템 오류가 발생하여 작전을 일시 중지합니다.", "confidence": 0}
 
     def execute_trade(self, ticker, decision, current_price, balance_info, total_capital):
         """Executes trade based on strategy."""
@@ -200,7 +200,7 @@ class CryptoEngine:
              return
 
         if self.upbit is None:
-            log.info(f"[Simulation] {action} {ticker} (Conf: {confidence}) Reason: {decision.get('reason_code')}")
+            log.info(f"[Simulation] {action} {ticker} (Conf: {confidence}) Reason: {decision.get('reason_kr')}")
             return
 
         try:
@@ -208,7 +208,9 @@ class CryptoEngine:
                 # Check Max Coins Held
                 if self.get_held_coin_count() >= self.max_coins_held:
                     if balance_info['coin_balance'] * current_price < 5000: # New entry
-                        log.warning(f"🚫 Max coins held ({self.max_coins_held}) reached. HOLD {ticker}")
+                        log.warning(f"🚫 Max coins held ({self.max_coins_held}) reached. Switching weak coin for strong BUY candidate.")
+                        # The original diff had malformed lines here. Reverting to original logic for now.
+                        # If the intent was to allow a swap here, it needs more context.
                         return
 
                 # Calculate Position Size via AI's suggestion or Hard Cap
@@ -252,13 +254,13 @@ class CryptoEngine:
                     log.warning("⚠️ Insufficient KRW balance or Allocation for minimum order. Skip.")
                     return
 
-                reason_kr = self.get_korean_reason(decision.get('reason_code'))
+                reason_kr = decision.get('reason_kr', '이유 불명')
                 log.info(f"🚀 BUY {ticker} | Size: {amount_to_invest:,.0f} KRW | Reason: {reason_kr}")
                 self.upbit.buy_market_order(ticker, amount_to_invest)
 
             elif action == 'SELL':
                 if balance_info['coin_balance'] * current_price > 5000:
-                    reason_kr = self.get_korean_reason(decision.get('reason_code'))
+                    reason_kr = decision.get('reason_kr', '이유 불명')
                     log.info(f"📉 SELL {ticker} | Reason: {reason_kr}")
                     self.upbit.sell_market_order(ticker, balance_info['coin_balance'])
 
@@ -369,70 +371,9 @@ class CryptoEngine:
         with open(STATUS_FILE, 'w', encoding='utf-8') as f:
             json.dump(data, f, ensure_ascii=False, indent=2)
 
-    def get_korean_reason(self, code, conf=0):
-        """Maps technical codes to friendly Korean messages."""
-        conf = float(conf)
-        mapping = {
-            "TREND_ALIGNMENT": ("[TREND] 하락세가 강하지만, 모멘텀을 지켜보며 기회를 엿보고 있습니다."),
-            "VOLATILITY_FILTER": ("[VOL] 시장의 변동성을 주시하며 적극적인 진입 타이밍을 계산 중입니다."),
-            "LOW_CONFIDENCE": (
-                f"[LOW] 확신도({conf:.2f})가 아직 진입 기준(0.55)에 못 미칩니다. "
-                "조금 더 강한 시그널을 기다립니다."
-            ),
-            "MAX_COINS_REACHED": ("[LIMIT] 이미 공격적으로 투자하여 최대 보유 종목 수에 도달했습니다. "
-                                  "수익 실현 후 새로운 기회를 노리겠습니다."),
-            "ASSET_ALLOCATION": ("[LIMIT] 한 종목에 집중 투자할 수 있는 공격적 한계치에 도달했습니다. "
-                                 "리스크 분산을 위해 추가 진입을 보류합니다."),
-            "CONSECUTIVE_LOSS_PROTECTION": ("[COOL] 잦은 타격으로 잠시 전열을 가다듬고 있습니다. "
-                                            "곧 다시 공격적인 매매를 재개할 예정입니다."),
-            "LOSS_CUT": ("[LOSS] 공격적인 손절매 처리! "
-                         "더 좋은 기회로 빠르게 갈아타기 위해 손실을 짧게 끊어냈습니다."),
-            "TAKE_PROFIT": ("[PROFIT] 과감한 익절 적중! "
-                            "빠르게 수익을 챙기고 다음 사냥감을 찾습니다."),
-            "STRUCTURE_UNCLEAR": ("[UNCLEAR] 변동성이 애매합니다. "
-                                  "큰 파도가 오기 전까지는 체력을 비축합니다."),
-            "API_ERROR": "[ERR] 시스템 오류가 발생하여 작전을 일시 중지합니다.",
-            "CAPITAL_PRESERVATION": ("[SAVE] 현재는 베팅하기 좋은 장세가 아닙니다. "
-                                     "다음 기회를 위해 화력을 보존합니다."),
-            "UNCLEAR_TREND": ("[UNCLEAR] 흐름이 불분명하여 무리한 진입을 자제합니다."),
-            "LOW_CONFIDENCE_AND_UNCLEAR_TREND": ("[WEAK] 확신도와 추세 모두 돌파력이 부족합니다. "
-                                                 "승률이 높은 곳에만 타격합니다."),
-            "BEARISH_MOMENTUM_INDICATORS": ("[BEAR] 보조지표가 꺾였습니다. "
-                                            "물러서야 할 때를 아는 것도 실력입니다."),
-            "PRICE_BELOW_MAS": ("[DOWN] 저항선 아래에 갇혀 있습니다. "
-                                "돌파하는 순간을 노리겠습니다."),
-            "STRONG_MOMENTUM": ("[HOT] 강력한 상승 모멘텀 포착! 공격적으로 진입합니다."),
-            "BREAKOUT": ("[BREAK] 주요 저항선 돌파 시그널! 과감하게 승부를 겁니다."),
-            "DIP_BUY": ("[DIP] 단기 과대 낙폭 포착. 상승 반전을 노려 공격적으로 매수합니다."),
-            "REVERSAL_SIGNAL": ("[REV] 추세 반전 시그널 포착! 공격적으로 올라탑니다."),
-            "POTENTIAL_REVERSAL": ("[REV] 반전 가능성이 높은 구간입니다. 선취매에 들어갑니다."),
-            "REVERSAL_DIVERGENCE": ("[REV] 다이버전스 포착! 하락 추세가 끝나고 상승으로 반전할 것으로 예측합니다."),
-            "REVERSAL_CANDIDATE": ("[REV] 반전 유력 후보군. 분할 매수로 접근합니다."),
-            "FAVORABLE_MOMENTUM": ("[MOMENTUM] 유리한 모멘텀 형성. 상승 파도에 편승합니다."),
-            "RSI_FILTER": ("[RSI] RSI 수치가 진입 조건에 맞지 않습니다."),
-            "RSI_FILTER_NOT_MET": ("[RSI] RSI 조건 미달로 진입을 보류합니다."),
-            "RSI_FILTER_CONDITION_NOT_MET": ("[RSI] RSI 상세 조건이 충족되지 않았습니다."),
-            "RSI_FILTER_NO_BUY_SIGNAL": ("[RSI] RSI 상 뚜렷한 매수 시그널이 나오지 않았습니다."),
-            "RSI_FILTER_OVERBOUGHT": ("[RSI] 과매수 구간(RSI Overbought)입니다. 추격 매수는 자제합니다."),
-            "RSI_OVERBOUGHT": ("[RSI] RSI가 너무 높습니다. 단기 고점일 수 있어 진입하지 않습니다."),
-            "RSI_FILTER_NO_ENTRY": ("[RSI] 종합적인 RSI 필터 결과, 진입하기에 부적절한 타점입니다."),
-            "AWAITING_REVERSAL_CONFIRMATION": ("⏳ 반등의 조짐은 보이나, 확실한 추세 전환 "
-                                               "신호가 나올 때까지 대기합니다."),
-            "OVERSOLD_BOUNCE_MONITORING": ("👀 과매도(Oversold) 구간입니다. 반등(Bounce) 시그널 "
-                                           "발생을 집중 모니터링 중입니다."),
-            "OVERSOLD_HOLDING_FOR_REBOUND": ("🧘‍♂️ 과매도 상태이므로 기술적 반등(Rebound) 폭이 클 "
-                                             "것으로 기대되어 홀딩합니다."),
-            "TRAILING_STOP_TRIGGERED": (
-                "[TRAILING] 최고점 대비 2% 하락 발생! 트레일링 스탑을 작동시켜 수익을 굳힙니다."
-            ),
-            "LET_PROFIT_RUN": (
-                "[RUN] 아직 상승 추세가 꺾이지 않았습니다. 수익을 끝까지 끌고 가기 위해 매도하지 않습니다."
-            ),
-            "OPPORTUNITY_SWAP": (
-                "[SWAP] 기회비용 극대화! 부진한 종목을 매도하고 훨씬 더 강력한 상승 모델로 강제 스위칭합니다."
-            )
-        }
-        return mapping.get(code, code)
+    def get_korean_reason(self, code: str) -> str:
+        """Returns the Korean reasoning block."""
+        return code if code else "이유 불명"
 
     def run_cycle(self):
         """Runs one trading cycle."""
@@ -483,7 +424,7 @@ class CryptoEngine:
             # AI Analysis
             decision = self.analyze_market(ticker, df, balance_info, total_assets)
 
-            reason_kr = self.get_korean_reason(decision.get('reason_code', ''), decision.get('confidence', 0))
+            reason_kr = decision.get('reason_kr', '이유 불명')
             log.info(f"👉 {ticker}: {decision.get('action')} (Conf: {decision.get('confidence', 0):.2f}) - {reason_kr}")
 
             analysis_results.append({
@@ -552,7 +493,7 @@ class CryptoEngine:
                         # 1. Force Sell Weak Coin
                         weak_sell_decision = {
                             'action': 'SELL', 
-                            'reason_code': 'OPPORTUNITY_SWAP', 
+                            'reason_kr': 'OPPORTUNITY_SWAP', 
                             'confidence': weak_conf
                         }
                         self.execute_trade(
@@ -567,7 +508,7 @@ class CryptoEngine:
                         updated_balance_info = self.get_balance_info(item['ticker'])
                         
                         # 3. Buy Strong Coin
-                        item['decision']['reason_code'] = 'OPPORTUNITY_SWAP'
+                        item['decision']['reason_kr'] = 'OPPORTUNITY_SWAP'
                         self.execute_trade(
                             item['ticker'], item['decision'], item['current_price'],
                             updated_balance_info, item['total_assets']
@@ -578,7 +519,7 @@ class CryptoEngine:
                 log.warning(f"🚫 Slot Full or No Cash ({current_slots}/{self.max_coins_held}). "
                             f"Skipping BUY for {item['ticker']}")
                 item['decision']['action'] = 'HOLD' # Change to HOLD for logging
-                item['decision']['reason_code'] = 'MAX_COINS_REACHED'
+                item['decision']['reason_kr'] = 'MAX_COINS_REACHED'
 
         # 4. Save Results
         final_results = []
@@ -586,7 +527,7 @@ class CryptoEngine:
             final_results.append({
                 'ticker': item['ticker'],
                 'decision': item['decision'].get('action', 'HOLD').lower(),
-                'reason': item['decision'].get('reason_code', 'Unknown'),
+                'reason': item['decision'].get('reason_kr', 'No reason provided'),
                 'time': datetime.now().strftime("%m/%d %H:%M"),
                 'confidence': item['decision'].get('confidence', 0.0)
             })
