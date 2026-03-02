@@ -1,12 +1,12 @@
 {
-  "timestamp": "2026-03-02 20:02:57",
-  "total_assets": 49695.76818898,
+  "timestamp": "2026-03-02 21:01:40",
+  "total_assets": 49707.55934898,
   "positions": {
     "BTC": {
       "balance": 0.00020591,
-      "value": 19944.03078,
+      "value": 19973.27,
       "avg_buy_price": 96206000.0,
-      "return_rate": 0.6777124087894726
+      "return_rate": 0.8253123505810448
     },
     "KRW": {
       "balance": 4879.52787898,
@@ -16,54 +16,12 @@
     },
     "ETH": {
       "balance": 0.00872403,
-      "value": 24872.209530000004,
+      "value": 24854.76147,
       "avg_buy_price": 2855790.29301825,
-      "return_rate": -0.16773966316647826
+      "return_rate": -0.2377728166823208
     }
   },
   "recent_trades": [
-    {
-      "ticker": "KRW-XRP",
-      "decision": "hold",
-      "reason": "RSI_FILTER_BUY_CONDITION_NOT_MET",
-      "time": "02/25 22:02",
-      "confidence": 0.9
-    },
-    {
-      "ticker": "KRW-SOL",
-      "decision": "hold",
-      "reason": "RSI_FILTER",
-      "time": "02/25 22:02",
-      "confidence": 1.0
-    },
-    {
-      "ticker": "KRW-AVAX",
-      "decision": "hold",
-      "reason": "RSI_FILTER_OVERBOUGHT",
-      "time": "02/25 22:02",
-      "confidence": 1.0
-    },
-    {
-      "ticker": "KRW-DOGE",
-      "decision": "hold",
-      "reason": "TREND_ALIGNMENT",
-      "time": "02/25 22:02",
-      "confidence": 1.0
-    },
-    {
-      "ticker": "KRW-BTC",
-      "decision": "hold",
-      "reason": "RSI_FILTER",
-      "time": "02/25 23:02",
-      "confidence": 1.0
-    },
-    {
-      "ticker": "KRW-ETH",
-      "decision": "hold",
-      "reason": "RSI_FILTER",
-      "time": "02/25 23:02",
-      "confidence": 1.0
-    },
     {
       "ticker": "KRW-XRP",
       "decision": "hold",
@@ -7021,6 +6979,48 @@
       "reason": "현재 가격은 이동평균선(MA20, MA60) 아래에 위치하며, MACD 지표 또한 하락세를 보여 단기적으로 약세 또는 횡보 추세에 있습니다. RSI가 42.86으로 40을 상회하나 강한 상승 모멘텀을 나타내지 않으며, 볼린저밴드 하단에 근접했음에도 불구하고 명확한 반전 신호나 돌파 움직임이 없습니다. 공격적인 자본 성장을 위한 진입점으로는 모멘텀이 불분명하여 관망하며 더 확실한 매수 신호를 기다리는 것이 합리적입니다.",
       "time": "03/02 20:02",
       "confidence": 0.7
+    },
+    {
+      "ticker": "KRW-BTC",
+      "decision": "hold",
+      "reason": "MAX_COINS_REACHED",
+      "time": "03/02 21:01",
+      "confidence": 0.85
+    },
+    {
+      "ticker": "KRW-ETH",
+      "decision": "hold",
+      "reason": "MAX_COINS_REACHED",
+      "time": "03/02 21:01",
+      "confidence": 0.75
+    },
+    {
+      "ticker": "KRW-XRP",
+      "decision": "hold",
+      "reason": "시스템 오류가 발생하여 작전을 일시 중지합니다.",
+      "time": "03/02 21:01",
+      "confidence": 0
+    },
+    {
+      "ticker": "KRW-SOL",
+      "decision": "hold",
+      "reason": "시스템 오류가 발생하여 작전을 일시 중지합니다.",
+      "time": "03/02 21:01",
+      "confidence": 0
+    },
+    {
+      "ticker": "KRW-AVAX",
+      "decision": "hold",
+      "reason": "시스템 오류가 발생하여 작전을 일시 중지합니다.",
+      "time": "03/02 21:01",
+      "confidence": 0
+    },
+    {
+      "ticker": "KRW-DOGE",
+      "decision": "hold",
+      "reason": "시스템 오류가 발생하여 작전을 일시 중지합니다.",
+      "time": "03/02 21:01",
+      "confidence": 0
     }
   ]
 }
