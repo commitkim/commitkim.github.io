@@ -1,63 +1,27 @@
 {
-  "timestamp": "2026-03-02 18:29:09",
-  "total_assets": 49841.02806907,
+  "timestamp": "2026-03-02 19:02:58",
+  "total_assets": 49800.737979440004,
   "positions": {
     "BTC": {
       "balance": 0.00020591,
-      "value": 20035.043,
+      "value": 19990.772350000003,
       "avg_buy_price": 96206000.0,
-      "return_rate": 1.1371432135209862
+      "return_rate": 0.9136644284140282
     },
     "KRW": {
-      "balance": 29805.98506907,
-      "value": 29805.98506907,
+      "balance": 9896.71613944,
+      "value": 9896.71613944,
       "avg_buy_price": 0.0,
       "return_rate": 0
+    },
+    "ETH": {
+      "balance": 0.00696511,
+      "value": 19913.24949,
+      "avg_buy_price": 2857000.0,
+      "return_rate": 0.07000350017500875
     }
   },
   "recent_trades": [
-    {
-      "ticker": "KRW-XRP",
-      "decision": "hold",
-      "reason": "TREND_ALIGNMENT",
-      "time": "02/25 20:02",
-      "confidence": 1.0
-    },
-    {
-      "ticker": "KRW-SOL",
-      "decision": "hold",
-      "reason": "RSI_OVERBOUGHT",
-      "time": "02/25 20:02",
-      "confidence": 1.0
-    },
-    {
-      "ticker": "KRW-AVAX",
-      "decision": "hold",
-      "reason": "TREND_ALIGNMENT | RSI_FILTER",
-      "time": "02/25 20:02",
-      "confidence": 1.0
-    },
-    {
-      "ticker": "KRW-DOGE",
-      "decision": "hold",
-      "reason": "TREND_ALIGNMENT",
-      "time": "02/25 20:02",
-      "confidence": 1.0
-    },
-    {
-      "ticker": "KRW-BTC",
-      "decision": "hold",
-      "reason": "TREND_ALIGNMENT | RSI_FILTER",
-      "time": "02/25 21:02",
-      "confidence": 1.0
-    },
-    {
-      "ticker": "KRW-ETH",
-      "decision": "hold",
-      "reason": "RSI_FILTER",
-      "time": "02/25 21:02",
-      "confidence": 1.0
-    },
     {
       "ticker": "KRW-XRP",
       "decision": "hold",
@@ -7015,6 +6979,48 @@
       "reason": "RSI가 55.56으로 40 이상을 유지하며 강한 모멘텀을 나타내고 있으며, MACD 라인이 시그널 라인 위에 있어 매수 신호를 보입니다. 현재 가격이 MA20에 근접해 있고 볼린저 밴드 중간에 위치하여 단기적인 상승 반등 가능성이 높다고 판단, 공격적인 자본 성장을 위해 진입합니다. 비록 MA20이 MA60 아래에 있지만, 강력한 단기 모멘텀 지표를 우선하여 기회 포착에 집중합니다.",
       "time": "03/02 18:29",
       "confidence": 0.7
+    },
+    {
+      "ticker": "KRW-BTC",
+      "decision": "buy",
+      "reason": "현재 가격이 MA20 및 MA60 위에 위치하며 정배열 추세를 형성하고 있어 강한 상승 모멘텀이 확인됩니다. RSI(62.30)가 과매수 구간이 아니면서도 강력한 매수세를 나타내고 MACD 또한 강한 상승 신호를 보여 공격적인 자본 성장을 위해 최대 포지션으로 추가 매수를 결정합니다.",
+      "time": "03/02 19:02",
+      "confidence": 0.9
+    },
+    {
+      "ticker": "KRW-ETH",
+      "decision": "buy",
+      "reason": "MA20이 MA60 위에 위치하여 단기 상승 추세가 명확하며, RSI가 64.53으로 강한 매수 모멘텀을 나타내고 있어 공격적인 자본 성장을 위해 매수 진입합니다. 손실은 5%로 제한하며, BB 상단밴드를 초기 목표로 설정하되 이후 트레일링 스톱으로 수익을 극대화할 것입니다.",
+      "time": "03/02 19:02",
+      "confidence": 0.8
+    },
+    {
+      "ticker": "KRW-XRP",
+      "decision": "buy",
+      "reason": "현재 XRP 가격(1979.0)은 단기 및 장기 이동평균선 아래에 있으나, RSI가 57.60으로 강한 매수 모멘텀을 나타내며 지속적으로 상승하고 있습니다. 또한, MA20이 MA60 위에 위치하여 단기 상승 추세가 유지되고 있음을 시사합니다. 공격적인 자본 성장을 위해 RSI 강세와 긍정적인 추세 지표를 기반으로 매수 진입합니다.",
+      "time": "03/02 19:02",
+      "confidence": 0.7
+    },
+    {
+      "ticker": "KRW-SOL",
+      "decision": "buy",
+      "reason": "RSI가 61.54로 강한 매수 모멘텀을 나타내며, 20일 이동평균선(122330)이 60일 이동평균선(121516.67) 위에 있어 중장기 상승 추세가 유지되고 있습니다. 최근 가격 조정 후 RSI가 다시 상승하고 있어, 공격적인 자본 성장을 위해 현 가격에서 매수 진입합니다.",
+      "time": "03/02 19:02",
+      "confidence": 0.65
+    },
+    {
+      "ticker": "KRW-AVAX",
+      "decision": "buy",
+      "reason": "현재 MA20이 MA60 위에 있어 상승 추세를 보이며, RSI가 58.62로 강한 매수 모멘텀을 나타내고 있습니다. 공격적인 자본 성장을 위해 현재 가격은 MA20 아래의 조정 구간으로 판단하여 매수 진입합니다.",
+      "time": "03/02 19:02",
+      "confidence": 0.75
+    },
+    {
+      "ticker": "KRW-DOGE",
+      "decision": "buy",
+      "reason": "현재 가격은 단기 이동평균선(MA20) 위에 있으며, RSI가 60으로 강한 매수 모멘텀을 나타내고 있습니다. 장기 이동평균선(MA60)이 상위에 있지만 가격이 MA60에 근접하여 상향 돌파 시도가 예상되며, 공격적인 자본 성장을 위해 계산된 리스크를 감수하고 진입합니다. 명확한 손절가로 리스크를 관리합니다.",
+      "time": "03/02 19:02",
+      "confidence": 0.75
     }
   ]
 }
