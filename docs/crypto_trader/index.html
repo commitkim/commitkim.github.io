@@ -50,7 +50,7 @@
 
         <div class="mb-10 text-center">
             <h1 class="text-3xl font-bold text-slate-900 mb-2">🤖 AI Trading Status</h1>
-            <p class="text-slate-500">Updated: 2026-03-02 19:02:58</p>
+            <p class="text-slate-500">Updated: 2026-03-02 20:02:57</p>
         </div>
 
         <!-- KPI Cards -->
@@ -58,7 +58,7 @@
             <!-- Total Assets -->
             <div class="glass-panel rounded-2xl p-6 shadow-sm">
                 <h3 class="text-sm font-bold text-slate-400 uppercase tracking-wider mb-1">Total Assets</h3>
-                <p class="text-3xl font-black text-slate-800">₩ 49,801</p>
+                <p class="text-3xl font-black text-slate-800">₩ 49,696</p>
                 <div class="mt-4 flex items-center text-sm font-medium text-emerald-600">
                     <span class="bg-emerald-100 px-2 py-0.5 rounded-md">Live</span>
                 </div>
@@ -68,7 +68,7 @@
             <div class="glass-panel rounded-2xl p-6 shadow-sm">
                 <h3 class="text-sm font-bold text-slate-400 uppercase tracking-wider mb-1">KRW Balance</h3>
                 <p class="text-3xl font-black text-slate-800">
-                    ₩ 9,897
+                    ₩ 4,880
                 </p>
                 <p class="text-xs text-slate-400 mt-2">Available for Trading</p>
             </div>
@@ -108,12 +108,12 @@
                             <td class="px-6 py-4 font-bold text-slate-900">BTC</td>
                             <td class="px-6 py-4 text-right">0.0002</td>
                             <td class="px-6 py-4 text-right">₩ 96,206,000</td>
-                            <td class="px-6 py-4 text-right font-medium">₩ 19,991</td>
+                            <td class="px-6 py-4 text-right font-medium">₩ 19,944</td>
                             <td class="px-6 py-4 text-right">
                                 <span class="px-2 py-1 rounded-md text-xs font-bold 
                                      bg-red-50 text-red-600 
                                     ">
-                                    +0.91%
+                                    +0.68%
                                 </span>
                             </td>
                         </tr>
@@ -124,14 +124,14 @@
                         
                         <tr class="hover:bg-slate-50/80 transition-colors">
                             <td class="px-6 py-4 font-bold text-slate-900">ETH</td>
-                            <td class="px-6 py-4 text-right">0.0070</td>
-                            <td class="px-6 py-4 text-right">₩ 2,857,000</td>
-                            <td class="px-6 py-4 text-right font-medium">₩ 19,913</td>
+                            <td class="px-6 py-4 text-right">0.0087</td>
+                            <td class="px-6 py-4 text-right">₩ 2,855,790</td>
+                            <td class="px-6 py-4 text-right font-medium">₩ 24,872</td>
                             <td class="px-6 py-4 text-right">
                                 <span class="px-2 py-1 rounded-md text-xs font-bold 
-                                     bg-red-50 text-red-600 
+                                     bg-blue-50 text-blue-600 
                                     ">
-                                    +0.07%
+                                    -0.17%
                                 </span>
                             </td>
                         </tr>
@@ -162,7 +162,7 @@
                     <span class="px-2 py-1 rounded-md text-xs font-bold 
                          bg-red-50 text-red-600 
                         ">
-                        +0.91%
+                        +0.68%
                     </span>
                 </div>
                 <div class="grid grid-cols-2 gap-4 text-sm">
@@ -172,7 +172,7 @@
                     </div>
                     <div class="text-right">
                         <p class="text-xs text-slate-400 mb-1">Value (KRW)</p>
-                        <p class="font-medium text-slate-700">₩ 19,991</p>
+                        <p class="font-medium text-slate-700">₩ 19,944</p>
                     </div>
                     <div class="col-span-2 pt-3 border-t border-slate-50 flex justify-between items-center">
                         <p class="text-xs text-slate-400">Avg Price</p>
@@ -191,23 +191,23 @@
                         <span class="font-bold text-lg text-slate-800">ETH</span>
                     </div>
                     <span class="px-2 py-1 rounded-md text-xs font-bold 
-                         bg-red-50 text-red-600 
+                         bg-blue-50 text-blue-600 
                         ">
-                        +0.07%
+                        -0.17%
                     </span>
                 </div>
                 <div class="grid grid-cols-2 gap-4 text-sm">
                     <div>
                         <p class="text-xs text-slate-400 mb-1">Balance</p>
-                        <p class="font-medium text-slate-700">0.0070</p>
+                        <p class="font-medium text-slate-700">0.0087</p>
                     </div>
                     <div class="text-right">
                         <p class="text-xs text-slate-400 mb-1">Value (KRW)</p>
-                        <p class="font-medium text-slate-700">₩ 19,913</p>
+                        <p class="font-medium text-slate-700">₩ 24,872</p>
                     </div>
                     <div class="col-span-2 pt-3 border-t border-slate-50 flex justify-between items-center">
                         <p class="text-xs text-slate-400">Avg Price</p>
-                        <p class="font-medium text-slate-600">₩ 2,857,000</p>
+                        <p class="font-medium text-slate-600">₩ 2,855,790</p>
                     </div>
                 </div>
             </div>
@@ -299,6 +299,218 @@
                 <div id="tab-ALL" class="tab-content transition-opacity duration-300">
                     
                     
+                     <!-- Show max 1000 -->
+                        <div class="p-6 hover:bg-slate-50 transition-colors log-item"
+                            data-decision="hold">
+                            <div class="flex items-start justify-between mb-2">
+                                <div class="flex items-center gap-3">
+                                    <span class="px-2.5 py-1 rounded-lg text-xs font-black uppercase tracking-wide
+                                         bg-slate-100 text-slate-500 ">
+                                        hold
+                                    </span>
+                                    <h3
+                                        class="text-lg font-bold text-slate-800 group-hover:text-blue-600 transition-colors flex items-center gap-2">
+                                        <span>KRW-DOGE</span>
+                                        <a href="https://upbit.com/exchange?code=CRIX.UPBIT.KRW-DOGE"
+                                            target="_blank" class="text-slate-400 hover:text-blue-600 transition-colors"
+                                            title="View Chart">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                                viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                                stroke-linecap="round" stroke-linejoin="round"
+                                                class="lucide lucide-bar-chart-2">
+                                                <line x1="18" x2="18" y1="20" y2="10" />
+                                                <line x1="12" x2="12" y1="20" y2="4" />
+                                                <line x1="6" x2="6" y1="20" y2="14" />
+                                            </svg>
+                                        </a>
+                                    </h3>
+                                    <span class="text-xs font-medium text-slate-400">03/02 20:02</span>
+                                </div>
+                            </div>
+                            <div
+                                class="text-slate-600 text-sm leading-relaxed bg-slate-50 p-3 rounded-xl border border-slate-100">
+                                <ul class='list-disc pl-5 space-y-1 mt-1'><li>현재 가격은 이동평균선(MA20, MA60) 아래에 위치하며, MACD 지표 또한 하락세를 보여 단기적으로 약세 또는 횡보 추세에 있습니다. RSI가 42.86으로 40을 상회하나 강한 상승 모멘텀을 나타내지 않으며, 볼린저밴드 하단에 근접했음에도 불구하고 명확한 반전 신호나 돌파 움직임이 없습니다. 공격적인 자본 성장을 위한 진입점으로는 모멘텀이 불분명하여 관망하며 더 확실한 매수 신호를 기다리는 것이 합리적입니다.</li></ul>
+                            </div>
+                        </div>
+                        
+                        
+                     <!-- Show max 1000 -->
+                        <div class="p-6 hover:bg-slate-50 transition-colors log-item"
+                            data-decision="hold">
+                            <div class="flex items-start justify-between mb-2">
+                                <div class="flex items-center gap-3">
+                                    <span class="px-2.5 py-1 rounded-lg text-xs font-black uppercase tracking-wide
+                                         bg-slate-100 text-slate-500 ">
+                                        hold
+                                    </span>
+                                    <h3
+                                        class="text-lg font-bold text-slate-800 group-hover:text-blue-600 transition-colors flex items-center gap-2">
+                                        <span>KRW-AVAX</span>
+                                        <a href="https://upbit.com/exchange?code=CRIX.UPBIT.KRW-AVAX"
+                                            target="_blank" class="text-slate-400 hover:text-blue-600 transition-colors"
+                                            title="View Chart">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                                viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                                stroke-linecap="round" stroke-linejoin="round"
+                                                class="lucide lucide-bar-chart-2">
+                                                <line x1="18" x2="18" y1="20" y2="10" />
+                                                <line x1="12" x2="12" y1="20" y2="4" />
+                                                <line x1="6" x2="6" y1="20" y2="14" />
+                                            </svg>
+                                        </a>
+                                    </h3>
+                                    <span class="text-xs font-medium text-slate-400">03/02 20:02</span>
+                                </div>
+                            </div>
+                            <div
+                                class="text-slate-600 text-sm leading-relaxed bg-slate-50 p-3 rounded-xl border border-slate-100">
+                                <ul class='list-disc pl-5 space-y-1 mt-1'><li>MAX_COINS_REACHED</li></ul>
+                            </div>
+                        </div>
+                        
+                        
+                     <!-- Show max 1000 -->
+                        <div class="p-6 hover:bg-slate-50 transition-colors log-item"
+                            data-decision="hold">
+                            <div class="flex items-start justify-between mb-2">
+                                <div class="flex items-center gap-3">
+                                    <span class="px-2.5 py-1 rounded-lg text-xs font-black uppercase tracking-wide
+                                         bg-slate-100 text-slate-500 ">
+                                        hold
+                                    </span>
+                                    <h3
+                                        class="text-lg font-bold text-slate-800 group-hover:text-blue-600 transition-colors flex items-center gap-2">
+                                        <span>KRW-SOL</span>
+                                        <a href="https://upbit.com/exchange?code=CRIX.UPBIT.KRW-SOL"
+                                            target="_blank" class="text-slate-400 hover:text-blue-600 transition-colors"
+                                            title="View Chart">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                                viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                                stroke-linecap="round" stroke-linejoin="round"
+                                                class="lucide lucide-bar-chart-2">
+                                                <line x1="18" x2="18" y1="20" y2="10" />
+                                                <line x1="12" x2="12" y1="20" y2="4" />
+                                                <line x1="6" x2="6" y1="20" y2="14" />
+                                            </svg>
+                                        </a>
+                                    </h3>
+                                    <span class="text-xs font-medium text-slate-400">03/02 20:02</span>
+                                </div>
+                            </div>
+                            <div
+                                class="text-slate-600 text-sm leading-relaxed bg-slate-50 p-3 rounded-xl border border-slate-100">
+                                <ul class='list-disc pl-5 space-y-1 mt-1'><li>MAX_COINS_REACHED</li></ul>
+                            </div>
+                        </div>
+                        
+                        
+                     <!-- Show max 1000 -->
+                        <div class="p-6 hover:bg-slate-50 transition-colors log-item"
+                            data-decision="hold">
+                            <div class="flex items-start justify-between mb-2">
+                                <div class="flex items-center gap-3">
+                                    <span class="px-2.5 py-1 rounded-lg text-xs font-black uppercase tracking-wide
+                                         bg-slate-100 text-slate-500 ">
+                                        hold
+                                    </span>
+                                    <h3
+                                        class="text-lg font-bold text-slate-800 group-hover:text-blue-600 transition-colors flex items-center gap-2">
+                                        <span>KRW-XRP</span>
+                                        <a href="https://upbit.com/exchange?code=CRIX.UPBIT.KRW-XRP"
+                                            target="_blank" class="text-slate-400 hover:text-blue-600 transition-colors"
+                                            title="View Chart">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                                viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                                stroke-linecap="round" stroke-linejoin="round"
+                                                class="lucide lucide-bar-chart-2">
+                                                <line x1="18" x2="18" y1="20" y2="10" />
+                                                <line x1="12" x2="12" y1="20" y2="4" />
+                                                <line x1="6" x2="6" y1="20" y2="14" />
+                                            </svg>
+                                        </a>
+                                    </h3>
+                                    <span class="text-xs font-medium text-slate-400">03/02 20:02</span>
+                                </div>
+                            </div>
+                            <div
+                                class="text-slate-600 text-sm leading-relaxed bg-slate-50 p-3 rounded-xl border border-slate-100">
+                                <ul class='list-disc pl-5 space-y-1 mt-1'><li>현재 XRP 가격(1977.0)이 단기(MA20: 1983.40) 및 중기(MA60: 1980.62) 이동평균선 아래에 위치하며 하락 추세를 보이고 있습니다. RSI는 중립적인 49.07로 강한 매수 모멘텀을 나타내지 않고, MACD 지표 또한 약세 신호를 유지하고 있습니다. 공격적인 자본 성장을 위해서는 강한 상승 모멘텀이나 명확한 추세 전환 신호가 필요하지만, 현재 시장 데이터에서는 이러한 조건이 충족되지 않아 관망하며 더 명확한 매수 기회를 기다리는 것이 적절하다고 판단합니다.</li></ul>
+                            </div>
+                        </div>
+                        
+                        
+                     <!-- Show max 1000 -->
+                        <div class="p-6 hover:bg-slate-50 transition-colors log-item"
+                            data-decision="buy">
+                            <div class="flex items-start justify-between mb-2">
+                                <div class="flex items-center gap-3">
+                                    <span class="px-2.5 py-1 rounded-lg text-xs font-black uppercase tracking-wide
+                                         bg-red-100 text-red-600
+                                        ">
+                                        buy
+                                    </span>
+                                    <h3
+                                        class="text-lg font-bold text-slate-800 group-hover:text-blue-600 transition-colors flex items-center gap-2">
+                                        <span>KRW-ETH</span>
+                                        <a href="https://upbit.com/exchange?code=CRIX.UPBIT.KRW-ETH"
+                                            target="_blank" class="text-slate-400 hover:text-blue-600 transition-colors"
+                                            title="View Chart">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                                viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                                stroke-linecap="round" stroke-linejoin="round"
+                                                class="lucide lucide-bar-chart-2">
+                                                <line x1="18" x2="18" y1="20" y2="10" />
+                                                <line x1="12" x2="12" y1="20" y2="4" />
+                                                <line x1="6" x2="6" y1="20" y2="14" />
+                                            </svg>
+                                        </a>
+                                    </h3>
+                                    <span class="text-xs font-medium text-slate-400">03/02 20:02</span>
+                                </div>
+                            </div>
+                            <div
+                                class="text-slate-600 text-sm leading-relaxed bg-slate-50 p-3 rounded-xl border border-slate-100">
+                                <ul class='list-disc pl-5 space-y-1 mt-1'><li>MA20이 MA60 위에 위치하여 상승 추세가 유지되고 있으며, RSI 60.39는 강력한 매수 모멘텀을 나타내지만 과매수 영역은 아닙니다. 공격적인 자본 성장을 목표로, 현재 가격이 MA20 부근에 있어 지지 가능성이 높고 유리한 매수 진입 시점으로 판단하여 가용 KRW 잔액으로 포지션을 확대합니다.</li></ul>
+                            </div>
+                        </div>
+                        
+                        
+                     <!-- Show max 1000 -->
+                        <div class="p-6 hover:bg-slate-50 transition-colors log-item"
+                            data-decision="buy">
+                            <div class="flex items-start justify-between mb-2">
+                                <div class="flex items-center gap-3">
+                                    <span class="px-2.5 py-1 rounded-lg text-xs font-black uppercase tracking-wide
+                                         bg-red-100 text-red-600
+                                        ">
+                                        buy
+                                    </span>
+                                    <h3
+                                        class="text-lg font-bold text-slate-800 group-hover:text-blue-600 transition-colors flex items-center gap-2">
+                                        <span>KRW-BTC</span>
+                                        <a href="https://upbit.com/exchange?code=CRIX.UPBIT.KRW-BTC"
+                                            target="_blank" class="text-slate-400 hover:text-blue-600 transition-colors"
+                                            title="View Chart">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                                viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                                stroke-linecap="round" stroke-linejoin="round"
+                                                class="lucide lucide-bar-chart-2">
+                                                <line x1="18" x2="18" y1="20" y2="10" />
+                                                <line x1="12" x2="12" y1="20" y2="4" />
+                                                <line x1="6" x2="6" y1="20" y2="14" />
+                                            </svg>
+                                        </a>
+                                    </h3>
+                                    <span class="text-xs font-medium text-slate-400">03/02 20:02</span>
+                                </div>
+                            </div>
+                            <div
+                                class="text-slate-600 text-sm leading-relaxed bg-slate-50 p-3 rounded-xl border border-slate-100">
+                                <ul class='list-disc pl-5 space-y-1 mt-1'><li>현재 시장은 MA20과 MA60이 정배열을 형성하며 가격이 그 위에 위치하여 명확한 상승 추세를 보이고 있습니다. RSI 59.75는 과매수 없이 강력한 매수 모멘텀을 나타내므로, 공격적인 자본 성장을 위해 최대 포지션으로 진입하여 수익을 극대화할 시점입니다.</li></ul>
+                            </div>
+                        </div>
+                        
+                        
                      <!-- Show max 1000 -->
                         <div class="p-6 hover:bg-slate-50 transition-colors log-item"
                             data-decision="buy">
@@ -35329,216 +35541,6 @@
                         </div>
                         
                         
-                     <!-- Show max 1000 -->
-                        <div class="p-6 hover:bg-slate-50 transition-colors log-item"
-                            data-decision="hold">
-                            <div class="flex items-start justify-between mb-2">
-                                <div class="flex items-center gap-3">
-                                    <span class="px-2.5 py-1 rounded-lg text-xs font-black uppercase tracking-wide
-                                         bg-slate-100 text-slate-500 ">
-                                        hold
-                                    </span>
-                                    <h3
-                                        class="text-lg font-bold text-slate-800 group-hover:text-blue-600 transition-colors flex items-center gap-2">
-                                        <span>KRW-ETH</span>
-                                        <a href="https://upbit.com/exchange?code=CRIX.UPBIT.KRW-ETH"
-                                            target="_blank" class="text-slate-400 hover:text-blue-600 transition-colors"
-                                            title="View Chart">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                                                viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                                                stroke-linecap="round" stroke-linejoin="round"
-                                                class="lucide lucide-bar-chart-2">
-                                                <line x1="18" x2="18" y1="20" y2="10" />
-                                                <line x1="12" x2="12" y1="20" y2="4" />
-                                                <line x1="6" x2="6" y1="20" y2="14" />
-                                            </svg>
-                                        </a>
-                                    </h3>
-                                    <span class="text-xs font-medium text-slate-400">02/25 22:02</span>
-                                </div>
-                            </div>
-                            <div
-                                class="text-slate-600 text-sm leading-relaxed bg-slate-50 p-3 rounded-xl border border-slate-100">
-                                <ul class='list-disc pl-5 space-y-1 mt-1'><li>RSI_FILTER</li></ul>
-                            </div>
-                        </div>
-                        
-                        
-                     <!-- Show max 1000 -->
-                        <div class="p-6 hover:bg-slate-50 transition-colors log-item"
-                            data-decision="hold">
-                            <div class="flex items-start justify-between mb-2">
-                                <div class="flex items-center gap-3">
-                                    <span class="px-2.5 py-1 rounded-lg text-xs font-black uppercase tracking-wide
-                                         bg-slate-100 text-slate-500 ">
-                                        hold
-                                    </span>
-                                    <h3
-                                        class="text-lg font-bold text-slate-800 group-hover:text-blue-600 transition-colors flex items-center gap-2">
-                                        <span>KRW-BTC</span>
-                                        <a href="https://upbit.com/exchange?code=CRIX.UPBIT.KRW-BTC"
-                                            target="_blank" class="text-slate-400 hover:text-blue-600 transition-colors"
-                                            title="View Chart">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                                                viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                                                stroke-linecap="round" stroke-linejoin="round"
-                                                class="lucide lucide-bar-chart-2">
-                                                <line x1="18" x2="18" y1="20" y2="10" />
-                                                <line x1="12" x2="12" y1="20" y2="4" />
-                                                <line x1="6" x2="6" y1="20" y2="14" />
-                                            </svg>
-                                        </a>
-                                    </h3>
-                                    <span class="text-xs font-medium text-slate-400">02/25 22:02</span>
-                                </div>
-                            </div>
-                            <div
-                                class="text-slate-600 text-sm leading-relaxed bg-slate-50 p-3 rounded-xl border border-slate-100">
-                                <ul class='list-disc pl-5 space-y-1 mt-1'><li>TREND_ALIGNMENT | RSI_FILTER | CAPITAL_PRESERVATION</li></ul>
-                            </div>
-                        </div>
-                        
-                        
-                     <!-- Show max 1000 -->
-                        <div class="p-6 hover:bg-slate-50 transition-colors log-item"
-                            data-decision="hold">
-                            <div class="flex items-start justify-between mb-2">
-                                <div class="flex items-center gap-3">
-                                    <span class="px-2.5 py-1 rounded-lg text-xs font-black uppercase tracking-wide
-                                         bg-slate-100 text-slate-500 ">
-                                        hold
-                                    </span>
-                                    <h3
-                                        class="text-lg font-bold text-slate-800 group-hover:text-blue-600 transition-colors flex items-center gap-2">
-                                        <span>KRW-DOGE</span>
-                                        <a href="https://upbit.com/exchange?code=CRIX.UPBIT.KRW-DOGE"
-                                            target="_blank" class="text-slate-400 hover:text-blue-600 transition-colors"
-                                            title="View Chart">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                                                viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                                                stroke-linecap="round" stroke-linejoin="round"
-                                                class="lucide lucide-bar-chart-2">
-                                                <line x1="18" x2="18" y1="20" y2="10" />
-                                                <line x1="12" x2="12" y1="20" y2="4" />
-                                                <line x1="6" x2="6" y1="20" y2="14" />
-                                            </svg>
-                                        </a>
-                                    </h3>
-                                    <span class="text-xs font-medium text-slate-400">02/25 21:02</span>
-                                </div>
-                            </div>
-                            <div
-                                class="text-slate-600 text-sm leading-relaxed bg-slate-50 p-3 rounded-xl border border-slate-100">
-                                <ul class='list-disc pl-5 space-y-1 mt-1'><li>TREND_ALIGNMENT</li></ul>
-                            </div>
-                        </div>
-                        
-                        
-                     <!-- Show max 1000 -->
-                        <div class="p-6 hover:bg-slate-50 transition-colors log-item"
-                            data-decision="hold">
-                            <div class="flex items-start justify-between mb-2">
-                                <div class="flex items-center gap-3">
-                                    <span class="px-2.5 py-1 rounded-lg text-xs font-black uppercase tracking-wide
-                                         bg-slate-100 text-slate-500 ">
-                                        hold
-                                    </span>
-                                    <h3
-                                        class="text-lg font-bold text-slate-800 group-hover:text-blue-600 transition-colors flex items-center gap-2">
-                                        <span>KRW-AVAX</span>
-                                        <a href="https://upbit.com/exchange?code=CRIX.UPBIT.KRW-AVAX"
-                                            target="_blank" class="text-slate-400 hover:text-blue-600 transition-colors"
-                                            title="View Chart">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                                                viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                                                stroke-linecap="round" stroke-linejoin="round"
-                                                class="lucide lucide-bar-chart-2">
-                                                <line x1="18" x2="18" y1="20" y2="10" />
-                                                <line x1="12" x2="12" y1="20" y2="4" />
-                                                <line x1="6" x2="6" y1="20" y2="14" />
-                                            </svg>
-                                        </a>
-                                    </h3>
-                                    <span class="text-xs font-medium text-slate-400">02/25 21:02</span>
-                                </div>
-                            </div>
-                            <div
-                                class="text-slate-600 text-sm leading-relaxed bg-slate-50 p-3 rounded-xl border border-slate-100">
-                                <ul class='list-disc pl-5 space-y-1 mt-1'><li>RSI_FILTER</li></ul>
-                            </div>
-                        </div>
-                        
-                        
-                     <!-- Show max 1000 -->
-                        <div class="p-6 hover:bg-slate-50 transition-colors log-item"
-                            data-decision="hold">
-                            <div class="flex items-start justify-between mb-2">
-                                <div class="flex items-center gap-3">
-                                    <span class="px-2.5 py-1 rounded-lg text-xs font-black uppercase tracking-wide
-                                         bg-slate-100 text-slate-500 ">
-                                        hold
-                                    </span>
-                                    <h3
-                                        class="text-lg font-bold text-slate-800 group-hover:text-blue-600 transition-colors flex items-center gap-2">
-                                        <span>KRW-SOL</span>
-                                        <a href="https://upbit.com/exchange?code=CRIX.UPBIT.KRW-SOL"
-                                            target="_blank" class="text-slate-400 hover:text-blue-600 transition-colors"
-                                            title="View Chart">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                                                viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                                                stroke-linecap="round" stroke-linejoin="round"
-                                                class="lucide lucide-bar-chart-2">
-                                                <line x1="18" x2="18" y1="20" y2="10" />
-                                                <line x1="12" x2="12" y1="20" y2="4" />
-                                                <line x1="6" x2="6" y1="20" y2="14" />
-                                            </svg>
-                                        </a>
-                                    </h3>
-                                    <span class="text-xs font-medium text-slate-400">02/25 21:02</span>
-                                </div>
-                            </div>
-                            <div
-                                class="text-slate-600 text-sm leading-relaxed bg-slate-50 p-3 rounded-xl border border-slate-100">
-                                <ul class='list-disc pl-5 space-y-1 mt-1'><li>RSI_OVERBOUGHT</li></ul>
-                            </div>
-                        </div>
-                        
-                        
-                     <!-- Show max 1000 -->
-                        <div class="p-6 hover:bg-slate-50 transition-colors log-item"
-                            data-decision="hold">
-                            <div class="flex items-start justify-between mb-2">
-                                <div class="flex items-center gap-3">
-                                    <span class="px-2.5 py-1 rounded-lg text-xs font-black uppercase tracking-wide
-                                         bg-slate-100 text-slate-500 ">
-                                        hold
-                                    </span>
-                                    <h3
-                                        class="text-lg font-bold text-slate-800 group-hover:text-blue-600 transition-colors flex items-center gap-2">
-                                        <span>KRW-XRP</span>
-                                        <a href="https://upbit.com/exchange?code=CRIX.UPBIT.KRW-XRP"
-                                            target="_blank" class="text-slate-400 hover:text-blue-600 transition-colors"
-                                            title="View Chart">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                                                viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                                                stroke-linecap="round" stroke-linejoin="round"
-                                                class="lucide lucide-bar-chart-2">
-                                                <line x1="18" x2="18" y1="20" y2="10" />
-                                                <line x1="12" x2="12" y1="20" y2="4" />
-                                                <line x1="6" x2="6" y1="20" y2="14" />
-                                            </svg>
-                                        </a>
-                                    </h3>
-                                    <span class="text-xs font-medium text-slate-400">02/25 21:02</span>
-                                </div>
-                            </div>
-                            <div
-                                class="text-slate-600 text-sm leading-relaxed bg-slate-50 p-3 rounded-xl border border-slate-100">
-                                <ul class='list-disc pl-5 space-y-1 mt-1'><li>TREND_ALIGNMENT</li></ul>
-                            </div>
-                        </div>
-                        
-                        
                         
                         <div class="empty-msg hidden py-12 text-center text-slate-400 font-medium">No logs found for
                             this filter.</div>
@@ -35577,6 +35579,23 @@
                         </a>
                     </div>
 
+                    
+                    <div class="p-6 hover:bg-slate-50 transition-colors border-b border-slate-100 log-item"
+                        data-decision="hold">
+                        <div class="flex items-start justify-between mb-2">
+                            <div class="flex items-center gap-3">
+                                <span class="px-2.5 py-1 rounded-lg text-xs font-black uppercase tracking-wide
+                                         bg-slate-100 text-slate-500 ">
+                                    hold
+                                </span>
+                                <span class="text-xs font-medium text-slate-400">03/02 20:02</span>
+                            </div>
+                        </div>
+                        <div
+                            class="text-slate-600 text-sm leading-relaxed bg-slate-50 p-3 rounded-xl border border-slate-100">
+                            <ul class='list-disc pl-5 space-y-1 mt-1'><li>현재 XRP 가격(1977.0)이 단기(MA20: 1983.40) 및 중기(MA60: 1980.62) 이동평균선 아래에 위치하며 하락 추세를 보이고 있습니다. RSI는 중립적인 49.07로 강한 매수 모멘텀을 나타내지 않고, MACD 지표 또한 약세 신호를 유지하고 있습니다. 공격적인 자본 성장을 위해서는 강한 상승 모멘텀이나 명확한 추세 전환 신호가 필요하지만, 현재 시장 데이터에서는 이러한 조건이 충족되지 않아 관망하며 더 명확한 매수 기회를 기다리는 것이 적절하다고 판단합니다.</li></ul>
+                        </div>
+                    </div>
                     
                     <div class="p-6 hover:bg-slate-50 transition-colors border-b border-slate-100 log-item"
                         data-decision="buy">
@@ -38438,23 +38457,6 @@
                         </div>
                     </div>
                     
-                    <div class="p-6 hover:bg-slate-50 transition-colors border-b border-slate-100 log-item"
-                        data-decision="hold">
-                        <div class="flex items-start justify-between mb-2">
-                            <div class="flex items-center gap-3">
-                                <span class="px-2.5 py-1 rounded-lg text-xs font-black uppercase tracking-wide
-                                         bg-slate-100 text-slate-500 ">
-                                    hold
-                                </span>
-                                <span class="text-xs font-medium text-slate-400">02/25 21:02</span>
-                            </div>
-                        </div>
-                        <div
-                            class="text-slate-600 text-sm leading-relaxed bg-slate-50 p-3 rounded-xl border border-slate-100">
-                            <ul class='list-disc pl-5 space-y-1 mt-1'><li>TREND_ALIGNMENT</li></ul>
-                        </div>
-                    </div>
-                    
                     <div class="empty-msg hidden py-12 text-center text-slate-400 font-medium">No logs found for this
                         filter.</div>
                 </div>
@@ -38490,6 +38492,23 @@
                         </a>
                     </div>
 
+                    
+                    <div class="p-6 hover:bg-slate-50 transition-colors border-b border-slate-100 log-item"
+                        data-decision="hold">
+                        <div class="flex items-start justify-between mb-2">
+                            <div class="flex items-center gap-3">
+                                <span class="px-2.5 py-1 rounded-lg text-xs font-black uppercase tracking-wide
+                                         bg-slate-100 text-slate-500 ">
+                                    hold
+                                </span>
+                                <span class="text-xs font-medium text-slate-400">03/02 20:02</span>
+                            </div>
+                        </div>
+                        <div
+                            class="text-slate-600 text-sm leading-relaxed bg-slate-50 p-3 rounded-xl border border-slate-100">
+                            <ul class='list-disc pl-5 space-y-1 mt-1'><li>MAX_COINS_REACHED</li></ul>
+                        </div>
+                    </div>
                     
                     <div class="p-6 hover:bg-slate-50 transition-colors border-b border-slate-100 log-item"
                         data-decision="buy">
@@ -41357,23 +41376,6 @@
                         </div>
                     </div>
                     
-                    <div class="p-6 hover:bg-slate-50 transition-colors border-b border-slate-100 log-item"
-                        data-decision="hold">
-                        <div class="flex items-start justify-between mb-2">
-                            <div class="flex items-center gap-3">
-                                <span class="px-2.5 py-1 rounded-lg text-xs font-black uppercase tracking-wide
-                                         bg-slate-100 text-slate-500 ">
-                                    hold
-                                </span>
-                                <span class="text-xs font-medium text-slate-400">02/25 21:02</span>
-                            </div>
-                        </div>
-                        <div
-                            class="text-slate-600 text-sm leading-relaxed bg-slate-50 p-3 rounded-xl border border-slate-100">
-                            <ul class='list-disc pl-5 space-y-1 mt-1'><li>RSI_OVERBOUGHT</li></ul>
-                        </div>
-                    </div>
-                    
                     <div class="empty-msg hidden py-12 text-center text-slate-400 font-medium">No logs found for this
                         filter.</div>
                 </div>
@@ -41409,6 +41411,23 @@
                         </a>
                     </div>
 
+                    
+                    <div class="p-6 hover:bg-slate-50 transition-colors border-b border-slate-100 log-item"
+                        data-decision="hold">
+                        <div class="flex items-start justify-between mb-2">
+                            <div class="flex items-center gap-3">
+                                <span class="px-2.5 py-1 rounded-lg text-xs font-black uppercase tracking-wide
+                                         bg-slate-100 text-slate-500 ">
+                                    hold
+                                </span>
+                                <span class="text-xs font-medium text-slate-400">03/02 20:02</span>
+                            </div>
+                        </div>
+                        <div
+                            class="text-slate-600 text-sm leading-relaxed bg-slate-50 p-3 rounded-xl border border-slate-100">
+                            <ul class='list-disc pl-5 space-y-1 mt-1'><li>MAX_COINS_REACHED</li></ul>
+                        </div>
+                    </div>
                     
                     <div class="p-6 hover:bg-slate-50 transition-colors border-b border-slate-100 log-item"
                         data-decision="buy">
@@ -44278,23 +44297,6 @@
                         </div>
                     </div>
                     
-                    <div class="p-6 hover:bg-slate-50 transition-colors border-b border-slate-100 log-item"
-                        data-decision="hold">
-                        <div class="flex items-start justify-between mb-2">
-                            <div class="flex items-center gap-3">
-                                <span class="px-2.5 py-1 rounded-lg text-xs font-black uppercase tracking-wide
-                                         bg-slate-100 text-slate-500 ">
-                                    hold
-                                </span>
-                                <span class="text-xs font-medium text-slate-400">02/25 21:02</span>
-                            </div>
-                        </div>
-                        <div
-                            class="text-slate-600 text-sm leading-relaxed bg-slate-50 p-3 rounded-xl border border-slate-100">
-                            <ul class='list-disc pl-5 space-y-1 mt-1'><li>RSI_FILTER</li></ul>
-                        </div>
-                    </div>
-                    
                     <div class="empty-msg hidden py-12 text-center text-slate-400 font-medium">No logs found for this
                         filter.</div>
                 </div>
@@ -44330,6 +44332,23 @@
                         </a>
                     </div>
 
+                    
+                    <div class="p-6 hover:bg-slate-50 transition-colors border-b border-slate-100 log-item"
+                        data-decision="hold">
+                        <div class="flex items-start justify-between mb-2">
+                            <div class="flex items-center gap-3">
+                                <span class="px-2.5 py-1 rounded-lg text-xs font-black uppercase tracking-wide
+                                         bg-slate-100 text-slate-500 ">
+                                    hold
+                                </span>
+                                <span class="text-xs font-medium text-slate-400">03/02 20:02</span>
+                            </div>
+                        </div>
+                        <div
+                            class="text-slate-600 text-sm leading-relaxed bg-slate-50 p-3 rounded-xl border border-slate-100">
+                            <ul class='list-disc pl-5 space-y-1 mt-1'><li>현재 가격은 이동평균선(MA20, MA60) 아래에 위치하며, MACD 지표 또한 하락세를 보여 단기적으로 약세 또는 횡보 추세에 있습니다. RSI가 42.86으로 40을 상회하나 강한 상승 모멘텀을 나타내지 않으며, 볼린저밴드 하단에 근접했음에도 불구하고 명확한 반전 신호나 돌파 움직임이 없습니다. 공격적인 자본 성장을 위한 진입점으로는 모멘텀이 불분명하여 관망하며 더 확실한 매수 신호를 기다리는 것이 합리적입니다.</li></ul>
+                        </div>
+                    </div>
                     
                     <div class="p-6 hover:bg-slate-50 transition-colors border-b border-slate-100 log-item"
                         data-decision="buy">
@@ -47197,23 +47216,6 @@
                         </div>
                     </div>
                     
-                    <div class="p-6 hover:bg-slate-50 transition-colors border-b border-slate-100 log-item"
-                        data-decision="hold">
-                        <div class="flex items-start justify-between mb-2">
-                            <div class="flex items-center gap-3">
-                                <span class="px-2.5 py-1 rounded-lg text-xs font-black uppercase tracking-wide
-                                         bg-slate-100 text-slate-500 ">
-                                    hold
-                                </span>
-                                <span class="text-xs font-medium text-slate-400">02/25 21:02</span>
-                            </div>
-                        </div>
-                        <div
-                            class="text-slate-600 text-sm leading-relaxed bg-slate-50 p-3 rounded-xl border border-slate-100">
-                            <ul class='list-disc pl-5 space-y-1 mt-1'><li>TREND_ALIGNMENT</li></ul>
-                        </div>
-                    </div>
-                    
                     <div class="empty-msg hidden py-12 text-center text-slate-400 font-medium">No logs found for this
                         filter.</div>
                 </div>
@@ -47249,6 +47251,24 @@
                         </a>
                     </div>
 
+                    
+                    <div class="p-6 hover:bg-slate-50 transition-colors border-b border-slate-100 log-item"
+                        data-decision="buy">
+                        <div class="flex items-start justify-between mb-2">
+                            <div class="flex items-center gap-3">
+                                <span class="px-2.5 py-1 rounded-lg text-xs font-black uppercase tracking-wide
+                                         bg-red-100 text-red-600
+                                        ">
+                                    buy
+                                </span>
+                                <span class="text-xs font-medium text-slate-400">03/02 20:02</span>
+                            </div>
+                        </div>
+                        <div
+                            class="text-slate-600 text-sm leading-relaxed bg-slate-50 p-3 rounded-xl border border-slate-100">
+                            <ul class='list-disc pl-5 space-y-1 mt-1'><li>현재 시장은 MA20과 MA60이 정배열을 형성하며 가격이 그 위에 위치하여 명확한 상승 추세를 보이고 있습니다. RSI 59.75는 과매수 없이 강력한 매수 모멘텀을 나타내므로, 공격적인 자본 성장을 위해 최대 포지션으로 진입하여 수익을 극대화할 시점입니다.</li></ul>
+                        </div>
+                    </div>
                     
                     <div class="p-6 hover:bg-slate-50 transition-colors border-b border-slate-100 log-item"
                         data-decision="buy">
@@ -50080,23 +50100,6 @@
                         </div>
                     </div>
                     
-                    <div class="p-6 hover:bg-slate-50 transition-colors border-b border-slate-100 log-item"
-                        data-decision="hold">
-                        <div class="flex items-start justify-between mb-2">
-                            <div class="flex items-center gap-3">
-                                <span class="px-2.5 py-1 rounded-lg text-xs font-black uppercase tracking-wide
-                                         bg-slate-100 text-slate-500 ">
-                                    hold
-                                </span>
-                                <span class="text-xs font-medium text-slate-400">02/25 22:02</span>
-                            </div>
-                        </div>
-                        <div
-                            class="text-slate-600 text-sm leading-relaxed bg-slate-50 p-3 rounded-xl border border-slate-100">
-                            <ul class='list-disc pl-5 space-y-1 mt-1'><li>TREND_ALIGNMENT | RSI_FILTER | CAPITAL_PRESERVATION</li></ul>
-                        </div>
-                    </div>
-                    
                     <div class="empty-msg hidden py-12 text-center text-slate-400 font-medium">No logs found for this
                         filter.</div>
                 </div>
@@ -50132,6 +50135,24 @@
                         </a>
                     </div>
 
+                    
+                    <div class="p-6 hover:bg-slate-50 transition-colors border-b border-slate-100 log-item"
+                        data-decision="buy">
+                        <div class="flex items-start justify-between mb-2">
+                            <div class="flex items-center gap-3">
+                                <span class="px-2.5 py-1 rounded-lg text-xs font-black uppercase tracking-wide
+                                         bg-red-100 text-red-600
+                                        ">
+                                    buy
+                                </span>
+                                <span class="text-xs font-medium text-slate-400">03/02 20:02</span>
+                            </div>
+                        </div>
+                        <div
+                            class="text-slate-600 text-sm leading-relaxed bg-slate-50 p-3 rounded-xl border border-slate-100">
+                            <ul class='list-disc pl-5 space-y-1 mt-1'><li>MA20이 MA60 위에 위치하여 상승 추세가 유지되고 있으며, RSI 60.39는 강력한 매수 모멘텀을 나타내지만 과매수 영역은 아닙니다. 공격적인 자본 성장을 목표로, 현재 가격이 MA20 부근에 있어 지지 가능성이 높고 유리한 매수 진입 시점으로 판단하여 가용 KRW 잔액으로 포지션을 확대합니다.</li></ul>
+                        </div>
+                    </div>
                     
                     <div class="p-6 hover:bg-slate-50 transition-colors border-b border-slate-100 log-item"
                         data-decision="buy">
@@ -52973,23 +52994,6 @@
                                     hold
                                 </span>
                                 <span class="text-xs font-medium text-slate-400">02/25 23:02</span>
-                            </div>
-                        </div>
-                        <div
-                            class="text-slate-600 text-sm leading-relaxed bg-slate-50 p-3 rounded-xl border border-slate-100">
-                            <ul class='list-disc pl-5 space-y-1 mt-1'><li>RSI_FILTER</li></ul>
-                        </div>
-                    </div>
-                    
-                    <div class="p-6 hover:bg-slate-50 transition-colors border-b border-slate-100 log-item"
-                        data-decision="hold">
-                        <div class="flex items-start justify-between mb-2">
-                            <div class="flex items-center gap-3">
-                                <span class="px-2.5 py-1 rounded-lg text-xs font-black uppercase tracking-wide
-                                         bg-slate-100 text-slate-500 ">
-                                    hold
-                                </span>
-                                <span class="text-xs font-medium text-slate-400">02/25 22:02</span>
                             </div>
                         </div>
                         <div

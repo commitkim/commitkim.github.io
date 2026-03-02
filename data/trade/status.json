@@ -1,69 +1,27 @@
 {
-  "timestamp": "2026-03-02 19:02:58",
-  "total_assets": 49800.737979440004,
+  "timestamp": "2026-03-02 20:02:57",
+  "total_assets": 49695.76818898,
   "positions": {
     "BTC": {
       "balance": 0.00020591,
-      "value": 19990.772350000003,
+      "value": 19944.03078,
       "avg_buy_price": 96206000.0,
-      "return_rate": 0.9136644284140282
+      "return_rate": 0.6777124087894726
     },
     "KRW": {
-      "balance": 9896.71613944,
-      "value": 9896.71613944,
+      "balance": 4879.52787898,
+      "value": 4879.52787898,
       "avg_buy_price": 0.0,
       "return_rate": 0
     },
     "ETH": {
-      "balance": 0.00696511,
-      "value": 19913.24949,
-      "avg_buy_price": 2857000.0,
-      "return_rate": 0.07000350017500875
+      "balance": 0.00872403,
+      "value": 24872.209530000004,
+      "avg_buy_price": 2855790.29301825,
+      "return_rate": -0.16773966316647826
     }
   },
   "recent_trades": [
-    {
-      "ticker": "KRW-XRP",
-      "decision": "hold",
-      "reason": "TREND_ALIGNMENT",
-      "time": "02/25 21:02",
-      "confidence": 1.0
-    },
-    {
-      "ticker": "KRW-SOL",
-      "decision": "hold",
-      "reason": "RSI_OVERBOUGHT",
-      "time": "02/25 21:02",
-      "confidence": 1.0
-    },
-    {
-      "ticker": "KRW-AVAX",
-      "decision": "hold",
-      "reason": "RSI_FILTER",
-      "time": "02/25 21:02",
-      "confidence": 0.95
-    },
-    {
-      "ticker": "KRW-DOGE",
-      "decision": "hold",
-      "reason": "TREND_ALIGNMENT",
-      "time": "02/25 21:02",
-      "confidence": 1.0
-    },
-    {
-      "ticker": "KRW-BTC",
-      "decision": "hold",
-      "reason": "TREND_ALIGNMENT | RSI_FILTER | CAPITAL_PRESERVATION",
-      "time": "02/25 22:02",
-      "confidence": 1.0
-    },
-    {
-      "ticker": "KRW-ETH",
-      "decision": "hold",
-      "reason": "RSI_FILTER",
-      "time": "02/25 22:02",
-      "confidence": 0.95
-    },
     {
       "ticker": "KRW-XRP",
       "decision": "hold",
@@ -7021,6 +6979,48 @@
       "reason": "현재 가격은 단기 이동평균선(MA20) 위에 있으며, RSI가 60으로 강한 매수 모멘텀을 나타내고 있습니다. 장기 이동평균선(MA60)이 상위에 있지만 가격이 MA60에 근접하여 상향 돌파 시도가 예상되며, 공격적인 자본 성장을 위해 계산된 리스크를 감수하고 진입합니다. 명확한 손절가로 리스크를 관리합니다.",
       "time": "03/02 19:02",
       "confidence": 0.75
+    },
+    {
+      "ticker": "KRW-BTC",
+      "decision": "buy",
+      "reason": "현재 시장은 MA20과 MA60이 정배열을 형성하며 가격이 그 위에 위치하여 명확한 상승 추세를 보이고 있습니다. RSI 59.75는 과매수 없이 강력한 매수 모멘텀을 나타내므로, 공격적인 자본 성장을 위해 최대 포지션으로 진입하여 수익을 극대화할 시점입니다.",
+      "time": "03/02 20:02",
+      "confidence": 0.9
+    },
+    {
+      "ticker": "KRW-ETH",
+      "decision": "buy",
+      "reason": "MA20이 MA60 위에 위치하여 상승 추세가 유지되고 있으며, RSI 60.39는 강력한 매수 모멘텀을 나타내지만 과매수 영역은 아닙니다. 공격적인 자본 성장을 목표로, 현재 가격이 MA20 부근에 있어 지지 가능성이 높고 유리한 매수 진입 시점으로 판단하여 가용 KRW 잔액으로 포지션을 확대합니다.",
+      "time": "03/02 20:02",
+      "confidence": 0.75
+    },
+    {
+      "ticker": "KRW-XRP",
+      "decision": "hold",
+      "reason": "현재 XRP 가격(1977.0)이 단기(MA20: 1983.40) 및 중기(MA60: 1980.62) 이동평균선 아래에 위치하며 하락 추세를 보이고 있습니다. RSI는 중립적인 49.07로 강한 매수 모멘텀을 나타내지 않고, MACD 지표 또한 약세 신호를 유지하고 있습니다. 공격적인 자본 성장을 위해서는 강한 상승 모멘텀이나 명확한 추세 전환 신호가 필요하지만, 현재 시장 데이터에서는 이러한 조건이 충족되지 않아 관망하며 더 명확한 매수 기회를 기다리는 것이 적절하다고 판단합니다.",
+      "time": "03/02 20:02",
+      "confidence": 0.9
+    },
+    {
+      "ticker": "KRW-SOL",
+      "decision": "hold",
+      "reason": "MAX_COINS_REACHED",
+      "time": "03/02 20:02",
+      "confidence": 0.75
+    },
+    {
+      "ticker": "KRW-AVAX",
+      "decision": "hold",
+      "reason": "MAX_COINS_REACHED",
+      "time": "03/02 20:02",
+      "confidence": 0.65
+    },
+    {
+      "ticker": "KRW-DOGE",
+      "decision": "hold",
+      "reason": "현재 가격은 이동평균선(MA20, MA60) 아래에 위치하며, MACD 지표 또한 하락세를 보여 단기적으로 약세 또는 횡보 추세에 있습니다. RSI가 42.86으로 40을 상회하나 강한 상승 모멘텀을 나타내지 않으며, 볼린저밴드 하단에 근접했음에도 불구하고 명확한 반전 신호나 돌파 움직임이 없습니다. 공격적인 자본 성장을 위한 진입점으로는 모멘텀이 불분명하여 관망하며 더 확실한 매수 신호를 기다리는 것이 합리적입니다.",
+      "time": "03/02 20:02",
+      "confidence": 0.7
     }
   ]
 }
