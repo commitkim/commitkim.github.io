@@ -55,7 +55,7 @@ crypto_trader:
 # 🤖 AI Settings
 # =============================================================================
 ai:
-  model: "gemini-1.5-flash-latest"
+  model: "gemini-flash-lite-latest"
 
 # =============================================================================
 # 💬 Messenger (KakaoTalk)
