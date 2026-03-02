@@ -1,12 +1,12 @@
 {
-  "timestamp": "2026-03-02 18:11:53",
-  "total_assets": 49819.42272039001,
+  "timestamp": "2026-03-02 18:14:13",
+  "total_assets": 49810.15677039001,
   "positions": {
     "BTC": {
       "balance": 0.00020591,
-      "value": 20021.247030000002,
+      "value": 20011.98108,
       "avg_buy_price": 96206000.0,
-      "return_rate": 1.0675009874643993
+      "return_rate": 1.020726358023408
     },
     "KRW": {
       "balance": 4974.06261339,
@@ -22,48 +22,6 @@
     }
   },
   "recent_trades": [
-    {
-      "ticker": "KRW-XRP",
-      "decision": "hold",
-      "reason": "TREND_ALIGNMENT",
-      "time": "02/25 18:02",
-      "confidence": 1.0
-    },
-    {
-      "ticker": "KRW-SOL",
-      "decision": "hold",
-      "reason": "RSI_FILTER",
-      "time": "02/25 18:02",
-      "confidence": 1.0
-    },
-    {
-      "ticker": "KRW-AVAX",
-      "decision": "hold",
-      "reason": "TREND_ALIGNMENT",
-      "time": "02/25 18:02",
-      "confidence": 1.0
-    },
-    {
-      "ticker": "KRW-DOGE",
-      "decision": "hold",
-      "reason": "TREND_ALIGNMENT",
-      "time": "02/25 18:02",
-      "confidence": 0.95
-    },
-    {
-      "ticker": "KRW-BTC",
-      "decision": "hold",
-      "reason": "TREND_ALIGNMENT",
-      "time": "02/25 19:02",
-      "confidence": 0.95
-    },
-    {
-      "ticker": "KRW-ETH",
-      "decision": "hold",
-      "reason": "RSI_FILTER",
-      "time": "02/25 19:02",
-      "confidence": 0.1
-    },
     {
       "ticker": "KRW-XRP",
       "decision": "hold",
@@ -7020,6 +6978,48 @@
       "decision": "hold",
       "reason": "시스템 오류가 발생하여 작전을 일시 중지합니다.",
       "time": "03/02 18:11",
+      "confidence": 0
+    },
+    {
+      "ticker": "KRW-BTC",
+      "decision": "hold",
+      "reason": "시스템 오류가 발생하여 작전을 일시 중지합니다.",
+      "time": "03/02 18:14",
+      "confidence": 0
+    },
+    {
+      "ticker": "KRW-ETH",
+      "decision": "hold",
+      "reason": "시스템 오류가 발생하여 작전을 일시 중지합니다.",
+      "time": "03/02 18:14",
+      "confidence": 0
+    },
+    {
+      "ticker": "KRW-XRP",
+      "decision": "hold",
+      "reason": "시스템 오류가 발생하여 작전을 일시 중지합니다.",
+      "time": "03/02 18:14",
+      "confidence": 0
+    },
+    {
+      "ticker": "KRW-SOL",
+      "decision": "hold",
+      "reason": "시스템 오류가 발생하여 작전을 일시 중지합니다.",
+      "time": "03/02 18:14",
+      "confidence": 0
+    },
+    {
+      "ticker": "KRW-AVAX",
+      "decision": "hold",
+      "reason": "시스템 오류가 발생하여 작전을 일시 중지합니다.",
+      "time": "03/02 18:14",
+      "confidence": 0
+    },
+    {
+      "ticker": "KRW-DOGE",
+      "decision": "hold",
+      "reason": "시스템 오류가 발생하여 작전을 일시 중지합니다.",
+      "time": "03/02 18:14",
       "confidence": 0
     }
   ]
