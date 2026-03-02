@@ -7,6 +7,7 @@ Crypto Trading Engine
 import json
 import os
 import time
+import logging
 from datetime import datetime
 
 import pyupbit
@@ -209,7 +210,6 @@ class CryptoEngine:
                 if self.get_held_coin_count() >= self.max_coins_held:
                     if balance_info['coin_balance'] * current_price < 5000: # New entry
                         log.warning(f"🚫 Max coins held ({self.max_coins_held}) reached. Switching weak coin for strong BUY candidate.")
-                        # The original diff had malformed lines here. Reverting to original logic for now.
                         # If the intent was to allow a swap here, it needs more context.
                         return
 
@@ -435,7 +435,8 @@ class CryptoEngine:
                 'total_assets': total_assets
             })
 
-            time.sleep(1) # Rate limit
+            # Add a slight delay to avoid hitting Gemini API burst rate limits on the free tier
+            time.sleep(5)
 
         # 2. EXECUTE SELLS
         sells = [item for item in analysis_results if item['decision'].get('action') == 'SELL']
