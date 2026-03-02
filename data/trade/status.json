@@ -1,12 +1,12 @@
 {
-  "timestamp": "2026-03-02 12:33:06",
-  "total_assets": 50088.76372239,
+  "timestamp": "2026-03-02 13:01:20",
+  "total_assets": 49962.896767390004,
   "positions": {
     "BTC": {
       "balance": 0.00020591,
-      "value": 20047.80942,
+      "value": 20023.10022,
       "avg_buy_price": 96206000.0,
-      "return_rate": 1.201588258528574
+      "return_rate": 1.0768559133525974
     },
     "KRW": {
       "balance": 4974.06261339,
@@ -16,54 +16,12 @@
     },
     "SOL": {
       "balance": 0.20231551,
-      "value": 25066.891689,
+      "value": 24965.733934,
       "avg_buy_price": 122283.11689994,
-      "return_rate": 1.3222455732650673
+      "return_rate": 0.9133583837038683
     }
   },
   "recent_trades": [
-    {
-      "ticker": "KRW-XRP",
-      "decision": "hold",
-      "reason": "TREND_ALIGNMENT",
-      "time": "02/25 09:02",
-      "confidence": 1.0
-    },
-    {
-      "ticker": "KRW-SOL",
-      "decision": "hold",
-      "reason": "RSI_FILTER | TREND_ALIGNMENT",
-      "time": "02/25 09:02",
-      "confidence": 1.0
-    },
-    {
-      "ticker": "KRW-AVAX",
-      "decision": "hold",
-      "reason": "TREND_ALIGNMENT",
-      "time": "02/25 09:02",
-      "confidence": 1.0
-    },
-    {
-      "ticker": "KRW-DOGE",
-      "decision": "hold",
-      "reason": "TREND_ALIGNMENT",
-      "time": "02/25 09:02",
-      "confidence": 0.95
-    },
-    {
-      "ticker": "KRW-BTC",
-      "decision": "hold",
-      "reason": "TREND_ALIGNMENT",
-      "time": "02/25 10:02",
-      "confidence": 1.0
-    },
-    {
-      "ticker": "KRW-ETH",
-      "decision": "hold",
-      "reason": "TREND_ALIGNMENT",
-      "time": "02/25 10:02",
-      "confidence": 1.0
-    },
     {
       "ticker": "KRW-XRP",
       "decision": "hold",
@@ -7020,6 +6978,48 @@
       "decision": "hold",
       "reason": "MAX_COINS_REACHED",
       "time": "03/02 12:33",
+      "confidence": 0.7
+    },
+    {
+      "ticker": "KRW-BTC",
+      "decision": "hold",
+      "reason": "현재 BTC 가격은 MA20과 BB 중앙선 위에 위치하고 있으며 RSI가 52대로 중립 범위에 있어 명확한 매수 또는 매도 신호가 부족합니다. 기존 포지션의 수익률을 확인하며 관망하고, 보다 강한 모멘텀이 형성되기를 기다리겠습니다.",
+      "time": "03/02 13:01",
+      "confidence": 0.6
+    },
+    {
+      "ticker": "KRW-ETH",
+      "decision": "hold",
+      "reason": "MAX_COINS_REACHED",
+      "time": "03/02 13:01",
+      "confidence": 0.7
+    },
+    {
+      "ticker": "KRW-XRP",
+      "decision": "hold",
+      "reason": "현재 가격이 MA20과 MA60 위에 위치하며 단기 상승 추세를 보이고 있으나, RSI가 48로 중립 수준이며 볼린저 밴드 상단에 근접해 있어 즉각적인 매수 진입은 보류합니다. 40% 자본을 투입할 만큼의 강력한 매수 신호가 나타나지 않았습니다.",
+      "time": "03/02 13:01",
+      "confidence": 0.7
+    },
+    {
+      "ticker": "KRW-SOL",
+      "decision": "hold",
+      "reason": "현재 RSI가 45.30으로 매수 임계값(40) 이상이나 강력한 매수 모멘텀을 보여주지는 않고 있습니다. 또한 MA20(122895)이 MA60(121216.67) 위에 위치하여 단기 상승 추세는 유지되나, 가격이 볼린저 밴드 중간선(BB Mid: 122895) 부근에 위치하고 있어 명확한 진입 신호가 부족합니다. 기존 보유 포지션의 수익성을 유지하며 다음 방향성을 관망하겠습니다.",
+      "time": "03/02 13:01",
+      "confidence": 0.6
+    },
+    {
+      "ticker": "KRW-AVAX",
+      "decision": "hold",
+      "reason": "MAX_COINS_REACHED",
+      "time": "03/02 13:01",
+      "confidence": 0.75
+    },
+    {
+      "ticker": "KRW-DOGE",
+      "decision": "hold",
+      "reason": "MAX_COINS_REACHED",
+      "time": "03/02 13:01",
       "confidence": 0.7
     }
   ]
