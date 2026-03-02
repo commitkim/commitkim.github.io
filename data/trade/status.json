@@ -1,12 +1,12 @@
 {
-  "timestamp": "2026-03-02 17:03:45",
-  "total_assets": 49386.69034639001,
+  "timestamp": "2026-03-02 17:25:10",
+  "total_assets": 49299.02148339,
   "positions": {
     "BTC": {
       "balance": 0.00020591,
-      "value": 19871.756370000003,
+      "value": 19844.782160000002,
       "avg_buy_price": 96206000.0,
-      "return_rate": 0.3128702991497412
+      "return_rate": 0.17670415566596678
     },
     "KRW": {
       "balance": 4974.06261339,
@@ -16,54 +16,12 @@
     },
     "SOL": {
       "balance": 0.20231551,
-      "value": 24540.871363000002,
+      "value": 24480.17671,
       "avg_buy_price": 122283.11689994,
-      "return_rate": -0.8039678124531666
+      "return_rate": -1.0493001261898858
     }
   },
   "recent_trades": [
-    {
-      "ticker": "KRW-XRP",
-      "decision": "hold",
-      "reason": "TREND_ALIGNMENT",
-      "time": "02/25 15:02",
-      "confidence": 0.1
-    },
-    {
-      "ticker": "KRW-SOL",
-      "decision": "hold",
-      "reason": "TREND_ALIGNMENT",
-      "time": "02/25 15:02",
-      "confidence": 1.0
-    },
-    {
-      "ticker": "KRW-AVAX",
-      "decision": "hold",
-      "reason": "TREND_ALIGNMENT",
-      "time": "02/25 15:02",
-      "confidence": 1.0
-    },
-    {
-      "ticker": "KRW-DOGE",
-      "decision": "hold",
-      "reason": "TREND_ALIGNMENT",
-      "time": "02/25 15:02",
-      "confidence": 0.95
-    },
-    {
-      "ticker": "KRW-BTC",
-      "decision": "hold",
-      "reason": "TREND_ALIGNMENT",
-      "time": "02/25 16:02",
-      "confidence": 1.0
-    },
-    {
-      "ticker": "KRW-ETH",
-      "decision": "hold",
-      "reason": "TREND_ALIGNMENT",
-      "time": "02/25 16:02",
-      "confidence": 0.0
-    },
     {
       "ticker": "KRW-XRP",
       "decision": "hold",
@@ -7021,6 +6979,48 @@
       "reason": "현재 가격(134.0)이 MA20(135.10), MA60(135.30) 아래에 위치하며, 볼린저 밴드 하단(133.16)에 근접하고 RSI도 45.45로 중립적인 상황입니다. 명확한 상승 모멘텀이 부재하므로 관망하며 추가적인 지지 확인 또는 반등 신호를 기다리겠습니다.",
       "time": "03/02 17:03",
       "confidence": 0.4
+    },
+    {
+      "ticker": "KRW-BTC",
+      "decision": "hold",
+      "reason": "현재 가격이 MA20 및 BB 중간선 아래에 위치하고 RSI가 48.37로 중립권에 있어 뚜렷한 매수 모멘텀이 부족합니다. 보유 중인 포지션이 있지만, 단기 하락 추세가 관찰되므로 추가 매수보다는 관망하며 추세를 확인하는 것이 합리적입니다. 현재 포지션의 손익을 확인하며 다음 진입 기회를 기다립니다.",
+      "time": "03/02 17:25",
+      "confidence": 0.75
+    },
+    {
+      "ticker": "KRW-ETH",
+      "decision": "hold",
+      "reason": "MAX_COINS_REACHED",
+      "time": "03/02 17:25",
+      "confidence": 0.65
+    },
+    {
+      "ticker": "KRW-XRP",
+      "decision": "hold",
+      "reason": "MAX_COINS_REACHED",
+      "time": "03/02 17:25",
+      "confidence": 0.65
+    },
+    {
+      "ticker": "KRW-SOL",
+      "decision": "hold",
+      "reason": "현재 가격(121000 KRW)이 MA60(121385 KRW)보다 낮고 RSI(44.83)도 중립 수준에 머물러 있어 매수 모멘텀이 약합니다. 기존 보유 포지션의 평균 단가(122283.11 KRW) 대비 손실 중이므로, 추세를 확인하고 하방 압력이 완화될 때까지 관망하며 매수 기회를 모색합니다. 자본금의 40%까지 공격적으로 투자할 준비가 되어 있으나, 현재는 진입 시점이 아닙니다.",
+      "time": "03/02 17:25",
+      "confidence": 0.85
+    },
+    {
+      "ticker": "KRW-AVAX",
+      "decision": "hold",
+      "reason": "현재 가격(13000.0)이 MA20(13169.5)과 MA60(13075.0) 아래에 위치하며 RSI(42.72)도 강한 매수 모멘텀을 나타내지 않고 있습니다. 명확한 추세 반전이나 상승 모멘텀이 확인될 때까지 관망하며 추가 하락에 대비하겠습니다.",
+      "time": "03/02 17:25",
+      "confidence": 0.7
+    },
+    {
+      "ticker": "KRW-DOGE",
+      "decision": "hold",
+      "reason": "현재 가격(135.0)이 MA20(135.15)과 MA60(135.32) 아래에 위치하며, RSI도 50.0으로 중립적인 상태입니다. 명확한 상승 모멘텀이 확인되지 않아 공격적인 매수보다는 시장 움직임을 관망하며 진입 기회를 기다리는 것이 합리적입니다.",
+      "time": "03/02 17:25",
+      "confidence": 0.6
     }
   ]
 }
