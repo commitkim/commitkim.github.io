@@ -11,10 +11,13 @@ def register_jobs(registry):
     cfg = Config.instance()
     schedule_str = cfg.get("crypto_trader.schedule", "0 * * * *")
 
-    registry.register(JobDefinition(
-        name="crypto_trade_cycle",
-        description="암호화폐 자동매매 사이클",
-        schedule=schedule_str,
-        command="apps.cli run trader",
-        tags=["trader"],
-    ))
+    schedule_enabled = cfg.get("crypto_trader.schedule_enabled", True)
+
+    if schedule_enabled:
+        registry.register(JobDefinition(
+            name="crypto_trade_cycle",
+            description="암호화폐 자동매매 사이클",
+            schedule=schedule_str,
+            command="apps.cli run trader",
+            tags=["trader"],
+        ))
