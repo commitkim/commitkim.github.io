@@ -22,45 +22,135 @@ from core.logger import get_logger
 log = get_logger("cli")
 
 
+def _write_news_run_log(run_log: dict) -> None:
+    """Write a structured run log JSON to data/logs/news/."""
+    import json as _json
+    import os as _os
+    from core.config import PROJECT_ROOT
+
+    log_dir = PROJECT_ROOT / "data" / "logs" / "news"
+    _os.makedirs(log_dir, exist_ok=True)
+
+    filename = f"{run_log['run_id']}.json"
+    filepath = log_dir / filename
+    with open(filepath, 'w', encoding='utf-8') as f:
+        _json.dump(run_log, f, ensure_ascii=False, indent=2)
+    log.info(f"실행 로그 저장: {filepath}")
+
+
 def _run_news(args):
     """Run the news briefing pipeline."""
+    import json as _json
+    from datetime import datetime, timezone, timedelta
+
+    KST = timezone(timedelta(hours=9))
     mode = getattr(args, 'mode', 'morning')
     target_date = getattr(args, 'date', None)
     log.info(f"Running news briefing ({mode} mode)...")
 
-    from modules.messenger.kakao import send_message
-    from modules.news_briefing import collector, summarizer
+    started_at = datetime.now(KST)
+    run_id = started_at.strftime(f"%Y%m%d_{mode}_%H%M%S")
 
-    cfg = Config.instance()
-    keyword = cfg.get(f"news_briefing.modes.{mode}.keyword")
+    run_log = {
+        "run_id": run_id,
+        "mode": mode,
+        "started_at": started_at.isoformat(),
+        "finished_at": None,
+        "status": "error",
+        "steps": {
+            "rss_search":  {"ok": False, "videos_found": 0, "error": None},
+            "transcript":  {"ok": False, "length": 0,      "error": None},
+            "summarize":   {"ok": False, "kakao_len": 0,   "error": None},
+            "kakao_send":  {"ok": False,                   "error": None},
+        },
+        "video_title": None,
+        "video_id": None,
+        "error": None,
+    }
 
-    # 1. Collect videos
-    candidates = collector.find_todays_videos(keyword=keyword, target_date=target_date)
-    if not candidates:
-        log.warning("오늘자 영상을 찾지 못했습니다.")
-        return
+    try:
+        from modules.messenger.kakao import send_message
+        from modules.news_briefing import collector, summarizer
 
-    # 2. Extract transcript & summarize
-    for video_id, title, date_str in candidates:
-        log.info(f"Processing: {title}")
-        transcript = collector.extract_transcript(video_id)
-        if not transcript:
-            log.warning(f"자막 추출 실패: {title}")
-            continue
+        cfg = Config.instance()
+        keyword = cfg.get(f"news_briefing.modes.{mode}.keyword")
 
-        summary = summarizer.summarize(transcript, video_id)
-        if not summary:
-            log.warning(f"요약 생성 실패: {title}")
-            continue
+        # 1. Collect videos
+        try:
+            candidates = collector.find_todays_videos(keyword=keyword, target_date=target_date)
+            run_log["steps"]["rss_search"]["ok"] = True
+            run_log["steps"]["rss_search"]["videos_found"] = len(candidates)
+        except Exception as e:
+            run_log["steps"]["rss_search"]["error"] = str(e)
+            run_log["error"] = f"RSS 검색 실패: {e}"
+            run_log["status"] = "error"
+            candidates = []
 
-        # 3. Save data
-        _save_summary(summary, date_str, mode, video_id, title)
+        if not candidates:
+            log.warning("오늘자 영상을 찾지 못했습니다.")
+            if run_log["steps"]["rss_search"]["ok"]:
+                run_log["status"] = "no_video"
+            return
 
-        # 4. Send KakaoTalk
-        if summary.get('kakao_summary'):
-            header = cfg.get(f"news_briefing.modes.{mode}.title_prefix", "뉴스 요약")
-            message = f"📰 {header}\n\n{summary['kakao_summary']}"
-            send_message(message)
+        # 2. Extract transcript & summarize
+        for video_id, title, date_str in candidates:
+            run_log["video_id"] = video_id
+            run_log["video_title"] = title
+            log.info(f"Processing: {title}")
+
+            # Transcript
+            try:
+                transcript = collector.extract_transcript(video_id)
+                if transcript:
+                    run_log["steps"]["transcript"]["ok"] = True
+                    run_log["steps"]["transcript"]["length"] = len(transcript)
+                else:
+                    run_log["steps"]["transcript"]["error"] = "자막 없음 또는 비활성화"
+                    log.warning(f"자막 추출 실패: {title}")
+                    continue
+            except Exception as e:
+                run_log["steps"]["transcript"]["error"] = str(e)
+                log.warning(f"자막 추출 예외: {e}")
+                continue
+
+            # Summarize
+            try:
+                summary = summarizer.summarize(transcript, video_id)
+                if summary:
+                    run_log["steps"]["summarize"]["ok"] = True
+                    run_log["steps"]["summarize"]["kakao_len"] = len(summary.get("kakao_summary", ""))
+                else:
+                    run_log["steps"]["summarize"]["error"] = "요약 결과 없음"
+                    log.warning(f"요약 생성 실패: {title}")
+                    continue
+            except Exception as e:
+                run_log["steps"]["summarize"]["error"] = str(e)
+                log.warning(f"요약 예외: {e}")
+                continue
+
+            # 3. Save data
+            _save_summary(summary, date_str, mode, video_id, title)
+
+            # 4. Send KakaoTalk
+            if summary.get('kakao_summary'):
+                header = cfg.get(f"news_briefing.modes.{mode}.title_prefix", "뉴스 요약")
+                message = f"📰 {header}\n\n{summary['kakao_summary']}"
+                try:
+                    send_message(message)
+                    run_log["steps"]["kakao_send"]["ok"] = True
+                except Exception as e:
+                    run_log["steps"]["kakao_send"]["error"] = str(e)
+                    log.warning(f"카카오 전송 실패: {e}")
+
+            run_log["status"] = "success"
+
+    except Exception as e:
+        run_log["error"] = str(e)
+        run_log["status"] = "error"
+        log.error(f"뉴스 브리핑 실행 오류: {e}")
+    finally:
+        run_log["finished_at"] = datetime.now(KST).isoformat()
+        _write_news_run_log(run_log)
 
     # 5. Build & Deploy
     if not getattr(args, 'no_deploy', False):

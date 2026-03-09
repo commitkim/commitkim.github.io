@@ -162,3 +162,134 @@ def build_all():
         shutil.copy2(src, dst)
 
     log.info("News sub-site build complete.")
+
+
+def build_logs_page():
+    """Build the run logs page from data/logs/news/*.json."""
+    LOG_DATA_DIR = PROJECT_ROOT / "data" / "logs" / "news"
+
+    logs = []
+    if LOG_DATA_DIR.exists():
+        for f_path in sorted(LOG_DATA_DIR.glob("*.json"), reverse=True):
+            try:
+                with open(f_path, 'r', encoding='utf-8') as f:
+                    import json as _json
+                    entry = _json.load(f)
+                    logs.append(entry)
+            except Exception as e:
+                log.warning(f"로그 파일 읽기 오류 ({f_path}): {e}")
+
+    # Truncate to latest 60 entries
+    logs = logs[:60]
+
+    stats = {
+        "total": len(logs),
+        "success": sum(1 for e in logs if e.get("status") == "success"),
+        "failed": sum(1 for e in logs if e.get("status") != "success"),
+    }
+
+    env = _setup_jinja()
+    template = env.get_template('logs.html')
+    html = template.render(
+        logs=logs,
+        stats=stats,
+        base_path='',
+        build_time=_get_build_time(),
+    )
+
+    DOCS_DIR.mkdir(parents=True, exist_ok=True)
+    with open(DOCS_DIR / 'logs.html', 'w', encoding='utf-8') as f:
+        f.write(html)
+
+    log.info(f"로그 페이지 생성 완료 ({len(logs)}개 엔트리).")
+
+
+def build_all():
+    """Build the news sub-site."""
+    log.info("Building news sub-site...")
+
+    # 1. Prepare Output Dirs
+    DOCS_DIR.mkdir(parents=True, exist_ok=True)
+    (DOCS_DIR / "reports").mkdir(parents=True, exist_ok=True)
+    (DOCS_DIR / "data").mkdir(parents=True, exist_ok=True)
+
+    # 2. Load Data
+    all_data = _load_all_data()
+
+    if not all_data:
+        log.info("No news data found to build.")
+        build_logs_page()
+        return
+
+    # 3. Setup Jinja
+    env = _setup_jinja()
+
+    # 4. Build Detail Pages
+    detail_template = env.get_template('detail.html')
+
+    mode_groups = {'morning': [], 'evening': []}
+    for d in all_data:
+        mode = d.get('_mode', 'morning')
+        mode_groups[mode].append(d)
+
+    for mode, group in mode_groups.items():
+        for i, data in enumerate(group):
+            prev_data = group[i - 1] if i > 0 else None
+            next_data = group[i + 1] if i < len(group) - 1 else None
+
+            html = detail_template.render(
+                data=data,
+                prev_date=prev_data['_date'] if prev_data else None,
+                next_date=next_data['_date'] if next_data else None,
+                web_report_html=_render_markdown(data.get('web_report', '')),
+                base_path='../../', # reports/mode/ -> docs/news_briefing/
+                build_time=_get_build_time()
+            )
+
+            mode_report_dir = DOCS_DIR / "reports" / mode
+            mode_report_dir.mkdir(parents=True, exist_ok=True)
+
+            output_path = mode_report_dir / f"{data['_date']}.html"
+            with open(output_path, 'w', encoding='utf-8') as f:
+                f.write(html)
+
+    log.info(f"Generated {len(all_data)} detail pages.")
+
+    # 5. Build Main Report (Latest)
+    # Output to docs/news_briefing/index.html
+    latest = all_data[0]
+    index_template = env.get_template('index.html')
+
+    html = index_template.render(
+        data=latest,
+        recent_list=all_data[:5],
+        web_report_html=_render_markdown(latest.get('web_report', '')),
+        base_path='',  # docs/news_briefing/ -> docs/news_briefing/
+        build_time=_get_build_time()
+    )
+
+    with open(DOCS_DIR / 'index.html', 'w', encoding='utf-8') as f:
+        f.write(html)
+
+    # 6. Archive Page
+    archive_template = env.get_template('archive.html')
+    html = archive_template.render(
+        mode_groups=mode_groups,
+        base_path='', # docs/news_briefing/ -> docs/news_briefing/
+        build_time=_get_build_time()
+    )
+    with open(DOCS_DIR / 'archive.html', 'w', encoding='utf-8') as f:
+        f.write(html)
+
+    # 7. Copy JSON Data
+    for data in all_data:
+        src = NEWS_DATA_DIR / data['_filename']
+        dst = DOCS_DIR / 'data' / data['_filename']
+        dst.parent.mkdir(parents=True, exist_ok=True)
+        shutil.copy2(src, dst)
+
+    # 8. Build Logs Page
+    build_logs_page()
+
+    log.info("News sub-site build complete.")
+

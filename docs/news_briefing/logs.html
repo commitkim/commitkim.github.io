@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>실행 로그 — CommitKim 뉴스 브리핑</title>
+    <meta name="description" content="뉴스 브리핑 자동화 파이프라인 실행 결과 로그">
+
+    <!-- Tailwind CSS 3.x CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: { 50: '#eef2ff', 100: '#e0e7ff', 200: '#c7d2fe', 300: '#a5b4fc', 400: '#818cf8', 500: '#6366f1', 600: '#4f46e5', 700: '#4338ca', 800: '#3730a3', 900: '#312e81' },
+                        surface: { 50: '#f8fafc', 100: '#f1f5f9', 200: '#e2e8f0', 300: '#cbd5e1' },
+                        accent: { warm: '#f59e0b', green: '#10b981', red: '#ef4444', blue: '#3b82f6' }
+                    },
+                    fontFamily: {
+                        sans: ['Pretendard', '-apple-system', 'BlinkMacSystemFont', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- Pretendard Font -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css">
+
+    <style>
+        /* 글로벌 스타일 */
+        body {
+            font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, sans-serif;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* 그라디언트 배경 */
+        .gradient-bg {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+
+        .gradient-text {
+            background: linear-gradient(135deg, #6366f1, #8b5cf6);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            color: transparent;
+        }
+
+        /* 유리 효과 카드 */
+        .glass-card {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        /* 시장 지표 카드 호버 */
+        .metric-card {
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .metric-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        /* 마크다운 렌더링 스타일 */
+        .prose-report h2 {
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin-top: 1.5rem;
+            margin-bottom: 0.75rem;
+            color: #1e293b;
+            border-bottom: 2px solid #e2e8f0;
+            padding-bottom: 0.5rem;
+        }
+
+        .prose-report h3 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-top: 1.25rem;
+            margin-bottom: 0.5rem;
+            color: #334155;
+        }
+
+        .prose-report p {
+            margin-bottom: 0.75rem;
+            line-height: 1.8;
+            color: #475569;
+        }
+
+        .prose-report ul {
+            list-style: disc;
+            padding-left: 1.25rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .prose-report ol {
+            list-style: decimal;
+            padding-left: 1.25rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .prose-report li {
+            margin-bottom: 0.35rem;
+            line-height: 1.7;
+            color: #475569;
+        }
+
+        .prose-report strong {
+            color: #1e293b;
+            font-weight: 600;
+        }
+
+        .prose-report table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1rem 0;
+            font-size: 0.9rem;
+        }
+
+        .prose-report th {
+            background: #f1f5f9;
+            padding: 0.6rem 0.75rem;
+            text-align: left;
+            font-weight: 600;
+            border-bottom: 2px solid #e2e8f0;
+        }
+
+        .prose-report td {
+            padding: 0.5rem 0.75rem;
+            border-bottom: 1px solid #f1f5f9;
+        }
+
+        .prose-report tr:hover td {
+            background: #f8fafc;
+        }
+
+        /* 아카이브 카드 호버 */
+        .archive-card {
+            transition: transform 0.15s ease, box-shadow 0.15s ease;
+        }
+
+        .archive-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 30px rgba(99, 102, 241, 0.12);
+        }
+
+        /* 스크롤바 커스텀 */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 3px;
+        }
+
+        /* 페이드인 애니메이션 */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .animate-fade-in-up {
+            animation: fadeInUp 0.5s ease-out forwards;
+        }
+
+        .animate-delay-1 {
+            animation-delay: 0.1s;
+            opacity: 0;
+        }
+
+        .animate-delay-2 {
+            animation-delay: 0.2s;
+            opacity: 0;
+        }
+
+        .animate-delay-3 {
+            animation-delay: 0.3s;
+            opacity: 0;
+        }
+    </style>
+</head>
+
+<body class="bg-surface-50 min-h-screen">
+    <!-- 네비게이션 바 -->
+    <nav class="sticky top-0 z-50 glass-card border-b border-surface-200">
+        <div class="max-w-3xl mx-auto px-4 py-3 flex items-center justify-between">
+            <a href="../index.html" class="flex items-center gap-2 no-underline">
+                <span
+                    class="font-bold text-xl bg-gradient-to-r from-indigo-400 to-cyan-400 bg-clip-text text-transparent">CommitKim</span>
+            </a>
+            <div class="flex items-center gap-3">
+                
+<a href="index.html" class="text-sm text-slate-600 hover:text-indigo-600 transition-colors font-medium">←
+    최신 브리핑</a>
+<a href="archive.html"
+    class="text-sm text-slate-600 hover:text-indigo-600 transition-colors font-medium">아카이브</a>
+
+                <a href="logs.html"
+                    class="text-sm text-slate-600 hover:text-indigo-600 transition-colors font-medium">🗂️ 로그</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 메인 컨텐츠 -->
+    <main class="max-w-3xl mx-auto px-4 py-6">
+        
+<div class="animate-fade-in-up">
+
+    <!-- 헤더 -->
+    <div class="mb-6">
+        <h1 class="text-2xl font-bold text-slate-900">🗂️ 실행 로그</h1>
+        <p class="text-sm text-slate-500 mt-1">뉴스 브리핑 자동화 파이프라인 실행 이력</p>
+    </div>
+
+    <!-- 요약 통계 -->
+    
+    <div class="grid grid-cols-3 gap-3 mb-6">
+        <div class="bg-white rounded-xl border border-surface-200 p-4 text-center metric-card">
+            <div class="text-2xl font-bold text-indigo-600">1</div>
+            <div class="text-xs text-slate-500 mt-1">전체 실행</div>
+        </div>
+        <div class="bg-white rounded-xl border border-surface-200 p-4 text-center metric-card">
+            <div class="text-2xl font-bold text-emerald-500">1</div>
+            <div class="text-xs text-slate-500 mt-1">성공</div>
+        </div>
+        <div class="bg-white rounded-xl border border-surface-200 p-4 text-center metric-card">
+            <div class="text-2xl font-bold text-rose-500">0</div>
+            <div class="text-xs text-slate-500 mt-1">실패/영상없음</div>
+        </div>
+    </div>
+    
+
+    <!-- 로그 목록 -->
+    
+    <div class="space-y-3">
+        
+        
+        
+
+        <div class="bg-white rounded-xl border bg-emerald-50 border-emerald-200 overflow-hidden shadow-sm">
+            <!-- 요약 헤더 -->
+            <div class="px-4 py-3 flex items-center justify-between gap-3 cursor-pointer select-none
+                        hover:bg-slate-50 transition-colors" onclick="toggleLog('20260310_morning_070858')">
+                <div class="flex items-center gap-3 min-w-0">
+                    <span class="text-lg">✅</span>
+                    <div class="min-w-0">
+                        <div class="flex items-center gap-2 flex-wrap">
+                            <span class="font-semibold text-slate-800 text-sm">2026-03-10</span>
+                            <span class="text-xs px-2 py-0.5 rounded-full font-medium
+                                         bg-amber-100 text-amber-700
+                                         ">
+                                🌅 모닝
+                            </span>
+                            <span class="text-xs font-medium text-emerald-700">성공</span>
+                        </div>
+                        
+                        <p class="text-xs text-slate-400 truncate mt-0.5">한국경제신문 30분 만에 읽기 | 20260309🌞#모닝루틴 | 아침 8시 라이브</p>
+                        
+                    </div>
+                </div>
+
+                <!-- 단계 아이콘 -->
+                <div class="flex items-center gap-1.5 shrink-0">
+                    
+                    
+                    
+                    <div class="flex flex-col items-center">
+                        <span class="text-xs">
+                            ✅
+                        </span>
+                        <span class="text-[10px] text-slate-400 leading-none">RSS</span>
+                    </div>
+                    
+                    
+                    <div class="flex flex-col items-center">
+                        <span class="text-xs">
+                            ✅
+                        </span>
+                        <span class="text-[10px] text-slate-400 leading-none">자막</span>
+                    </div>
+                    
+                    
+                    <div class="flex flex-col items-center">
+                        <span class="text-xs">
+                            ✅
+                        </span>
+                        <span class="text-[10px] text-slate-400 leading-none">AI</span>
+                    </div>
+                    
+                    
+                    <div class="flex flex-col items-center">
+                        <span class="text-xs">
+                            ✅
+                        </span>
+                        <span class="text-[10px] text-slate-400 leading-none">카톡</span>
+                    </div>
+                    
+                    <span class="text-slate-300 ml-1 text-xs" id="arrow-20260310_morning_070858">▼</span>
+                </div>
+            </div>
+
+            <!-- 상세 정보 (접기/펼치기) -->
+            <div class="hidden border-t border-surface-200 bg-slate-50 px-4 py-3 text-xs text-slate-600 space-y-2"
+                id="detail-20260310_morning_070858">
+
+                <div class="grid grid-cols-2 gap-x-4 gap-y-1">
+                    <div><span class="text-slate-400">시작:</span> 2026-03-10T07:08:58.751521+09:00</div>
+                    <div><span class="text-slate-400">종료:</span> 2026-03-10T07:09:55.592043+09:00</div>
+                    <div><span class="text-slate-400">Video ID:</span>
+                        
+                        <a href="https://youtube.com/watch?v=XAkCnI_DDcw" target="_blank"
+                            class="text-indigo-500 hover:underline">XAkCnI_DDcw</a>
+                        
+                    </div>
+                </div>
+
+                <!-- 단계별 상세 -->
+                <table class="w-full mt-2">
+                    <thead>
+                        <tr class="text-left text-slate-400 border-b border-surface-200">
+                            <th class="pb-1 font-medium">단계</th>
+                            <th class="pb-1 font-medium">결과</th>
+                            <th class="pb-1 font-medium">상세</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-surface-100">
+                        <tr class="py-1">
+                            <td class="py-1 pr-3">RSS 검색</td>
+                            <td class="py-1 pr-3">
+                                
+                                <span class="text-emerald-600">✅ 성공</span>
+                                
+                            </td>
+                            <td class="py-1 text-slate-500">
+                                
+                                영상 1개 발견
+                                
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="py-1 pr-3">자막 추출</td>
+                            <td class="py-1 pr-3">
+                                
+                                <span class="text-emerald-600">✅ 성공</span>
+                                
+                            </td>
+                            <td class="py-1 text-slate-500">
+                                
+                                16048자
+                                
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="py-1 pr-3">AI 요약</td>
+                            <td class="py-1 pr-3">
+                                
+                                <span class="text-emerald-600">✅ 성공</span>
+                                
+                            </td>
+                            <td class="py-1 text-slate-500">
+                                
+                                카톡 요약 503자
+                                
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="py-1 pr-3">카카오 전송</td>
+                            <td class="py-1 pr-3">
+                                
+                                <span class="text-emerald-600">✅ 성공</span>
+                                
+                            </td>
+                            <td class="py-1 text-slate-500"></td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                
+            </div>
+        </div>
+        
+    </div>
+
+    
+
+</div>
+
+    </main>
+
+    <!-- 푸터 -->
+    <footer class="border-t border-surface-200 mt-12">
+        <div class="max-w-3xl mx-auto px-4 py-6 text-center">
+            <p class="text-xs text-slate-400">
+                AI 기반 경제 뉴스 브리핑 · 투자 조언이 아닌 정보 제공 목적
+            </p>
+            <p class="text-xs text-slate-300 mt-1">
+                빌드: 2026-03-10 07:12 KST
+            </p>
+        </div>
+    </footer>
+
+    
+<script>
+    function toggleLog(runId) {
+        const detail = document.getElementById('detail-' + runId);
+        const arrow = document.getElementById('arrow-' + runId);
+        if (detail.classList.contains('hidden')) {
+            detail.classList.remove('hidden');
+            arrow.textContent = '▲';
+        } else {
+            detail.classList.add('hidden');
+            arrow.textContent = '▼';
+        }
+    }
+</script>
+
+</body>
+
+</html>
