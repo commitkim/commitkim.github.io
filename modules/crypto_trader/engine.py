@@ -7,7 +7,6 @@ Crypto Trading Engine
 import json
 import os
 import time
-import logging
 from datetime import datetime
 
 import pyupbit

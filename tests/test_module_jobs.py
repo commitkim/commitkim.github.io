@@ -79,39 +79,57 @@ class TestNewsBriefingJobs:
 
 
 class TestCryptoTraderJobs:
-    def test_registers_trade_cycle_job(self):
-        """crypto_trader.jobs should register the crypto_trade_cycle job."""
+    """Tests for crypto_trader job registration.
+    Note: schedule_enabled is False in test config, so we patch it to True.
+    """
+
+    def _make_registry_with_jobs(self):
+        """Register crypto trader jobs with schedule_enabled forced to True."""
+        from unittest.mock import patch
+
         from core.scheduler.registry import SchedulerRegistry
         from modules.crypto_trader.jobs import register_jobs
 
-        registry = SchedulerRegistry()
-        register_jobs(registry)
+        original_get = None
 
-        job = registry.get_by_name("crypto_trade_cycle")
-        assert job is not None
+        def patched_get(key, default=None):
+            if key == "crypto_trader.schedule_enabled":
+                return True
+            return original_get(key, default)
+
+        from core.config import Config
+        cfg = Config.instance()
+        original_get = cfg.get
+        registry = SchedulerRegistry()
+
+        with patch.object(cfg, "get", side_effect=patched_get):
+            register_jobs(registry)
+
+        return registry
+
+    def test_registers_trade_cycle_job(self):
+        """crypto_trader.jobs should register the crypto_trade_cycle job when enabled."""
+        registry = self._make_registry_with_jobs()
+        jobs = registry.get_all(include_disabled=True)
+        names = [j.name for j in jobs]
+        assert "crypto_trade_cycle" in names, f"Job not registered. Got: {names}"
 
     def test_command_has_python_m_prefix(self):
-        """Trader command must start with 'python -m'."""
-        from core.scheduler.registry import SchedulerRegistry
-        from modules.crypto_trader.jobs import register_jobs
-
-        registry = SchedulerRegistry()
-        register_jobs(registry)
-
-        job = registry.get_by_name("crypto_trade_cycle")
+        """Trader command must start with 'apps.cli'."""
+        registry = self._make_registry_with_jobs()
+        jobs = registry.get_all(include_disabled=True)
+        job = next((j for j in jobs if j.name == "crypto_trade_cycle"), None)
+        assert job is not None
         assert job.command.startswith("apps.cli"), (
             f"Expected 'apps.cli' prefix, got: {job.command!r}"
         )
 
     def test_schedule_is_hourly(self):
         """Trader should run on the hour every hour."""
-        from core.scheduler.registry import SchedulerRegistry
-        from modules.crypto_trader.jobs import register_jobs
-
-        registry = SchedulerRegistry()
-        register_jobs(registry)
-
-        job = registry.get_by_name("crypto_trade_cycle")
+        registry = self._make_registry_with_jobs()
+        jobs = registry.get_all(include_disabled=True)
+        job = next((j for j in jobs if j.name == "crypto_trade_cycle"), None)
+        assert job is not None
         assert job.schedule.startswith("0 * * * *"), (
             f"Expected hourly cron '0 * * * *', got: {job.schedule!r}"
         )

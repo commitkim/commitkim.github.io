@@ -14,9 +14,12 @@ Usage:
 """
 
 import argparse
+import json
+import os
 import platform
+from datetime import datetime, timedelta, timezone
 
-from core.config import Config
+from core.config import PROJECT_ROOT, Config
 from core.logger import get_logger
 
 log = get_logger("cli")
@@ -24,24 +27,18 @@ log = get_logger("cli")
 
 def _write_news_run_log(run_log: dict) -> None:
     """Write a structured run log JSON to data/logs/news/."""
-    import json as _json
-    import os as _os
-    from core.config import PROJECT_ROOT
-
     log_dir = PROJECT_ROOT / "data" / "logs" / "news"
-    _os.makedirs(log_dir, exist_ok=True)
+    os.makedirs(log_dir, exist_ok=True)
 
     filename = f"{run_log['run_id']}.json"
     filepath = log_dir / filename
     with open(filepath, 'w', encoding='utf-8') as f:
-        _json.dump(run_log, f, ensure_ascii=False, indent=2)
+        json.dump(run_log, f, ensure_ascii=False, indent=2)
     log.info(f"실행 로그 저장: {filepath}")
 
 
 def _run_news(args):
     """Run the news briefing pipeline."""
-    import json as _json
-    from datetime import datetime, timezone, timedelta
 
     KST = timezone(timedelta(hours=9))
     mode = getattr(args, 'mode', 'morning')
