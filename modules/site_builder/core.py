@@ -171,10 +171,18 @@ def build_microgpt_page(output_dir, context):
     # Output to docs/microgpt/index.html
     microgpt_dir = output_dir / "microgpt"
     microgpt_dir.mkdir(parents=True, exist_ok=True)
-    
+
     with open(microgpt_dir / 'index.html', 'w', encoding='utf-8') as f:
         f.write(output)
     log.info("[OK] Built microgpt/index.html")
+
+    # Copy names.txt (input.txt) so the browser can fetch it as a static asset
+    names_src = DATA_DIR / "microgpt" / "input.txt"
+    if names_src.exists():
+        import shutil as _shutil
+        _shutil.copy2(names_src, microgpt_dir / "names.txt")
+        line_count = sum(1 for line in open(names_src, encoding='utf-8') if line.strip())
+        log.info(f"[OK] Copied names.txt to microgpt/ ({line_count:,} names)")
 
 
 def build(output_dir=None):

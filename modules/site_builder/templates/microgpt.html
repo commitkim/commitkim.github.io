@@ -198,17 +198,15 @@
                     <p class="text-slate-500 text-xs sm:text-sm mb-4">학습 데이터를 선택하고 AI를 훈련시켜보세요. 브라우저를 닫아도 학습 기록은 저장됩니다.
                     </p>
 
-                    <!-- Data Selector -->
+                    <!-- Dataset Info Badge (replaces dropdown - single dataset) -->
                     <div class="flex flex-col sm:flex-row gap-3 w-full sm:w-auto items-start sm:items-center">
-                        <select id="dataSelector" onchange="changeDataset()"
-                            class="w-full sm:w-auto px-4 py-2 rounded-xl border border-slate-200 bg-slate-50 text-slate-700 focus:ring-2 focus:ring-indigo-200 outline-none font-medium">
-                            <option value="names_common">👤 Common Names (일반 이름)</option>
-                            <option value="names_korean">🇰🇷 Korean Names (한국 이름)</option>
-                            <option value="names_global">🌍 Global Names (세계 이름)</option>
-                        </select>
+                        <span
+                            class="inline-flex items-center gap-2 px-4 py-2 bg-indigo-50 text-indigo-700 text-sm font-bold rounded-xl border border-indigo-100">
+                            👤 Karpathy Names Dataset
+                        </span>
                         <span id="datasetCount"
                             class="inline-flex items-center gap-1 px-3 py-1.5 bg-indigo-50 text-indigo-700 text-xs font-bold rounded-full border border-indigo-100">
-                            📊 Total: <span id="datasetCountNum">-</span> names
+                            📊 Total: <span id="datasetCountNum">loading...</span> names
                         </span>
                     </div>
                 </div>
@@ -469,12 +467,8 @@
     <!-- --- JAVASCRIPT LOGIC --- -->
     <script>
         // --- 0. Data & Persistence ---
-        const datasets = {
-            names_common: `emma\nolivia\nava\nisabella\nsophia\ncharlotte\nmia\namelia\nharper\nevelyn\nabigail\nemily\nelizabeth\nmila\nella\nscarlette\ncamila\nlunar\nzoe\npenelope\nlily\nlayla\nnora\nnova\nhazel\naurora\nsavannah\naudrey\nbrooklyn\nbella\nclaire\nskylar\nlucr\naddison\nleah\nviolet\naria\naureila\nalice\nnatalje\nchloe\ngrace\nellie\nmadeline\nhannaah\nabby\ndenah\nstella\nnadia\nrose\njulia\njameson\nliam\nnoan\noliver\nelijah\nwilliam\njames\nbrendan\naiden\nlucas\nmason\nethann\nalex\njacob\nmichael\nbenjamin\nhenry\naleander\nsebastian\njoseph\ndavid\ncarter\nowenn\njaxon\nwyatt\njohan\ngrayson\njulian\niasaac\nlandon\nlogan\ndylan\ncaleb\njordan\nryan\nnathan\naaron\nkyler\nzachary\ntyler\nandrew\njoshua\nsamuel\nchristoph\ndaniel\nmattew\nathaniel\ncolton\nemmet\nbrayden\nbrody\ncamden\nblake\nnicholas\nXander\nhunter\nchase\nkonner\nryder\ntanner\ncolby\ndeclan\nfinnley\ngregor\nharland\nipsen\njansen\nkelden\nlachlan\nmcallister\nnorvell\northon\npresley\nquisley\nraynor\nsterling\nthatcher\nupton\nvaughan\nweston\nyandell\nzander`,
-            names_korean: `minji\njiyeon\nsojung\nyuna\njisoo\njennie\nlisa\nrose\nhyuna\nsuzy\niri\nchungha\nhyorin\nsolji\nsunmi\nsunye\nseulgi\nirene\nwendy\njoy\nyeri\nscholls\nnayeon\njeongyeon\nmomo\nsana\njihyo\nmina\ndahyun\nchaeyoung\ntzuyu\neunchae\nkahei\nhongjoong\nseonghwa\nyunho\njongho\nwooyoung\nsanmingi\ndojoon\nhyungwon\nminhyuk\nchangkyun\nkihyun\njooheon\nshownu\njonghyun\ntaemin\nminho\nkey\nonew\nbaekhyun\nsuho\nchanyeol\nkyungsoo\nsehun\njunmyeon\nxiumin\nchenle\nrenjun\njaemin\nhaechan\njeno\njisung\ndoyoung\nmark\ntaeyong\nyuta\njaehyun\nwinwin\nkunhang\nlucas\nsungchan\nhigor\nninety\njongkook\njongwoon\nkyuwon\nsangwon\njunho\nseungkwan\ndkwon\nhoshi\njeonghan\njisool\nsoonyoung\nvernon\nmingyu\nwonwoo\nthe8\njun\ndino\nmansae\naegi\ncheol\nseungcheol\nchoi\nhwang\nkim\nlee\npark\nchung\njang\nimok\nshin\nyoon\njung\nhwang\nlim\nhong\nkang\nnoh\nyoo\nsong\noh`,
-            names_global: `ahmed\nmuhamad\nalexandre\naleksander\nandrei\nalex\nantonio\narios\nboris\ncarlo\ncedric\ndarko\ndimitri\neduar\nfernando\ngiorgio\nhabib\nibrahima\nicolas\njulio\nkarim\nleonid\nmarcos\nnadia\noskar\npiero\nqasim\nrafi\nsigurd\ntariq\numar\nvladimir\nwalid\nxabi\nyassin\nzaid\nadvik\nbharat\nchirag\ndivya\neshaan\nfarida\ngopal\nhira\nishaan\njayesh\nkiran\nlaleh\nmehmet\nnilufar\nomar\npratik\nquynh\nrajan\nsamir\ntamara\nulyana\nvarun\nwanjiru\nyasuko\nzohreh\narjun\nbindu\nchandni\ndhruv\neleena\nfaisal\ngaurav\nhemant\nitzel\njaved\nkamala\nlakshmi\nmanisha\nnitesh\nonkar\npriya\nrahul\nsahil\ntanya\nurvashi\nvikram\nwaseema\nyogesh\nzubair\naarav\nbhaskar\nchandler\ndevika\neshita\nfarhan\ngurpreet\nhemanthi\ninaya\njasleen\nkanupriya\nlavanya\nmukund\nnishant\norlandor\nprabhjot\nquentin\nravindra\nshefali\ntaruna\nulhas\nvijaya\nwaqar\nyukta\nzahir`
-        };
-
+        // namesData holds the fetched names string (loaded async at startup)
+        let namesData = null;
 
         // --- 1. Autograd & Models ---
         class Value { constructor(t, e = [], s = "", i = "") { this.data = t, this.grad = 0, this._prev = new Set(e), this._op = s, this.label = i, this._backward = () => { } } add(t) { t = t instanceof Value ? t : new Value(t); const e = new Value(this.data + t.data, [this, t], "+"); return e._backward = () => { this.grad += 1 * e.grad, t.grad += 1 * e.grad }, e } mul(t) { t = t instanceof Value ? t : new Value(t); const e = new Value(this.data * t.data, [this, t], "*"); return e._backward = () => { this.grad += t.data * e.grad, t.grad += this.data * e.grad }, e } tanh() { const t = this.data, e = Math.tanh(t), s = new Value(e, [this], "tanh"); return s._backward = () => { this.grad += (1 - e * e) * s.grad }, s } exp() { const t = this.data, e = new Value(Math.exp(t), [this], "exp"); return e._backward = () => { this.grad += e.data * e.grad }, e } pow(t) { const e = this.data, s = new Value(Math.pow(e, t), [this], `**${t}`); return s._backward = () => { this.grad += t * Math.pow(e, t - 1) * s.grad }, s } log() { const t = new Value(Math.log(this.data), [this], "log"); return t._backward = () => { this.grad += 1 / this.data * t.grad }, t } backward() { const t = [], e = new Set, s = i => { if (!e.has(i)) { e.add(i); for (let t of i._prev) s(t); t.push(i) } }; s(this), this.grad = 1; for (let e = t.length - 1; e >= 0; e--)t[e]._backward() } }
@@ -494,17 +488,30 @@
         let rawDataLines = [];
         let rawDataString = ""; // Needed for validation
 
-        function init() {
+        async function init() {
+            // Show loading state
+            const countEl = document.getElementById('datasetCountNum');
+            if (countEl) countEl.textContent = 'loading...';
+
+            // Fetch the 32k names file
+            try {
+                const resp = await fetch('names.txt');
+                if (!resp.ok) throw new Error('fetch failed');
+                namesData = await resp.text();
+            } catch (e) {
+                console.warn('Could not fetch names.txt, using fallback.', e);
+                namesData = 'emma\nolivia\nava\nisabella\nsophia\ncharlotte\nmia\namelia\nharper\nevelyn\nliam\noliver\nelijah\nwilliam\njames\naiden\nlucas\nmason\nhenry\nsebastian';
+            }
+
             loadState();
         }
 
         function changeDataset() {
-            resetModel(true); // Always reset when changing type
+            resetModel(true);
         }
 
         function getDataset() {
-            const sel = document.getElementById('dataSelector').value;
-            return datasets[sel] || datasets.names_common;
+            return namesData || '';
         }
 
         function updateDatasetCount() {
@@ -632,14 +639,7 @@
         }
 
         function loadState() {
-            // Already handled in initModel logic mostly, just ensuring UI sync
-            const savedState = localStorage.getItem('microgpt_state');
-            if (savedState) {
-                try {
-                    const state = JSON.parse(savedState);
-                    document.getElementById('dataSelector').value = state.dataset || 'names_common';
-                } catch (e) { }
-            }
+            // No dataset selector anymore - just init the model
             initModel(false);
         }
 
