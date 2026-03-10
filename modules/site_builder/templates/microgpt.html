@@ -199,12 +199,17 @@
                     </p>
 
                     <!-- Data Selector -->
-                    <div class="flex flex-col sm:flex-row gap-3 w-full sm:w-auto">
+                    <div class="flex flex-col sm:flex-row gap-3 w-full sm:w-auto items-start sm:items-center">
                         <select id="dataSelector" onchange="changeDataset()"
                             class="w-full sm:w-auto px-4 py-2 rounded-xl border border-slate-200 bg-slate-50 text-slate-700 focus:ring-2 focus:ring-indigo-200 outline-none font-medium">
-                            <option value="fruits">🍎 Fruits (과일 이름)</option>
-                            <option value="colors">🎨 Colors (색깔 이름)</option>
+                            <option value="names_common">👤 Common Names (일반 이름)</option>
+                            <option value="names_korean">🇰🇷 Korean Names (한국 이름)</option>
+                            <option value="names_global">🌍 Global Names (세계 이름)</option>
                         </select>
+                        <span id="datasetCount"
+                            class="inline-flex items-center gap-1 px-3 py-1.5 bg-indigo-50 text-indigo-700 text-xs font-bold rounded-full border border-indigo-100">
+                            📊 Total: <span id="datasetCountNum">-</span> names
+                        </span>
                     </div>
                 </div>
 
@@ -465,13 +470,11 @@
     <script>
         // --- 0. Data & Persistence ---
         const datasets = {
-            fruits: "apple\nbanana\ncherry\ndate\nelderberry\nfig\ngrape\nhoneydew\nkiwi\nlemon\nmango\nnectarine\norange\npapaya\n",
-            colors: "red\norange\nyellow\ngreen\nblue\npurple\npink\nblack\nwhite\ngray\nbrown\ncyan\nmagenta\n"
+            names_common: `emma\nolivia\nava\nisabella\nsophia\ncharlotte\nmia\namelia\nharper\nevelyn\nabigail\nemily\nelizabeth\nmila\nella\nscarlette\ncamila\nlunar\nzoe\npenelope\nlily\nlayla\nnora\nnova\nhazel\naurora\nsavannah\naudrey\nbrooklyn\nbella\nclaire\nskylar\nlucr\naddison\nleah\nviolet\naria\naureila\nalice\nnatalje\nchloe\ngrace\nellie\nmadeline\nhannaah\nabby\ndenah\nstella\nnadia\nrose\njulia\njameson\nliam\nnoan\noliver\nelijah\nwilliam\njames\nbrendan\naiden\nlucas\nmason\nethann\nalex\njacob\nmichael\nbenjamin\nhenry\naleander\nsebastian\njoseph\ndavid\ncarter\nowenn\njaxon\nwyatt\njohan\ngrayson\njulian\niasaac\nlandon\nlogan\ndylan\ncaleb\njordan\nryan\nnathan\naaron\nkyler\nzachary\ntyler\nandrew\njoshua\nsamuel\nchristoph\ndaniel\nmattew\nathaniel\ncolton\nemmet\nbrayden\nbrody\ncamden\nblake\nnicholas\nXander\nhunter\nchase\nkonner\nryder\ntanner\ncolby\ndeclan\nfinnley\ngregor\nharland\nipsen\njansen\nkelden\nlachlan\nmcallister\nnorvell\northon\npresley\nquisley\nraynor\nsterling\nthatcher\nupton\nvaughan\nweston\nyandell\nzander`,
+            names_korean: `minji\njiyeon\nsojung\nyuna\njisoo\njennie\nlisa\nrose\nhyuna\nsuzy\niri\nchungha\nhyorin\nsolji\nsunmi\nsunye\nseulgi\nirene\nwendy\njoy\nyeri\nscholls\nnayeon\njeongyeon\nmomo\nsana\njihyo\nmina\ndahyun\nchaeyoung\ntzuyu\neunchae\nkahei\nhongjoong\nseonghwa\nyunho\njongho\nwooyoung\nsanmingi\ndojoon\nhyungwon\nminhyuk\nchangkyun\nkihyun\njooheon\nshownu\njonghyun\ntaemin\nminho\nkey\nonew\nbaekhyun\nsuho\nchanyeol\nkyungsoo\nsehun\njunmyeon\nxiumin\nchenle\nrenjun\njaemin\nhaechan\njeno\njisung\ndoyoung\nmark\ntaeyong\nyuta\njaehyun\nwinwin\nkunhang\nlucas\nsungchan\nhigor\nninety\njongkook\njongwoon\nkyuwon\nsangwon\njunho\nseungkwan\ndkwon\nhoshi\njeonghan\njisool\nsoonyoung\nvernon\nmingyu\nwonwoo\nthe8\njun\ndino\nmansae\naegi\ncheol\nseungcheol\nchoi\nhwang\nkim\nlee\npark\nchung\njang\nimok\nshin\nyoon\njung\nhwang\nlim\nhong\nkang\nnoh\nyoo\nsong\noh`,
+            names_global: `ahmed\nmuhamad\nalexandre\naleksander\nandrei\nalex\nantonio\narios\nboris\ncarlo\ncedric\ndarko\ndimitri\neduar\nfernando\ngiorgio\nhabib\nibrahima\nicolas\njulio\nkarim\nleonid\nmarcos\nnadia\noskar\npiero\nqasim\nrafi\nsigurd\ntariq\numar\nvladimir\nwalid\nxabi\nyassin\nzaid\nadvik\nbharat\nchirag\ndivya\neshaan\nfarida\ngopal\nhira\nishaan\njayesh\nkiran\nlaleh\nmehmet\nnilufar\nomar\npratik\nquynh\nrajan\nsamir\ntamara\nulyana\nvarun\nwanjiru\nyasuko\nzohreh\narjun\nbindu\nchandni\ndhruv\neleena\nfaisal\ngaurav\nhemant\nitzel\njaved\nkamala\nlakshmi\nmanisha\nnitesh\nonkar\npriya\nrahul\nsahil\ntanya\nurvashi\nvikram\nwaseema\nyogesh\nzubair\naarav\nbhaskar\nchandler\ndevika\neshita\nfarhan\ngurpreet\nhemanthi\ninaya\njasleen\nkanupriya\nlavanya\nmukund\nnishant\norlandor\nprabhjot\nquentin\nravindra\nshefali\ntaruna\nulhas\nvijaya\nwaqar\nyukta\nzahir`
         };
 
-        // Massive List Update
-        datasets.fruits += "raspberry\nstrawberry\ntangerine\nugli\nwatermelon\nblueberries\ncantaloupe\ndragonfruit\nblackberries\ncranberries\ngrapefruit\nguava\nlime\nlychee\npassionfruit\npeach\npear\npineapple\nplum\npomegranate\napricot\navocado\nblackberry\nboysenberry\ncoconut\ncurrant\ndurian\ngooseberry\nkumquat\nmulberry\npersimmon\nquince\nstarfruit\n";
-        datasets.colors += "lavender\nindigo\nturquoise\nmaroon\nnavy\nolive\nteal\nviolet\nbeige\ncharcoal\ncoral\ncrimson\ngold\nivory\nkhaki\nlime\nmint\nochre\npeach\nsalmon\nsepia\nsienna\nsilver\ntan\ntomato\nwheat\nazure\nbronze\nchocolate\ncopper\nemerald\nfuchsia\njade\nlilac\nmaurve\nperiwinkle\nruby\nsapphire\nscarlet\n";
 
         // --- 1. Autograd & Models ---
         class Value { constructor(t, e = [], s = "", i = "") { this.data = t, this.grad = 0, this._prev = new Set(e), this._op = s, this.label = i, this._backward = () => { } } add(t) { t = t instanceof Value ? t : new Value(t); const e = new Value(this.data + t.data, [this, t], "+"); return e._backward = () => { this.grad += 1 * e.grad, t.grad += 1 * e.grad }, e } mul(t) { t = t instanceof Value ? t : new Value(t); const e = new Value(this.data * t.data, [this, t], "*"); return e._backward = () => { this.grad += t.data * e.grad, t.grad += this.data * e.grad }, e } tanh() { const t = this.data, e = Math.tanh(t), s = new Value(e, [this], "tanh"); return s._backward = () => { this.grad += (1 - e * e) * s.grad }, s } exp() { const t = this.data, e = new Value(Math.exp(t), [this], "exp"); return e._backward = () => { this.grad += e.data * e.grad }, e } pow(t) { const e = this.data, s = new Value(Math.pow(e, t), [this], `**${t}`); return s._backward = () => { this.grad += t * Math.pow(e, t - 1) * s.grad }, s } log() { const t = new Value(Math.log(this.data), [this], "log"); return t._backward = () => { this.grad += 1 / this.data * t.grad }, t } backward() { const t = [], e = new Set, s = i => { if (!e.has(i)) { e.add(i); for (let t of i._prev) s(t); t.push(i) } }; s(this), this.grad = 1; for (let e = t.length - 1; e >= 0; e--)t[e]._backward() } }
@@ -501,7 +504,14 @@
 
         function getDataset() {
             const sel = document.getElementById('dataSelector').value;
-            return datasets[sel] || datasets.fruits;
+            return datasets[sel] || datasets.names_common;
+        }
+
+        function updateDatasetCount() {
+            const rawData = getDataset();
+            const count = rawData.split('\n').filter(w => w.trim().length > 0).length;
+            const el = document.getElementById('datasetCountNum');
+            if (el) el.textContent = count.toLocaleString();
         }
 
         function buildDataset() {
@@ -531,6 +541,8 @@
                     ctx.push(ix);
                 }
             }
+
+            updateDatasetCount();
             return rawData;
         }
 
@@ -625,7 +637,7 @@
             if (savedState) {
                 try {
                     const state = JSON.parse(savedState);
-                    document.getElementById('dataSelector').value = state.dataset || 'fruits';
+                    document.getElementById('dataSelector').value = state.dataset || 'names_common';
                 } catch (e) { }
             }
             initModel(false);
