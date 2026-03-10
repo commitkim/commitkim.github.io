@@ -198,34 +198,66 @@
                     <p class="text-slate-500 text-xs sm:text-sm mb-4">학습 데이터를 선택하고 AI를 훈련시켜보세요. 브라우저를 닫아도 학습 기록은 저장됩니다.
                     </p>
 
-                    <!-- Data Selector -->
-                    <div class="flex flex-col sm:flex-row gap-3 w-full sm:w-auto items-start sm:items-center">
-                        <select id="dataSelector" onchange="changeDataset()"
-                            class="w-full sm:w-auto px-4 py-2 rounded-xl border border-slate-200 bg-slate-50 text-slate-700 focus:ring-2 focus:ring-indigo-200 outline-none font-medium">
-                            <option value="names_common">👤 Common Names (일반 이름)</option>
-                            <option value="names_korean">🇰🇷 Korean Names (한국 이름)</option>
-                            <option value="names_global">🌍 Global Names (세계 이름)</option>
-                        </select>
+                    <!-- Dataset Info Badge -->
+                    <div class="flex flex-col sm:flex-row gap-3 w-full sm:w-auto items-start sm:items-center mb-4">
+                        <span
+                            class="inline-flex items-center gap-2 px-4 py-2 bg-indigo-50 text-indigo-700 text-sm font-bold rounded-xl border border-indigo-100">
+                            👤 Karpathy Names Dataset
+                        </span>
                         <span id="datasetCount"
                             class="inline-flex items-center gap-1 px-3 py-1.5 bg-indigo-50 text-indigo-700 text-xs font-bold rounded-full border border-indigo-100">
-                            📊 Total: <span id="datasetCountNum">-</span> names
+                            📊 Total: <span id="datasetCountNum">loading...</span> names
                         </span>
+                    </div>
+
+                    <!-- Model Configuration -->
+                    <div
+                        class="flex flex-col sm:flex-row flex-wrap gap-4 items-start bg-slate-50 p-4 rounded-xl border border-slate-200">
+                        <div class="flex flex-col flex-1 min-w-[140px]">
+                            <label class="text-sm font-bold text-slate-700 mb-1">Block Size (Context)</label>
+                            <input type="number" id="inputBlockSize" value="4" min="2" max="8"
+                                class="px-3 py-1.5 rounded-lg border border-slate-300 text-sm focus:outline-indigo-500 mb-1 w-full max-w-[120px]">
+                            <p class="text-[10px] text-slate-500 leading-tight">과거 몇 글자를 보고 다음을 예측할지 결정합니다 (예: 4면
+                                'emma'를 보고 다음을 예측).</p>
+                        </div>
+                        <div class="flex flex-col flex-1 min-w-[140px]">
+                            <label class="text-sm font-bold text-slate-700 mb-1">Embedding Size</label>
+                            <input type="number" id="inputEmbedSize" value="16" min="4" max="32"
+                                class="px-3 py-1.5 rounded-lg border border-slate-300 text-sm focus:outline-indigo-500 mb-1 w-full max-w-[120px]">
+                            <p class="text-[10px] text-slate-500 leading-tight">각 글자의 의미를 공간상에 표현하는 뇌 용량입니다.</p>
+                        </div>
+                        <div class="flex flex-col flex-1 min-w-[140px]">
+                            <label class="text-sm font-bold text-slate-700 mb-1">Hidden Size</label>
+                            <input type="number" id="inputHiddenSize" value="64" min="16" max="128" step="16"
+                                class="px-3 py-1.5 rounded-lg border border-slate-300 text-sm focus:outline-indigo-500 mb-1 w-full max-w-[120px]">
+                            <p class="text-[10px] text-slate-500 leading-tight">추론 신경망의 뉴런 개수입니다. 용량이 클수록 더 복잡한 패턴을 학습할
+                                수 있습니다.</p>
+                        </div>
                     </div>
                 </div>
 
                 <!-- Action Buttons: Optimized for Mobile -->
                 <div class="flex flex-wrap gap-2 sm:gap-3 w-full sm:w-auto">
                     <button onclick="trainStep(1)" id="btnTrain1"
+                        class="flex-1 sm:flex-none justify-center px-4 sm:px-5 py-3 bg-indigo-400 text-white rounded-xl font-bold hover:bg-indigo-500 transition-all shadow-lg shadow-indigo-500/20 flex items-center gap-2 active:scale-95 whitespace-nowrap text-sm sm:text-base">
+                        <span>▶️</span> 1
+                    </button>
+                    <button onclick="trainStep(100)" id="btnTrain100"
                         class="flex-1 sm:flex-none justify-center px-4 sm:px-5 py-3 bg-indigo-500 text-white rounded-xl font-bold hover:bg-indigo-600 transition-all shadow-lg shadow-indigo-500/20 flex items-center gap-2 active:scale-95 whitespace-nowrap text-sm sm:text-base">
-                        <span>▶️</span> 1 Step
+                        <span>▶️</span> 100
+                    </button>
+                    <button onclick="trainStep(1000)" id="btnTrain1000"
+                        class="flex-1 sm:flex-none justify-center px-4 sm:px-5 py-3 bg-indigo-600 text-white rounded-xl font-bold hover:bg-indigo-700 transition-all shadow-lg shadow-indigo-500/30 flex items-center gap-2 active:scale-95 whitespace-nowrap text-sm sm:text-base">
+                        <span>🚀</span> 1k
                     </button>
                     <!-- 10000 Steps Button -->
                     <button onclick="trainStep(10000)" id="btnTrain10000"
-                        class="flex-1 sm:flex-none justify-center px-4 sm:px-5 py-3 bg-indigo-600 text-white rounded-xl font-bold hover:bg-indigo-700 transition-all shadow-lg shadow-indigo-500/30 flex items-center gap-2 active:scale-95 whitespace-nowrap text-sm sm:text-base">
-                        <span>🚀</span> 10k Steps
+                        class="flex-1 sm:flex-none justify-center px-4 sm:px-5 py-3 bg-indigo-700 text-white rounded-xl font-bold hover:bg-indigo-800 transition-all shadow-lg shadow-indigo-500/40 flex items-center gap-2 active:scale-95 whitespace-nowrap text-sm sm:text-base">
+                        <span>🚀</span> 10k
                     </button>
                     <button onclick="resetModel(true)"
-                        class="flex-none px-4 sm:px-5 py-3 bg-slate-100 text-slate-600 rounded-xl font-bold hover:bg-slate-200 transition-all flex items-center gap-2 active:scale-95 text-sm sm:text-base">
+                        class="flex-none px-4 sm:px-5 py-3 bg-slate-100 text-slate-600 rounded-xl font-bold hover:bg-slate-200 transition-all flex items-center gap-2 active:scale-95 text-sm sm:text-base"
+                        title="모두 초기화">
                         <span>🔄</span>
                     </button>
                 </div>
@@ -466,15 +498,14 @@
 
     </main>
 
+    <!-- Names dataset (32k+ names) -->
+    <script src="names-data.js"></script>
+
     <!-- --- JAVASCRIPT LOGIC --- -->
     <script>
         // --- 0. Data & Persistence ---
-        const datasets = {
-            names_common: `emma\nolivia\nava\nisabella\nsophia\ncharlotte\nmia\namelia\nharper\nevelyn\nabigail\nemily\nelizabeth\nmila\nella\nscarlette\ncamila\nlunar\nzoe\npenelope\nlily\nlayla\nnora\nnova\nhazel\naurora\nsavannah\naudrey\nbrooklyn\nbella\nclaire\nskylar\nlucr\naddison\nleah\nviolet\naria\naureila\nalice\nnatalje\nchloe\ngrace\nellie\nmadeline\nhannaah\nabby\ndenah\nstella\nnadia\nrose\njulia\njameson\nliam\nnoan\noliver\nelijah\nwilliam\njames\nbrendan\naiden\nlucas\nmason\nethann\nalex\njacob\nmichael\nbenjamin\nhenry\naleander\nsebastian\njoseph\ndavid\ncarter\nowenn\njaxon\nwyatt\njohan\ngrayson\njulian\niasaac\nlandon\nlogan\ndylan\ncaleb\njordan\nryan\nnathan\naaron\nkyler\nzachary\ntyler\nandrew\njoshua\nsamuel\nchristoph\ndaniel\nmattew\nathaniel\ncolton\nemmet\nbrayden\nbrody\ncamden\nblake\nnicholas\nXander\nhunter\nchase\nkonner\nryder\ntanner\ncolby\ndeclan\nfinnley\ngregor\nharland\nipsen\njansen\nkelden\nlachlan\nmcallister\nnorvell\northon\npresley\nquisley\nraynor\nsterling\nthatcher\nupton\nvaughan\nweston\nyandell\nzander`,
-            names_korean: `minji\njiyeon\nsojung\nyuna\njisoo\njennie\nlisa\nrose\nhyuna\nsuzy\niri\nchungha\nhyorin\nsolji\nsunmi\nsunye\nseulgi\nirene\nwendy\njoy\nyeri\nscholls\nnayeon\njeongyeon\nmomo\nsana\njihyo\nmina\ndahyun\nchaeyoung\ntzuyu\neunchae\nkahei\nhongjoong\nseonghwa\nyunho\njongho\nwooyoung\nsanmingi\ndojoon\nhyungwon\nminhyuk\nchangkyun\nkihyun\njooheon\nshownu\njonghyun\ntaemin\nminho\nkey\nonew\nbaekhyun\nsuho\nchanyeol\nkyungsoo\nsehun\njunmyeon\nxiumin\nchenle\nrenjun\njaemin\nhaechan\njeno\njisung\ndoyoung\nmark\ntaeyong\nyuta\njaehyun\nwinwin\nkunhang\nlucas\nsungchan\nhigor\nninety\njongkook\njongwoon\nkyuwon\nsangwon\njunho\nseungkwan\ndkwon\nhoshi\njeonghan\njisool\nsoonyoung\nvernon\nmingyu\nwonwoo\nthe8\njun\ndino\nmansae\naegi\ncheol\nseungcheol\nchoi\nhwang\nkim\nlee\npark\nchung\njang\nimok\nshin\nyoon\njung\nhwang\nlim\nhong\nkang\nnoh\nyoo\nsong\noh`,
-            names_global: `ahmed\nmuhamad\nalexandre\naleksander\nandrei\nalex\nantonio\narios\nboris\ncarlo\ncedric\ndarko\ndimitri\neduar\nfernando\ngiorgio\nhabib\nibrahima\nicolas\njulio\nkarim\nleonid\nmarcos\nnadia\noskar\npiero\nqasim\nrafi\nsigurd\ntariq\numar\nvladimir\nwalid\nxabi\nyassin\nzaid\nadvik\nbharat\nchirag\ndivya\neshaan\nfarida\ngopal\nhira\nishaan\njayesh\nkiran\nlaleh\nmehmet\nnilufar\nomar\npratik\nquynh\nrajan\nsamir\ntamara\nulyana\nvarun\nwanjiru\nyasuko\nzohreh\narjun\nbindu\nchandni\ndhruv\neleena\nfaisal\ngaurav\nhemant\nitzel\njaved\nkamala\nlakshmi\nmanisha\nnitesh\nonkar\npriya\nrahul\nsahil\ntanya\nurvashi\nvikram\nwaseema\nyogesh\nzubair\naarav\nbhaskar\nchandler\ndevika\neshita\nfarhan\ngurpreet\nhemanthi\ninaya\njasleen\nkanupriya\nlavanya\nmukund\nnishant\norlandor\nprabhjot\nquentin\nravindra\nshefali\ntaruna\nulhas\nvijaya\nwaqar\nyukta\nzahir`
-        };
-
+        // namesData holds the fetched names string (loaded async at startup)
+        let namesData = null;
 
         // --- 1. Autograd & Models ---
         class Value { constructor(t, e = [], s = "", i = "") { this.data = t, this.grad = 0, this._prev = new Set(e), this._op = s, this.label = i, this._backward = () => { } } add(t) { t = t instanceof Value ? t : new Value(t); const e = new Value(this.data + t.data, [this, t], "+"); return e._backward = () => { this.grad += 1 * e.grad, t.grad += 1 * e.grad }, e } mul(t) { t = t instanceof Value ? t : new Value(t); const e = new Value(this.data * t.data, [this, t], "*"); return e._backward = () => { this.grad += t.data * e.grad, t.grad += this.data * e.grad }, e } tanh() { const t = this.data, e = Math.tanh(t), s = new Value(e, [this], "tanh"); return s._backward = () => { this.grad += (1 - e * e) * s.grad }, s } exp() { const t = this.data, e = new Value(Math.exp(t), [this], "exp"); return e._backward = () => { this.grad += e.data * e.grad }, e } pow(t) { const e = this.data, s = new Value(Math.pow(e, t), [this], `**${t}`); return s._backward = () => { this.grad += t * Math.pow(e, t - 1) * s.grad }, s } log() { const t = new Value(Math.log(this.data), [this], "log"); return t._backward = () => { this.grad += 1 / this.data * t.grad }, t } backward() { const t = [], e = new Set, s = i => { if (!e.has(i)) { e.add(i); for (let t of i._prev) s(t); t.push(i) } }; s(this), this.grad = 1; for (let e = t.length - 1; e >= 0; e--)t[e]._backward() } }
@@ -483,28 +514,32 @@
         class Neuron extends Module { constructor(t) { super(), this.w = Array(t).fill(0).map(() => new Value(gaussian(0, .1))), this.b = new Value(0) } call(t) { let e = this.b; for (let s = 0; s < this.w.length; s++)e = e.add(this.w[s].mul(t[s])); return e.tanh() } parameters() { return [...this.w, this.b] } }
         class Layer extends Module { constructor(t, e) { super(), this.neurons = Array(e).fill(0).map(() => new Neuron(t)) } call(t) { return this.neurons.map(e => e.call(t)) } parameters() { return this.neurons.flatMap(t => t.parameters()) } }
         class MLP extends Module { constructor(t, e) { super(), this.layers = []; const s = [t, ...e]; for (let t = 0; t < e.length; t++)this.layers.push(new Layer(s[t], s[t + 1])) } call(t) { for (let e of this.layers) t = e.call(t); return t } parameters() { return this.layers.flatMap(t => t.parameters()) } }
-        class MicroModel extends Module { constructor(t, e, s) { super(), this.vocabSize = t, this.blockSize = s, this.C = Array(t).fill(0).map(() => Array(e).fill(0).map(() => new Value(gaussian(0, .1)))), this.mlp = new MLP(s * e, [32, t]) } call(t) { let e = []; for (let s = 0; s < t.length; s++)e.push(...this.C[t[s]]); return this.mlp.call(e) } parameters() { return [...this.C.flat(), ...this.mlp.parameters()] } }
+        class MicroModel extends Module { constructor(vocabSize, embedSize, blockSize, hiddenSize) { super(), this.vocabSize = vocabSize, this.blockSize = blockSize, this.C = Array(vocabSize).fill(0).map(() => Array(embedSize).fill(0).map(() => new Value(gaussian(0, .1)))), this.mlp = new MLP(blockSize * embedSize, [hiddenSize, vocabSize]) } call(t) { let e = []; for (let s = 0; s < t.length; s++)e.push(...this.C[t[s]]); return this.mlp.call(e) } parameters() { return [...this.C.flat(), ...this.mlp.parameters()] } }
 
         // --- 2. State Management ---
         let model, stoi, itos, vocabSize;
         let X = [], Y = [], SourceIndices = []; // To track where each sample came from
         let step = 0;
+        let dataIndex = 0; // Sequential tracking
         let lossHistory = [];
-        const blockSize = 3;
+        let currentBlockSize = 4;
+        let currentEmbedSize = 16;
+        let currentHiddenSize = 64;
         let rawDataLines = [];
         let rawDataString = ""; // Needed for validation
 
-        function init() {
+        async function init() {
+            // Use embedded 32k names dataset from names-data.js
+            namesData = (typeof NAMES_DATA !== 'undefined') ? NAMES_DATA : 'emma\nolivia\nava\nisabella\nsophia';
             loadState();
         }
 
         function changeDataset() {
-            resetModel(true); // Always reset when changing type
+            resetModel(true);
         }
 
         function getDataset() {
-            const sel = document.getElementById('dataSelector').value;
-            return datasets[sel] || datasets.names_common;
+            return namesData || '';
         }
 
         function updateDatasetCount() {
@@ -531,7 +566,7 @@
             X = []; Y = []; SourceIndices = [];
             for (let i = 0; i < rawDataLines.length; i++) {
                 let w = rawDataLines[i];
-                let ctx = Array(blockSize).fill(0);
+                let ctx = Array(currentBlockSize).fill(0);
                 for (let ch of w + '.') {
                     const ix = stoi[ch === '\n' ? '.' : ch] || 0;
                     X.push([...ctx]);
@@ -554,9 +589,9 @@
             if (!forceNew && savedState) {
                 try {
                     const state = JSON.parse(savedState);
-                    if (state.dataset === document.getElementById('dataSelector').value) {
+                    if (state.dataset === 'names') {
                         // Restore logic
-                        model = new MicroModel(vocabSize, 8, blockSize);
+                        model = new MicroModel(vocabSize, state.embedSize || 8, state.blockSize || 3, state.hiddenSize || 32);
                         if (state.params && state.params.length > 0) {
                             const params = model.parameters();
                             if (params.length === state.params.length) {
@@ -564,11 +599,21 @@
                                     params[i].data = state.params[i];
                                 }
                                 step = state.step;
+                                dataIndex = state.dataIndex || 0;
                                 lossHistory = state.lossHistory;
+
+                                // Restore UI
+                                document.getElementById('inputBlockSize').value = state.blockSize || 3;
+                                document.getElementById('inputEmbedSize').value = state.embedSize || 8;
+                                document.getElementById('inputHiddenSize').value = state.hiddenSize || 32;
+                                currentBlockSize = state.blockSize || 3;
+                                currentEmbedSize = state.embedSize || 8;
+                                currentHiddenSize = state.hiddenSize || 32;
+
                                 updateStats(lossHistory[lossHistory.length - 1] || 0);
                                 updateChart();
                                 updateStoragePreview();
-                                if (step > 0) lockSelector();
+                                if (step > 0) lockConfig();
                                 console.log("State restored.");
                                 return;
                             }
@@ -578,21 +623,26 @@
             }
 
             // New Init
-            model = new MicroModel(vocabSize, 8, blockSize);
+            model = new MicroModel(vocabSize, currentEmbedSize, currentBlockSize, currentHiddenSize);
             step = 0;
+            dataIndex = 0;
             lossHistory = [];
             updateChart();
             updateStats(0);
             updateStoragePreview();
             document.getElementById('dispLoss').innerText = '-';
-            unlockSelector();
+            unlockConfig();
         }
 
         function saveState() {
             const params = model.parameters().map(p => p.data);
             const state = {
-                dataset: document.getElementById('dataSelector').value,
+                dataset: 'names',
                 step: step,
+                dataIndex: dataIndex,
+                blockSize: currentBlockSize,
+                embedSize: currentEmbedSize,
+                hiddenSize: currentHiddenSize,
                 lossHistory: lossHistory,
                 params: params
             };
@@ -623,7 +673,11 @@
 
             // Fake a JSON preview of the model state
             preview.innerHTML = `<span class="text-blue-400">"step"</span>: <span class="text-green-400">${step}</span>,
-<span class="text-blue-400">"dataset"</span>: <span class="text-orange-400">"${document.getElementById('dataSelector').value}"</span>,
+<span class="text-blue-400">"dataIndex"</span>: <span class="text-green-400">${dataIndex}</span>,
+<span class="text-blue-400">"blockSize"</span>: <span class="text-green-400">${currentBlockSize}</span>,
+<span class="text-blue-400">"embedSize"</span>: <span class="text-green-400">${currentEmbedSize}</span>,
+<span class="text-blue-400">"hiddenSize"</span>: <span class="text-green-400">${currentHiddenSize}</span>,
+<span class="text-blue-400">"dataset"</span>: <span class="text-orange-400">"names"</span>,
 <span class="text-blue-400">"loss"</span>: <span class="text-green-400">[${lossHistory.slice(-3).map(n => n.toFixed(3)).join(', ')}...]</span>,
 <span class="text-blue-400">"params"</span>: [
   <span class="text-slate-500">// ${model.parameters().length} float values (weights)</span>
@@ -632,14 +686,7 @@
         }
 
         function loadState() {
-            // Already handled in initModel logic mostly, just ensuring UI sync
-            const savedState = localStorage.getItem('microgpt_state');
-            if (savedState) {
-                try {
-                    const state = JSON.parse(savedState);
-                    document.getElementById('dataSelector').value = state.dataset || 'names_common';
-                } catch (e) { }
-            }
+            // No dataset selector anymore - just init the model
             initModel(false);
         }
 
@@ -648,50 +695,62 @@
             initModel(true);
         }
 
-        function lockSelector() {
-            document.getElementById('dataSelector').disabled = true;
+        function lockConfig() {
+            document.getElementById('inputBlockSize').disabled = true;
+            document.getElementById('inputEmbedSize').disabled = true;
+            document.getElementById('inputHiddenSize').disabled = true;
         }
 
-        function unlockSelector() {
-            document.getElementById('dataSelector').disabled = false;
+        function unlockConfig() {
+            document.getElementById('inputBlockSize').disabled = false;
+            document.getElementById('inputEmbedSize').disabled = false;
+            document.getElementById('inputHiddenSize').disabled = false;
         }
 
         // --- 3. Training Loop ---
         let timelineSamples = []; // To store chronological progress
 
         async function trainStep(count) {
-            lockSelector();
+            lockConfig();
 
             const btn1 = document.getElementById('btnTrain1');
+            const btn100 = document.getElementById('btnTrain100');
+            const btn1000 = document.getElementById('btnTrain1000');
             const btn10000 = document.getElementById('btnTrain10000');
             const isLongRun = count >= 1000;
 
-            if (isLongRun) timelineSamples = []; // Reset timeline for long runs
+            // Samples are not auto-generated during training
 
             if (btn1) btn1.disabled = true;
+            if (btn100) btn100.disabled = true;
+            if (btn1000) btn1000.disabled = true;
             if (btn10000) btn10000.disabled = true;
 
             // Visual update frequencies
             const visualFreq = count >= 100 ? Math.floor(count / 20) : 1; // UI update
-            const sampleFreq = count >= 1000 ? Math.floor(count / 10) : count; // 10 checkpoints for long runs
+            // sampleFreq removed - no auto-generation during training
 
             for (let i = 0; i < count; i++) {
                 // Progress Indicator for long runs
-                if (isLongRun && i % (count / 100) === 0 && btn10000) {
+                if (isLongRun && i % (count / 100) === 0) {
                     const pct = Math.round((i / count) * 100);
-                    btn10000.innerHTML = `<span>⏳</span> ${pct}%`;
+                    if (count === 1000 && btn1000) btn1000.innerHTML = `<span>⏳</span> ${pct}%`;
+                    if (count === 10000 && btn10000) btn10000.innerHTML = `<span>⏳</span> ${pct}%`;
                     await new Promise(r => setTimeout(r, 0)); // Force UI refresh
                 }
 
-                const ri = Math.floor(Math.random() * X.length);
+                // Sequential Data Selection
+                const ri = dataIndex;
+                dataIndex = (dataIndex + 1) % X.length;
+
                 const x = X[ri];
                 const y = Y[ri];
                 const sourceIdx = SourceIndices[ri];
 
                 // Update visuals
                 if (i % visualFreq === 0 || i === count - 1) {
-                    const inputChars = x.map(ix => itos[ix]).join('').replace(/\./g, '·');
-                    const targetChar = itos[y].replace(/\./g, 'END');
+                    const inputChars = x.map(ix => itos[ix] === '.' ? ' ' : itos[ix]).join('');
+                    const targetChar = itos[y] === '.' ? 'END' : itos[y];
 
                     document.getElementById('batchInput').innerText = `"${inputChars}"`;
                     document.getElementById('batchTarget').innerText = `"${targetChar}"`;
@@ -731,12 +790,7 @@
                 step++;
                 lossHistory.push(loss.data);
 
-                if (i > 0 && isLongRun && i % sampleFreq === 0) {
-                    // Generate intermediate samples and store them
-                    const midSamples = runGeneration();
-                    timelineSamples.push({ percent: Math.round((i / count) * 100), samples: midSamples });
-                    renderTimelineSamples();
-                }
+                // No auto-generation during training
 
                 if (i % visualFreq === 0) {
                     updateStats(loss.data);
@@ -751,19 +805,18 @@
             updateStats(lossHistory[lossHistory.length - 1]);
             updateChart();
 
-            // Generate final samples
-            const finalSamples = runGeneration();
-            if (isLongRun) {
-                timelineSamples.push({ percent: 100, samples: finalSamples });
-                renderTimelineSamples();
-            } else {
-                renderSingleSamples(finalSamples);
-            }
+            // Samples are NOT auto-generated after training
+            // User can manually generate via the Generate Now button
 
             // Reset UI
             if (btn1) btn1.disabled = false;
+            if (btn100) btn100.disabled = false;
+            if (btn1000) {
+                btn1000.innerHTML = `<span>🚀</span> 1k`;
+                btn1000.disabled = false;
+            }
             if (btn10000) {
-                btn10000.innerHTML = `<span>🚀</span> 10k Steps`;
+                btn10000.innerHTML = `<span>🚀</span> 10k`;
                 btn10000.disabled = false;
             }
         }
@@ -776,7 +829,7 @@
         function runGeneration() {
             let out = [];
             for (let k = 0; k < 6; k++) {
-                let ctx = Array(blockSize).fill(0); // '.' context
+                let ctx = Array(currentBlockSize).fill(0); // '.' context
                 let res = "";
 
                 for (let t = 0; t < 12; t++) {
