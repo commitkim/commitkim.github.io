@@ -48,19 +48,37 @@
 
     <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
 
+        
+        <!-- 자동매매 중단 공지 배너 -->
+        <div class="mb-8 rounded-2xl border-2 border-amber-300 bg-amber-50 p-5 flex items-start gap-4 shadow-sm">
+            <div class="text-3xl mt-0.5">⏸️</div>
+            <div>
+                <p class="font-bold text-amber-800 text-lg">자동매매 중단됨</p>
+                <p class="text-amber-700 text-sm mt-1">
+                    현재 자동매매봇의 운용이 수동으로 중단된 상태입니다.<br>
+                    아래 데이터는 <strong>2026-03-11 00:09:26</strong> 기준의 마지막 스냅샷이며,
+                    실시간으로 갱신되지 않습니다.
+                </p>
+            </div>
+        </div>
+        
+
         <div class="mb-10 text-center">
             <h1 class="text-3xl font-bold text-slate-900 mb-2">🤖 AI Trading Status</h1>
-            <p class="text-slate-500">Updated: 2026-03-02 23:01:04</p>
+            <p class="text-slate-500">Updated: 2026-03-11 00:09:26</p>
         </div>
+
 
         <!-- KPI Cards -->
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
             <!-- Total Assets -->
             <div class="glass-panel rounded-2xl p-6 shadow-sm">
                 <h3 class="text-sm font-bold text-slate-400 uppercase tracking-wider mb-1">Total Assets</h3>
-                <p class="text-3xl font-black text-slate-800">₩ 49,397</p>
-                <div class="mt-4 flex items-center text-sm font-medium text-emerald-600">
-                    <span class="bg-emerald-100 px-2 py-0.5 rounded-md">Live</span>
+                <p class="text-3xl font-black text-slate-800">₩ 51,682</p>
+                <div class="mt-4 flex items-center text-sm font-medium">
+                    
+                    <span class="bg-amber-100 text-amber-700 px-2 py-0.5 rounded-md">Suspended</span>
+                    
                 </div>
             </div>
 
@@ -68,7 +86,7 @@
             <div class="glass-panel rounded-2xl p-6 shadow-sm">
                 <h3 class="text-sm font-bold text-slate-400 uppercase tracking-wider mb-1">KRW Balance</h3>
                 <p class="text-3xl font-black text-slate-800">
-                    ₩ 4,880
+                    ₩ 51,682
                 </p>
                 <p class="text-xs text-slate-400 mt-2">Available for Trading</p>
             </div>
@@ -77,7 +95,7 @@
             <div class="glass-panel rounded-2xl p-6 shadow-sm">
                 <h3 class="text-sm font-bold text-slate-400 uppercase tracking-wider mb-1">Active Positions</h3>
                 <p class="text-3xl font-black text-slate-800">
-                    2
+                    0
                     <span class="text-sm text-slate-400 font-normal">/ Uncapped</span>
                 </p>
                 <p class="text-xs text-slate-400 mt-2">Dynamic Aggressive Allocation</p>
@@ -104,43 +122,17 @@
                     <tbody class="divide-y divide-slate-100">
                         
                         
-                        <tr class="hover:bg-slate-50/80 transition-colors">
-                            <td class="px-6 py-4 font-bold text-slate-900">BTC</td>
-                            <td class="px-6 py-4 text-right">0.0002</td>
-                            <td class="px-6 py-4 text-right">₩ 96,206,000</td>
-                            <td class="px-6 py-4 text-right font-medium">₩ 19,802</td>
-                            <td class="px-6 py-4 text-right">
-                                <span class="px-2 py-1 rounded-md text-xs font-bold 
-                                     bg-blue-50 text-blue-600 
-                                    ">
-                                    -0.04%
-                                </span>
-                            </td>
-                        </tr>
-                        
-                        
-                        
-                        
-                        
-                        <tr class="hover:bg-slate-50/80 transition-colors">
-                            <td class="px-6 py-4 font-bold text-slate-900">ETH</td>
-                            <td class="px-6 py-4 text-right">0.0087</td>
-                            <td class="px-6 py-4 text-right">₩ 2,855,790</td>
-                            <td class="px-6 py-4 text-right font-medium">₩ 24,715</td>
-                            <td class="px-6 py-4 text-right">
-                                <span class="px-2 py-1 rounded-md text-xs font-bold 
-                                     bg-blue-50 text-blue-600 
-                                    ">
-                                    -0.80%
-                                </span>
-                            </td>
-                        </tr>
-                        
                         
 
                         <!-- Empty State -->
                         
                         
+                        
+                        <tr>
+                            <td colspan="5" class="px-6 py-12 text-center text-slate-400 font-medium">
+                                No active positions currently held.
+                            </td>
+                        </tr>
                         
                     </tbody>
                 </table>
@@ -154,69 +146,15 @@
             </div>
             
             
-            <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-100">
-                <div class="flex justify-between items-center mb-3">
-                    <div class="flex items-center gap-2">
-                        <span class="font-bold text-lg text-slate-800">BTC</span>
-                    </div>
-                    <span class="px-2 py-1 rounded-md text-xs font-bold 
-                         bg-blue-50 text-blue-600 
-                        ">
-                        -0.04%
-                    </span>
-                </div>
-                <div class="grid grid-cols-2 gap-4 text-sm">
-                    <div>
-                        <p class="text-xs text-slate-400 mb-1">Balance</p>
-                        <p class="font-medium text-slate-700">0.0002</p>
-                    </div>
-                    <div class="text-right">
-                        <p class="text-xs text-slate-400 mb-1">Value (KRW)</p>
-                        <p class="font-medium text-slate-700">₩ 19,802</p>
-                    </div>
-                    <div class="col-span-2 pt-3 border-t border-slate-50 flex justify-between items-center">
-                        <p class="text-xs text-slate-400">Avg Price</p>
-                        <p class="font-medium text-slate-600">₩ 96,206,000</p>
-                    </div>
-                </div>
-            </div>
-            
-            
-            
-            
-            
-            <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-100">
-                <div class="flex justify-between items-center mb-3">
-                    <div class="flex items-center gap-2">
-                        <span class="font-bold text-lg text-slate-800">ETH</span>
-                    </div>
-                    <span class="px-2 py-1 rounded-md text-xs font-bold 
-                         bg-blue-50 text-blue-600 
-                        ">
-                        -0.80%
-                    </span>
-                </div>
-                <div class="grid grid-cols-2 gap-4 text-sm">
-                    <div>
-                        <p class="text-xs text-slate-400 mb-1">Balance</p>
-                        <p class="font-medium text-slate-700">0.0087</p>
-                    </div>
-                    <div class="text-right">
-                        <p class="text-xs text-slate-400 mb-1">Value (KRW)</p>
-                        <p class="font-medium text-slate-700">₩ 24,715</p>
-                    </div>
-                    <div class="col-span-2 pt-3 border-t border-slate-50 flex justify-between items-center">
-                        <p class="text-xs text-slate-400">Avg Price</p>
-                        <p class="font-medium text-slate-600">₩ 2,855,790</p>
-                    </div>
-                </div>
-            </div>
-            
             
 
             <!-- Empty State Mobile -->
             
             
+            
+            <div class="p-8 text-center text-slate-400 bg-white rounded-2xl border border-slate-100">
+                No active positions.
+            </div>
             
         </div>
 

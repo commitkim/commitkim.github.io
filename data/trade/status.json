@@ -1,24 +1,13 @@
 {
-  "timestamp": "2026-03-02 23:01:04",
-  "total_assets": 49396.86365898,
+  "timestamp": "2026-03-11 00:09:26",
+  "suspended": true,
+  "total_assets": 51681.52107603,
   "positions": {
-    "BTC": {
-      "balance": 0.00020591,
-      "value": 19802.15879,
-      "avg_buy_price": 96206000.0,
-      "return_rate": -0.03845913976259277
-    },
     "KRW": {
-      "balance": 4879.52787898,
-      "value": 4879.52787898,
+      "balance": 51681.52107603,
+      "value": 51681.52107603,
       "avg_buy_price": 0.0,
-      "return_rate": 0
-    },
-    "ETH": {
-      "balance": 0.00872403,
-      "value": 24715.176990000004,
-      "avg_buy_price": 2855790.29301825,
-      "return_rate": -0.798038044809061
+      "return_rate": 0.0
     }
   },
   "recent_trades": [
@@ -7022,6 +7011,5 @@
       "time": "03/02 23:01",
       "confidence": 0
     }
-  ],
-  "suspended": true
+  ]
 }
