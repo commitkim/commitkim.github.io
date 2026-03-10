@@ -121,8 +121,9 @@
 
             <!-- Auto Trader Section -->
             <div>
-                <div class="px-4 mb-3 mt-8 text-[10px] font-bold text-slate-500 uppercase tracking-widest">
-                    🤖 자동 매매
+                <div class="px-4 mb-3 mt-8 text-[10px] font-bold uppercase tracking-widest
+                    {% if trade and trade.suspended %} text-amber-500 {% else %} text-slate-500 {% endif %}">
+                    {% if trade and trade.suspended %}⏸️ 자동 매매 (중단){% else %}🤖 자동 매매{% endif %}
                 </div>
                 <div class="space-y-1">
                     <a href="crypto_trader/index.html"
@@ -135,6 +136,10 @@
                             </svg>
                         </span>
                         투자 현황
+                        {% if trade and trade.suspended %}
+                        <span
+                            class="ml-auto text-[9px] font-bold bg-amber-500/20 text-amber-400 px-1.5 py-0.5 rounded">중단</span>
+                        {% endif %}
                     </a>
                 </div>
             </div>
@@ -182,12 +187,19 @@
         <div class="p-6 border-t border-slate-800 mt-auto bg-slate-900/50">
             <div
                 class="flex items-center justify-center gap-2 p-3 bg-slate-800/30 rounded-lg border border-slate-700/30">
+                {% if trade and trade.suspended %}
+                <span class="relative flex h-2 w-2">
+                    <span class="relative inline-flex rounded-full h-2 w-2 bg-amber-500"></span>
+                </span>
+                <p class="text-[10px] font-bold text-amber-600 uppercase tracking-tighter">Trading Paused</p>
+                {% else %}
                 <span class="relative flex h-2 w-2">
                     <span
                         class="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
                     <span class="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span>
                 </span>
                 <p class="text-[10px] font-bold text-slate-500 uppercase tracking-tighter">System Online</p>
+                {% endif %}
             </div>
         </div>
     </aside>
@@ -305,17 +317,24 @@
         <div class="max-w-3xl mx-auto py-8 mb-20 animate-fade-in-up" style="animation-delay: 0.2s;">
             <!-- Investment Header -->
             <div class="text-center mb-10">
-                <div
-                    class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-blue-50 border border-blue-100 text-blue-600 text-xs font-bold uppercase tracking-wider mb-4">
+                <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full text-xs font-bold uppercase tracking-wider mb-4
+                    {% if trade.suspended %} bg-amber-50 border border-amber-100 text-amber-600
+                    {% else %} bg-blue-50 border border-blue-100 text-blue-600 {% endif %}">
+                    {% if trade.suspended %}
+                    ⏸️ Trading Paused
+                    {% else %}
                     <span class="relative flex h-2 w-2">
                         <span
                             class="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75"></span>
                         <span class="relative inline-flex rounded-full h-2 w-2 bg-blue-500"></span>
                     </span>
                     Live Trading
+                    {% endif %}
                 </div>
                 <h2 class="text-xl md:text-2xl font-bold text-slate-900 tracking-tight leading-tight mb-4">
                     CommitKim AI 투자 현황
+                    {% if trade.suspended %}<span class="text-sm font-normal text-amber-500 ml-2">(중단됨)</span>{% endif
+                    %}
                 </h2>
                 <a href="crypto_trader/index.html"
                     class="inline-flex items-center justify-center px-5 py-2 text-sm font-medium text-white transition-all bg-blue-600 rounded-full hover:bg-blue-700 hover:shadow-lg hover:-translate-y-0.5 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
