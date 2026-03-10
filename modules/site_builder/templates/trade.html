@@ -48,10 +48,26 @@
 
     <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
 
+        {% if trade.suspended %}
+        <!-- 자동매매 중단 공지 배너 -->
+        <div class="mb-8 rounded-2xl border-2 border-amber-300 bg-amber-50 p-5 flex items-start gap-4 shadow-sm">
+            <div class="text-3xl mt-0.5">⏸️</div>
+            <div>
+                <p class="font-bold text-amber-800 text-lg">자동매매 중단됨</p>
+                <p class="text-amber-700 text-sm mt-1">
+                    현재 자동매매봇의 운용이 수동으로 중단된 상태입니다.<br>
+                    아래 데이터는 <strong>{{ trade.timestamp }}</strong> 기준의 마지막 스냅샷이며,
+                    실시간으로 갱신되지 않습니다.
+                </p>
+            </div>
+        </div>
+        {% endif %}
+
         <div class="mb-10 text-center">
             <h1 class="text-3xl font-bold text-slate-900 mb-2">🤖 AI Trading Status</h1>
             <p class="text-slate-500">Updated: {{ trade.timestamp }}</p>
         </div>
+
 
         <!-- KPI Cards -->
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
@@ -59,8 +75,12 @@
             <div class="glass-panel rounded-2xl p-6 shadow-sm">
                 <h3 class="text-sm font-bold text-slate-400 uppercase tracking-wider mb-1">Total Assets</h3>
                 <p class="text-3xl font-black text-slate-800">₩ {{ "{:,.0f}".format(trade.total_assets) }}</p>
-                <div class="mt-4 flex items-center text-sm font-medium text-emerald-600">
-                    <span class="bg-emerald-100 px-2 py-0.5 rounded-md">Live</span>
+                <div class="mt-4 flex items-center text-sm font-medium">
+                    {% if trade.suspended %}
+                    <span class="bg-amber-100 text-amber-700 px-2 py-0.5 rounded-md">Suspended</span>
+                    {% else %}
+                    <span class="bg-emerald-100 text-emerald-600 px-2 py-0.5 rounded-md">Live</span>
+                    {% endif %}
                 </div>
             </div>
 

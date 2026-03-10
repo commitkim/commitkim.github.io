@@ -109,10 +109,13 @@ DUAL_SUMMARY_PROMPT = """
 def summarize(transcript, video_id):
     """
     Gemini API를 사용하여 듀얼 요약을 생성합니다.
+    503/429 오류 시 최대 3회 재시도 (30s → 60s → 120s).
 
     Returns:
         dict | None: 요약 JSON 또는 실패 시 None
     """
+    import time
+
     cfg = Config.instance()
     model = cfg.get("ai.model", "gemini-2.5-flash")
 
@@ -122,48 +125,65 @@ def summarize(transcript, video_id):
         transcript=transcript
     )
 
-    try:
-        client = _get_client()
-        response = client.models.generate_content(
-            model=model,
-            contents=prompt
-        )
-        text = response.text
+    RETRYABLE_CODES = {429, 503, 500, 502, 504}
+    MAX_RETRIES = 3
+    BACKOFF_SECONDS = [30, 60, 120]  # 30초 → 60초 → 120초
 
-        # JSON 추출
-        json_match = re.search(r'\{[\s\S]*\}', text)
-        if json_match:
-            json_str = json_match.group()
+    for attempt in range(MAX_RETRIES + 1):
+        try:
+            client = _get_client()
+            response = client.models.generate_content(
+                model=model,
+                contents=prompt
+            )
+            text = response.text
 
-            # 제어 문자 정제 (줄바꿈/탭 보존, 그 외 제거)
-            json_str = re.sub(r'[\x00-\x08\x0b\x0c\x0e-\x1f\x7f]', '', json_str)
+            # JSON 추출
+            json_match = re.search(r'\{[\s\S]*\}', text)
+            if json_match:
+                json_str = json_match.group()
 
-            try:
-                result = json.loads(json_str, strict=False)
-            except json.JSONDecodeError as e:
-                log.warning(f"1차 JSON 파싱 실패: {e}")
+                # 제어 문자 정제 (줄바꿈/탭 보존, 그 외 제거)
+                json_str = re.sub(r'[\x00-\x08\x0b\x0c\x0e-\x1f\x7f]', '', json_str)
+
                 try:
-                    import ast
-                    result = ast.literal_eval(json_str)
-                except Exception as e2:
-                    log.error(f"JSON 파싱 실패: {e2}")
-                    log.debug(f"원본 텍스트 일부: {text[:200]}...")
+                    result = json.loads(json_str, strict=False)
+                except json.JSONDecodeError as e:
+                    log.warning(f"1차 JSON 파싱 실패: {e}")
+                    try:
+                        import ast
+                        result = ast.literal_eval(json_str)
+                    except Exception as e2:
+                        log.error(f"JSON 파싱 실패: {e2}")
+                        log.debug(f"원본 텍스트 일부: {text[:200]}...")
+                        return None
+
+                # 필수 필드 존재 확인
+                if 'kakao_summary' not in result:
+                    log.warning("kakao_summary 필드 누락")
+                    return None
+                if 'web_report' not in result:
+                    log.warning("web_report 필드 누락")
                     return None
 
-            # 필수 필드 존재 확인
-            if 'kakao_summary' not in result:
-                log.warning("kakao_summary 필드 누락")
+                log.info(f"듀얼 요약 완료 (카톡: {len(result['kakao_summary'])}자, 웹: {len(result['web_report'])}자)")
+                return result
+
+            log.error("JSON 파싱 실패: 응답에서 JSON을 찾을 수 없습니다.")
+            return None
+
+        except Exception as e:
+            err_str = str(e)
+            # 재시도 가능한 상태코드인지 확인
+            is_retryable = any(str(code) in err_str for code in RETRYABLE_CODES)
+
+            if is_retryable and attempt < MAX_RETRIES:
+                wait_sec = BACKOFF_SECONDS[attempt]
+                log.warning(
+                    f"Gemini API 일시 오류 (시도 {attempt + 1}/{MAX_RETRIES}): {e}\n"
+                    f"{wait_sec}초 후 재시도합니다..."
+                )
+                time.sleep(wait_sec)
+            else:
+                log.error(f"Gemini 요약 오류 (최종 실패): {e}")
                 return None
-            if 'web_report' not in result:
-                log.warning("web_report 필드 누락")
-                return None
-
-            log.info(f"듀얼 요약 완료 (카톡: {len(result['kakao_summary'])}자, 웹: {len(result['web_report'])}자)")
-            return result
-
-        log.error("JSON 파싱 실패: 응답에서 JSON을 찾을 수 없습니다.")
-        return None
-
-    except Exception as e:
-        log.error(f"Gemini 요약 오류: {e}")
-        return None
