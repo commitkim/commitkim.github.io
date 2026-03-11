@@ -132,9 +132,15 @@ def summarize(transcript, video_id):
     for attempt in range(MAX_RETRIES + 1):
         try:
             client = _get_client()
+            
+            from google.genai import types
+            
             response = client.models.generate_content(
                 model=model,
-                contents=prompt
+                contents=prompt,
+                config=types.GenerateContentConfig(
+                    response_mime_type="application/json",
+                )
             )
             text = response.text
 
