@@ -22,7 +22,7 @@ def register_jobs(registry):
     registry.register(JobDefinition(
         name="news_evening",
         description="저녁 퇴근요정 브리핑",
-        schedule="30 18 * * 1-5",
+        schedule="30 19 * * 1-5",
         command="apps.cli run news --mode evening",
         tags=["news", "evening"],
         enabled=enabled,
