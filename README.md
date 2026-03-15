@@ -87,6 +87,8 @@ pip install -e ".[dev]"
 ```bash
 # 뉴스 브리핑 실행
 python -m apps.cli run news --mode morning
+
+# 특정 날짜 뉴스 브리핑 실행
 python -m apps.cli run news --mode morning --date 20260313
 
 
