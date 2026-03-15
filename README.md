@@ -87,6 +87,8 @@ pip install -e ".[dev]"
 ```bash
 # 뉴스 브리핑 실행
 python -m apps.cli run news --mode morning
+python -m apps.cli run news --mode morning --date 20260313
+
 
 # 자동매매 실행
 python -m apps.cli run trader
