@@ -232,7 +232,7 @@
     
     <div class="grid grid-cols-3 gap-3 mb-6">
         <div class="bg-white rounded-xl border border-surface-200 p-4 text-center metric-card">
-            <div class="text-2xl font-bold text-indigo-600">23</div>
+            <div class="text-2xl font-bold text-indigo-600">32</div>
             <div class="text-xs text-slate-500 mt-1">전체 실행</div>
         </div>
         <div class="bg-white rounded-xl border border-surface-200 p-4 text-center metric-card">
@@ -240,7 +240,7 @@
             <div class="text-xs text-slate-500 mt-1">성공</div>
         </div>
         <div class="bg-white rounded-xl border border-surface-200 p-4 text-center metric-card">
-            <div class="text-2xl font-bold text-rose-500">14</div>
+            <div class="text-2xl font-bold text-rose-500">23</div>
             <div class="text-xs text-slate-500 mt-1">실패/영상없음</div>
         </div>
     </div>
@@ -249,6 +249,876 @@
     <!-- 로그 목록 -->
     
     <div class="space-y-3">
+        
+        
+        
+
+        <div class="bg-white rounded-xl border bg-rose-50 border-rose-200 overflow-hidden shadow-sm">
+            <!-- 요약 헤더 -->
+            <div class="px-4 py-3 flex items-center justify-between gap-3 cursor-pointer select-none
+                        hover:bg-slate-50 transition-colors" onclick="toggleLog('20260317_morning_002542')">
+                <div class="flex items-center gap-3 min-w-0">
+                    <span class="text-lg">❌</span>
+                    <div class="min-w-0">
+                        <div class="flex items-center gap-2 flex-wrap">
+                            <span class="font-semibold text-slate-800 text-sm">2026-03-17</span>
+                            <span class="text-xs px-2 py-0.5 rounded-full font-medium
+                                         bg-amber-100 text-amber-700
+                                         ">
+                                🌅 모닝
+                            </span>
+                            <span class="text-xs font-medium text-rose-700">오류</span>
+                        </div>
+                        
+                        <p class="text-xs text-slate-400 truncate mt-0.5">한국경제신문 30분 만에 읽기 | 20260316🌞#모닝루틴 | 아침 8시 라이브</p>
+                        
+                    </div>
+                </div>
+
+                <!-- 단계 아이콘 -->
+                <div class="flex items-center gap-1.5 shrink-0">
+                    
+                    
+                    
+                    <div class="flex flex-col items-center">
+                        <span class="text-xs">
+                            ✅
+                        </span>
+                        <span class="text-[10px] text-slate-400 leading-none">RSS</span>
+                    </div>
+                    
+                    
+                    <div class="flex flex-col items-center">
+                        <span class="text-xs">
+                            ✅
+                        </span>
+                        <span class="text-[10px] text-slate-400 leading-none">자막</span>
+                    </div>
+                    
+                    
+                    <div class="flex flex-col items-center">
+                        <span class="text-xs">
+                            ❌
+                        </span>
+                        <span class="text-[10px] text-slate-400 leading-none">AI</span>
+                    </div>
+                    
+                    
+                    <div class="flex flex-col items-center">
+                        <span class="text-xs">
+                            ⬜
+                        </span>
+                        <span class="text-[10px] text-slate-400 leading-none">카톡</span>
+                    </div>
+                    
+                    <span class="text-slate-300 ml-1 text-xs" id="arrow-20260317_morning_002542">▼</span>
+                </div>
+            </div>
+
+            <!-- 상세 정보 (접기/펼치기) -->
+            <div class="hidden border-t border-surface-200 bg-slate-50 px-4 py-3 text-xs text-slate-600 space-y-2"
+                id="detail-20260317_morning_002542">
+
+                <div class="grid grid-cols-2 gap-x-4 gap-y-1">
+                    <div><span class="text-slate-400">시작:</span> 2026-03-17T00:25:42.252173+09:00</div>
+                    <div><span class="text-slate-400">종료:</span> 2026-03-17T00:25:48.201433+09:00</div>
+                    <div><span class="text-slate-400">Video ID:</span>
+                        
+                        <a href="https://youtube.com/watch?v=KUsqAI-lI1Q" target="_blank"
+                            class="text-indigo-500 hover:underline">KUsqAI-lI1Q</a>
+                        
+                    </div>
+                </div>
+
+                <!-- 단계별 상세 -->
+                <table class="w-full mt-2">
+                    <thead>
+                        <tr class="text-left text-slate-400 border-b border-surface-200">
+                            <th class="pb-1 font-medium">단계</th>
+                            <th class="pb-1 font-medium">결과</th>
+                            <th class="pb-1 font-medium">상세</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-surface-100">
+                        <tr class="py-1">
+                            <td class="py-1 pr-3">RSS 검색</td>
+                            <td class="py-1 pr-3">
+                                
+                                <span class="text-emerald-600">✅ 성공</span>
+                                
+                            </td>
+                            <td class="py-1 text-slate-500">
+                                
+                                영상 1개 발견
+                                
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="py-1 pr-3">자막 추출</td>
+                            <td class="py-1 pr-3">
+                                
+                                <span class="text-emerald-600">✅ 성공</span>
+                                
+                            </td>
+                            <td class="py-1 text-slate-500">
+                                
+                                17247자
+                                
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="py-1 pr-3">AI 요약</td>
+                            <td class="py-1 pr-3">
+                                
+                                <span class="text-rose-600">❌ 실패</span>
+                                
+                            </td>
+                            <td class="py-1 text-slate-500">
+                                
+                                요약 결과 없음
+                                
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="py-1 pr-3">카카오 전송</td>
+                            <td class="py-1 pr-3">
+                                
+                                <span class="text-slate-400">— 미실행</span>
+                                
+                            </td>
+                            <td class="py-1 text-slate-500"></td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                
+            </div>
+        </div>
+        
+        
+        
+
+        <div class="bg-white rounded-xl border bg-rose-50 border-rose-200 overflow-hidden shadow-sm">
+            <!-- 요약 헤더 -->
+            <div class="px-4 py-3 flex items-center justify-between gap-3 cursor-pointer select-none
+                        hover:bg-slate-50 transition-colors" onclick="toggleLog('20260317_morning_001918')">
+                <div class="flex items-center gap-3 min-w-0">
+                    <span class="text-lg">❌</span>
+                    <div class="min-w-0">
+                        <div class="flex items-center gap-2 flex-wrap">
+                            <span class="font-semibold text-slate-800 text-sm">2026-03-17</span>
+                            <span class="text-xs px-2 py-0.5 rounded-full font-medium
+                                         bg-amber-100 text-amber-700
+                                         ">
+                                🌅 모닝
+                            </span>
+                            <span class="text-xs font-medium text-rose-700">오류</span>
+                        </div>
+                        
+                        <p class="text-xs text-slate-400 truncate mt-0.5">한국경제신문 30분 만에 읽기 | 20260316🌞#모닝루틴 | 아침 8시 라이브</p>
+                        
+                    </div>
+                </div>
+
+                <!-- 단계 아이콘 -->
+                <div class="flex items-center gap-1.5 shrink-0">
+                    
+                    
+                    
+                    <div class="flex flex-col items-center">
+                        <span class="text-xs">
+                            ✅
+                        </span>
+                        <span class="text-[10px] text-slate-400 leading-none">RSS</span>
+                    </div>
+                    
+                    
+                    <div class="flex flex-col items-center">
+                        <span class="text-xs">
+                            ✅
+                        </span>
+                        <span class="text-[10px] text-slate-400 leading-none">자막</span>
+                    </div>
+                    
+                    
+                    <div class="flex flex-col items-center">
+                        <span class="text-xs">
+                            ❌
+                        </span>
+                        <span class="text-[10px] text-slate-400 leading-none">AI</span>
+                    </div>
+                    
+                    
+                    <div class="flex flex-col items-center">
+                        <span class="text-xs">
+                            ⬜
+                        </span>
+                        <span class="text-[10px] text-slate-400 leading-none">카톡</span>
+                    </div>
+                    
+                    <span class="text-slate-300 ml-1 text-xs" id="arrow-20260317_morning_001918">▼</span>
+                </div>
+            </div>
+
+            <!-- 상세 정보 (접기/펼치기) -->
+            <div class="hidden border-t border-surface-200 bg-slate-50 px-4 py-3 text-xs text-slate-600 space-y-2"
+                id="detail-20260317_morning_001918">
+
+                <div class="grid grid-cols-2 gap-x-4 gap-y-1">
+                    <div><span class="text-slate-400">시작:</span> 2026-03-17T00:19:18.908864+09:00</div>
+                    <div><span class="text-slate-400">종료:</span> 2026-03-17T00:22:55.970531+09:00</div>
+                    <div><span class="text-slate-400">Video ID:</span>
+                        
+                        <a href="https://youtube.com/watch?v=KUsqAI-lI1Q" target="_blank"
+                            class="text-indigo-500 hover:underline">KUsqAI-lI1Q</a>
+                        
+                    </div>
+                </div>
+
+                <!-- 단계별 상세 -->
+                <table class="w-full mt-2">
+                    <thead>
+                        <tr class="text-left text-slate-400 border-b border-surface-200">
+                            <th class="pb-1 font-medium">단계</th>
+                            <th class="pb-1 font-medium">결과</th>
+                            <th class="pb-1 font-medium">상세</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-surface-100">
+                        <tr class="py-1">
+                            <td class="py-1 pr-3">RSS 검색</td>
+                            <td class="py-1 pr-3">
+                                
+                                <span class="text-emerald-600">✅ 성공</span>
+                                
+                            </td>
+                            <td class="py-1 text-slate-500">
+                                
+                                영상 1개 발견
+                                
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="py-1 pr-3">자막 추출</td>
+                            <td class="py-1 pr-3">
+                                
+                                <span class="text-emerald-600">✅ 성공</span>
+                                
+                            </td>
+                            <td class="py-1 text-slate-500">
+                                
+                                17247자
+                                
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="py-1 pr-3">AI 요약</td>
+                            <td class="py-1 pr-3">
+                                
+                                <span class="text-rose-600">❌ 실패</span>
+                                
+                            </td>
+                            <td class="py-1 text-slate-500">
+                                
+                                요약 결과 없음
+                                
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="py-1 pr-3">카카오 전송</td>
+                            <td class="py-1 pr-3">
+                                
+                                <span class="text-slate-400">— 미실행</span>
+                                
+                            </td>
+                            <td class="py-1 text-slate-500"></td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                
+            </div>
+        </div>
+        
+        
+        
+
+        <div class="bg-white rounded-xl border bg-rose-50 border-rose-200 overflow-hidden shadow-sm">
+            <!-- 요약 헤더 -->
+            <div class="px-4 py-3 flex items-center justify-between gap-3 cursor-pointer select-none
+                        hover:bg-slate-50 transition-colors" onclick="toggleLog('20260317_morning_001850')">
+                <div class="flex items-center gap-3 min-w-0">
+                    <span class="text-lg">❌</span>
+                    <div class="min-w-0">
+                        <div class="flex items-center gap-2 flex-wrap">
+                            <span class="font-semibold text-slate-800 text-sm">2026-03-17</span>
+                            <span class="text-xs px-2 py-0.5 rounded-full font-medium
+                                         bg-amber-100 text-amber-700
+                                         ">
+                                🌅 모닝
+                            </span>
+                            <span class="text-xs font-medium text-rose-700">오류</span>
+                        </div>
+                        
+                        <p class="text-xs text-slate-400 truncate mt-0.5">한국경제신문 30분 만에 읽기 | 20260316🌞#모닝루틴 | 아침 8시 라이브</p>
+                        
+                    </div>
+                </div>
+
+                <!-- 단계 아이콘 -->
+                <div class="flex items-center gap-1.5 shrink-0">
+                    
+                    
+                    
+                    <div class="flex flex-col items-center">
+                        <span class="text-xs">
+                            ✅
+                        </span>
+                        <span class="text-[10px] text-slate-400 leading-none">RSS</span>
+                    </div>
+                    
+                    
+                    <div class="flex flex-col items-center">
+                        <span class="text-xs">
+                            ✅
+                        </span>
+                        <span class="text-[10px] text-slate-400 leading-none">자막</span>
+                    </div>
+                    
+                    
+                    <div class="flex flex-col items-center">
+                        <span class="text-xs">
+                            ❌
+                        </span>
+                        <span class="text-[10px] text-slate-400 leading-none">AI</span>
+                    </div>
+                    
+                    
+                    <div class="flex flex-col items-center">
+                        <span class="text-xs">
+                            ⬜
+                        </span>
+                        <span class="text-[10px] text-slate-400 leading-none">카톡</span>
+                    </div>
+                    
+                    <span class="text-slate-300 ml-1 text-xs" id="arrow-20260317_morning_001850">▼</span>
+                </div>
+            </div>
+
+            <!-- 상세 정보 (접기/펼치기) -->
+            <div class="hidden border-t border-surface-200 bg-slate-50 px-4 py-3 text-xs text-slate-600 space-y-2"
+                id="detail-20260317_morning_001850">
+
+                <div class="grid grid-cols-2 gap-x-4 gap-y-1">
+                    <div><span class="text-slate-400">시작:</span> 2026-03-17T00:18:50.625718+09:00</div>
+                    <div><span class="text-slate-400">종료:</span> 2026-03-17T00:18:57.573936+09:00</div>
+                    <div><span class="text-slate-400">Video ID:</span>
+                        
+                        <a href="https://youtube.com/watch?v=KUsqAI-lI1Q" target="_blank"
+                            class="text-indigo-500 hover:underline">KUsqAI-lI1Q</a>
+                        
+                    </div>
+                </div>
+
+                <!-- 단계별 상세 -->
+                <table class="w-full mt-2">
+                    <thead>
+                        <tr class="text-left text-slate-400 border-b border-surface-200">
+                            <th class="pb-1 font-medium">단계</th>
+                            <th class="pb-1 font-medium">결과</th>
+                            <th class="pb-1 font-medium">상세</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-surface-100">
+                        <tr class="py-1">
+                            <td class="py-1 pr-3">RSS 검색</td>
+                            <td class="py-1 pr-3">
+                                
+                                <span class="text-emerald-600">✅ 성공</span>
+                                
+                            </td>
+                            <td class="py-1 text-slate-500">
+                                
+                                영상 1개 발견
+                                
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="py-1 pr-3">자막 추출</td>
+                            <td class="py-1 pr-3">
+                                
+                                <span class="text-emerald-600">✅ 성공</span>
+                                
+                            </td>
+                            <td class="py-1 text-slate-500">
+                                
+                                17247자
+                                
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="py-1 pr-3">AI 요약</td>
+                            <td class="py-1 pr-3">
+                                
+                                <span class="text-rose-600">❌ 실패</span>
+                                
+                            </td>
+                            <td class="py-1 text-slate-500">
+                                
+                                요약 결과 없음
+                                
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="py-1 pr-3">카카오 전송</td>
+                            <td class="py-1 pr-3">
+                                
+                                <span class="text-slate-400">— 미실행</span>
+                                
+                            </td>
+                            <td class="py-1 text-slate-500"></td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                
+            </div>
+        </div>
+        
+        
+        
+
+        <div class="bg-white rounded-xl border bg-rose-50 border-rose-200 overflow-hidden shadow-sm">
+            <!-- 요약 헤더 -->
+            <div class="px-4 py-3 flex items-center justify-between gap-3 cursor-pointer select-none
+                        hover:bg-slate-50 transition-colors" onclick="toggleLog('20260317_morning_001823')">
+                <div class="flex items-center gap-3 min-w-0">
+                    <span class="text-lg">❌</span>
+                    <div class="min-w-0">
+                        <div class="flex items-center gap-2 flex-wrap">
+                            <span class="font-semibold text-slate-800 text-sm">2026-03-17</span>
+                            <span class="text-xs px-2 py-0.5 rounded-full font-medium
+                                         bg-amber-100 text-amber-700
+                                         ">
+                                🌅 모닝
+                            </span>
+                            <span class="text-xs font-medium text-rose-700">오류</span>
+                        </div>
+                        
+                        <p class="text-xs text-slate-400 truncate mt-0.5">한국경제신문 30분 만에 읽기 | 20260316🌞#모닝루틴 | 아침 8시 라이브</p>
+                        
+                    </div>
+                </div>
+
+                <!-- 단계 아이콘 -->
+                <div class="flex items-center gap-1.5 shrink-0">
+                    
+                    
+                    
+                    <div class="flex flex-col items-center">
+                        <span class="text-xs">
+                            ✅
+                        </span>
+                        <span class="text-[10px] text-slate-400 leading-none">RSS</span>
+                    </div>
+                    
+                    
+                    <div class="flex flex-col items-center">
+                        <span class="text-xs">
+                            ✅
+                        </span>
+                        <span class="text-[10px] text-slate-400 leading-none">자막</span>
+                    </div>
+                    
+                    
+                    <div class="flex flex-col items-center">
+                        <span class="text-xs">
+                            ❌
+                        </span>
+                        <span class="text-[10px] text-slate-400 leading-none">AI</span>
+                    </div>
+                    
+                    
+                    <div class="flex flex-col items-center">
+                        <span class="text-xs">
+                            ⬜
+                        </span>
+                        <span class="text-[10px] text-slate-400 leading-none">카톡</span>
+                    </div>
+                    
+                    <span class="text-slate-300 ml-1 text-xs" id="arrow-20260317_morning_001823">▼</span>
+                </div>
+            </div>
+
+            <!-- 상세 정보 (접기/펼치기) -->
+            <div class="hidden border-t border-surface-200 bg-slate-50 px-4 py-3 text-xs text-slate-600 space-y-2"
+                id="detail-20260317_morning_001823">
+
+                <div class="grid grid-cols-2 gap-x-4 gap-y-1">
+                    <div><span class="text-slate-400">시작:</span> 2026-03-17T00:18:23.739824+09:00</div>
+                    <div><span class="text-slate-400">종료:</span> 2026-03-17T00:18:30.191004+09:00</div>
+                    <div><span class="text-slate-400">Video ID:</span>
+                        
+                        <a href="https://youtube.com/watch?v=KUsqAI-lI1Q" target="_blank"
+                            class="text-indigo-500 hover:underline">KUsqAI-lI1Q</a>
+                        
+                    </div>
+                </div>
+
+                <!-- 단계별 상세 -->
+                <table class="w-full mt-2">
+                    <thead>
+                        <tr class="text-left text-slate-400 border-b border-surface-200">
+                            <th class="pb-1 font-medium">단계</th>
+                            <th class="pb-1 font-medium">결과</th>
+                            <th class="pb-1 font-medium">상세</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-surface-100">
+                        <tr class="py-1">
+                            <td class="py-1 pr-3">RSS 검색</td>
+                            <td class="py-1 pr-3">
+                                
+                                <span class="text-emerald-600">✅ 성공</span>
+                                
+                            </td>
+                            <td class="py-1 text-slate-500">
+                                
+                                영상 1개 발견
+                                
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="py-1 pr-3">자막 추출</td>
+                            <td class="py-1 pr-3">
+                                
+                                <span class="text-emerald-600">✅ 성공</span>
+                                
+                            </td>
+                            <td class="py-1 text-slate-500">
+                                
+                                17247자
+                                
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="py-1 pr-3">AI 요약</td>
+                            <td class="py-1 pr-3">
+                                
+                                <span class="text-rose-600">❌ 실패</span>
+                                
+                            </td>
+                            <td class="py-1 text-slate-500">
+                                
+                                요약 결과 없음
+                                
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="py-1 pr-3">카카오 전송</td>
+                            <td class="py-1 pr-3">
+                                
+                                <span class="text-slate-400">— 미실행</span>
+                                
+                            </td>
+                            <td class="py-1 text-slate-500"></td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                
+            </div>
+        </div>
+        
+        
+        
+
+        <div class="bg-white rounded-xl border bg-rose-50 border-rose-200 overflow-hidden shadow-sm">
+            <!-- 요약 헤더 -->
+            <div class="px-4 py-3 flex items-center justify-between gap-3 cursor-pointer select-none
+                        hover:bg-slate-50 transition-colors" onclick="toggleLog('20260317_morning_001738')">
+                <div class="flex items-center gap-3 min-w-0">
+                    <span class="text-lg">❌</span>
+                    <div class="min-w-0">
+                        <div class="flex items-center gap-2 flex-wrap">
+                            <span class="font-semibold text-slate-800 text-sm">2026-03-17</span>
+                            <span class="text-xs px-2 py-0.5 rounded-full font-medium
+                                         bg-amber-100 text-amber-700
+                                         ">
+                                🌅 모닝
+                            </span>
+                            <span class="text-xs font-medium text-rose-700">오류</span>
+                        </div>
+                        
+                        <p class="text-xs text-slate-400 truncate mt-0.5">한국경제신문 30분 만에 읽기 | 20260316🌞#모닝루틴 | 아침 8시 라이브</p>
+                        
+                    </div>
+                </div>
+
+                <!-- 단계 아이콘 -->
+                <div class="flex items-center gap-1.5 shrink-0">
+                    
+                    
+                    
+                    <div class="flex flex-col items-center">
+                        <span class="text-xs">
+                            ✅
+                        </span>
+                        <span class="text-[10px] text-slate-400 leading-none">RSS</span>
+                    </div>
+                    
+                    
+                    <div class="flex flex-col items-center">
+                        <span class="text-xs">
+                            ✅
+                        </span>
+                        <span class="text-[10px] text-slate-400 leading-none">자막</span>
+                    </div>
+                    
+                    
+                    <div class="flex flex-col items-center">
+                        <span class="text-xs">
+                            ❌
+                        </span>
+                        <span class="text-[10px] text-slate-400 leading-none">AI</span>
+                    </div>
+                    
+                    
+                    <div class="flex flex-col items-center">
+                        <span class="text-xs">
+                            ⬜
+                        </span>
+                        <span class="text-[10px] text-slate-400 leading-none">카톡</span>
+                    </div>
+                    
+                    <span class="text-slate-300 ml-1 text-xs" id="arrow-20260317_morning_001738">▼</span>
+                </div>
+            </div>
+
+            <!-- 상세 정보 (접기/펼치기) -->
+            <div class="hidden border-t border-surface-200 bg-slate-50 px-4 py-3 text-xs text-slate-600 space-y-2"
+                id="detail-20260317_morning_001738">
+
+                <div class="grid grid-cols-2 gap-x-4 gap-y-1">
+                    <div><span class="text-slate-400">시작:</span> 2026-03-17T00:17:38.629504+09:00</div>
+                    <div><span class="text-slate-400">종료:</span> 2026-03-17T00:17:44.774797+09:00</div>
+                    <div><span class="text-slate-400">Video ID:</span>
+                        
+                        <a href="https://youtube.com/watch?v=KUsqAI-lI1Q" target="_blank"
+                            class="text-indigo-500 hover:underline">KUsqAI-lI1Q</a>
+                        
+                    </div>
+                </div>
+
+                <!-- 단계별 상세 -->
+                <table class="w-full mt-2">
+                    <thead>
+                        <tr class="text-left text-slate-400 border-b border-surface-200">
+                            <th class="pb-1 font-medium">단계</th>
+                            <th class="pb-1 font-medium">결과</th>
+                            <th class="pb-1 font-medium">상세</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-surface-100">
+                        <tr class="py-1">
+                            <td class="py-1 pr-3">RSS 검색</td>
+                            <td class="py-1 pr-3">
+                                
+                                <span class="text-emerald-600">✅ 성공</span>
+                                
+                            </td>
+                            <td class="py-1 text-slate-500">
+                                
+                                영상 1개 발견
+                                
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="py-1 pr-3">자막 추출</td>
+                            <td class="py-1 pr-3">
+                                
+                                <span class="text-emerald-600">✅ 성공</span>
+                                
+                            </td>
+                            <td class="py-1 text-slate-500">
+                                
+                                17247자
+                                
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="py-1 pr-3">AI 요약</td>
+                            <td class="py-1 pr-3">
+                                
+                                <span class="text-rose-600">❌ 실패</span>
+                                
+                            </td>
+                            <td class="py-1 text-slate-500">
+                                
+                                요약 결과 없음
+                                
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="py-1 pr-3">카카오 전송</td>
+                            <td class="py-1 pr-3">
+                                
+                                <span class="text-slate-400">— 미실행</span>
+                                
+                            </td>
+                            <td class="py-1 text-slate-500"></td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                
+            </div>
+        </div>
+        
+        
+        
+
+        <div class="bg-white rounded-xl border bg-rose-50 border-rose-200 overflow-hidden shadow-sm">
+            <!-- 요약 헤더 -->
+            <div class="px-4 py-3 flex items-center justify-between gap-3 cursor-pointer select-none
+                        hover:bg-slate-50 transition-colors" onclick="toggleLog('20260317_morning_001209')">
+                <div class="flex items-center gap-3 min-w-0">
+                    <span class="text-lg">❌</span>
+                    <div class="min-w-0">
+                        <div class="flex items-center gap-2 flex-wrap">
+                            <span class="font-semibold text-slate-800 text-sm">2026-03-17</span>
+                            <span class="text-xs px-2 py-0.5 rounded-full font-medium
+                                         bg-amber-100 text-amber-700
+                                         ">
+                                🌅 모닝
+                            </span>
+                            <span class="text-xs font-medium text-rose-700">오류</span>
+                        </div>
+                        
+                        <p class="text-xs text-slate-400 truncate mt-0.5">한국경제신문 30분 만에 읽기 | 20260316🌞#모닝루틴 | 아침 8시 라이브</p>
+                        
+                    </div>
+                </div>
+
+                <!-- 단계 아이콘 -->
+                <div class="flex items-center gap-1.5 shrink-0">
+                    
+                    
+                    
+                    <div class="flex flex-col items-center">
+                        <span class="text-xs">
+                            ✅
+                        </span>
+                        <span class="text-[10px] text-slate-400 leading-none">RSS</span>
+                    </div>
+                    
+                    
+                    <div class="flex flex-col items-center">
+                        <span class="text-xs">
+                            ✅
+                        </span>
+                        <span class="text-[10px] text-slate-400 leading-none">자막</span>
+                    </div>
+                    
+                    
+                    <div class="flex flex-col items-center">
+                        <span class="text-xs">
+                            ❌
+                        </span>
+                        <span class="text-[10px] text-slate-400 leading-none">AI</span>
+                    </div>
+                    
+                    
+                    <div class="flex flex-col items-center">
+                        <span class="text-xs">
+                            ⬜
+                        </span>
+                        <span class="text-[10px] text-slate-400 leading-none">카톡</span>
+                    </div>
+                    
+                    <span class="text-slate-300 ml-1 text-xs" id="arrow-20260317_morning_001209">▼</span>
+                </div>
+            </div>
+
+            <!-- 상세 정보 (접기/펼치기) -->
+            <div class="hidden border-t border-surface-200 bg-slate-50 px-4 py-3 text-xs text-slate-600 space-y-2"
+                id="detail-20260317_morning_001209">
+
+                <div class="grid grid-cols-2 gap-x-4 gap-y-1">
+                    <div><span class="text-slate-400">시작:</span> 2026-03-17T00:12:09.636383+09:00</div>
+                    <div><span class="text-slate-400">종료:</span> 2026-03-17T00:14:08.918002+09:00</div>
+                    <div><span class="text-slate-400">Video ID:</span>
+                        
+                        <a href="https://youtube.com/watch?v=KUsqAI-lI1Q" target="_blank"
+                            class="text-indigo-500 hover:underline">KUsqAI-lI1Q</a>
+                        
+                    </div>
+                </div>
+
+                <!-- 단계별 상세 -->
+                <table class="w-full mt-2">
+                    <thead>
+                        <tr class="text-left text-slate-400 border-b border-surface-200">
+                            <th class="pb-1 font-medium">단계</th>
+                            <th class="pb-1 font-medium">결과</th>
+                            <th class="pb-1 font-medium">상세</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-surface-100">
+                        <tr class="py-1">
+                            <td class="py-1 pr-3">RSS 검색</td>
+                            <td class="py-1 pr-3">
+                                
+                                <span class="text-emerald-600">✅ 성공</span>
+                                
+                            </td>
+                            <td class="py-1 text-slate-500">
+                                
+                                영상 1개 발견
+                                
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="py-1 pr-3">자막 추출</td>
+                            <td class="py-1 pr-3">
+                                
+                                <span class="text-emerald-600">✅ 성공</span>
+                                
+                            </td>
+                            <td class="py-1 text-slate-500">
+                                
+                                17247자
+                                
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="py-1 pr-3">AI 요약</td>
+                            <td class="py-1 pr-3">
+                                
+                                <span class="text-rose-600">❌ 실패</span>
+                                
+                            </td>
+                            <td class="py-1 text-slate-500">
+                                
+                                요약 결과 없음
+                                
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="py-1 pr-3">카카오 전송</td>
+                            <td class="py-1 pr-3">
+                                
+                                <span class="text-slate-400">— 미실행</span>
+                                
+                            </td>
+                            <td class="py-1 text-slate-500"></td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                
+            </div>
+        </div>
         
         
         
@@ -546,6 +1416,151 @@
         <div class="bg-white rounded-xl border bg-rose-50 border-rose-200 overflow-hidden shadow-sm">
             <!-- 요약 헤더 -->
             <div class="px-4 py-3 flex items-center justify-between gap-3 cursor-pointer select-none
+                        hover:bg-slate-50 transition-colors" onclick="toggleLog('20260317_morning_000713')">
+                <div class="flex items-center gap-3 min-w-0">
+                    <span class="text-lg">❌</span>
+                    <div class="min-w-0">
+                        <div class="flex items-center gap-2 flex-wrap">
+                            <span class="font-semibold text-slate-800 text-sm">2026-03-17</span>
+                            <span class="text-xs px-2 py-0.5 rounded-full font-medium
+                                         bg-amber-100 text-amber-700
+                                         ">
+                                🌅 모닝
+                            </span>
+                            <span class="text-xs font-medium text-rose-700">오류</span>
+                        </div>
+                        
+                        <p class="text-xs text-slate-400 truncate mt-0.5">한국경제신문 30분 만에 읽기 | 20260316🌞#모닝루틴 | 아침 8시 라이브</p>
+                        
+                    </div>
+                </div>
+
+                <!-- 단계 아이콘 -->
+                <div class="flex items-center gap-1.5 shrink-0">
+                    
+                    
+                    
+                    <div class="flex flex-col items-center">
+                        <span class="text-xs">
+                            ✅
+                        </span>
+                        <span class="text-[10px] text-slate-400 leading-none">RSS</span>
+                    </div>
+                    
+                    
+                    <div class="flex flex-col items-center">
+                        <span class="text-xs">
+                            ✅
+                        </span>
+                        <span class="text-[10px] text-slate-400 leading-none">자막</span>
+                    </div>
+                    
+                    
+                    <div class="flex flex-col items-center">
+                        <span class="text-xs">
+                            ❌
+                        </span>
+                        <span class="text-[10px] text-slate-400 leading-none">AI</span>
+                    </div>
+                    
+                    
+                    <div class="flex flex-col items-center">
+                        <span class="text-xs">
+                            ⬜
+                        </span>
+                        <span class="text-[10px] text-slate-400 leading-none">카톡</span>
+                    </div>
+                    
+                    <span class="text-slate-300 ml-1 text-xs" id="arrow-20260317_morning_000713">▼</span>
+                </div>
+            </div>
+
+            <!-- 상세 정보 (접기/펼치기) -->
+            <div class="hidden border-t border-surface-200 bg-slate-50 px-4 py-3 text-xs text-slate-600 space-y-2"
+                id="detail-20260317_morning_000713">
+
+                <div class="grid grid-cols-2 gap-x-4 gap-y-1">
+                    <div><span class="text-slate-400">시작:</span> 2026-03-17T00:07:13.242856+09:00</div>
+                    <div><span class="text-slate-400">종료:</span> 2026-03-17T00:10:50.659860+09:00</div>
+                    <div><span class="text-slate-400">Video ID:</span>
+                        
+                        <a href="https://youtube.com/watch?v=KUsqAI-lI1Q" target="_blank"
+                            class="text-indigo-500 hover:underline">KUsqAI-lI1Q</a>
+                        
+                    </div>
+                </div>
+
+                <!-- 단계별 상세 -->
+                <table class="w-full mt-2">
+                    <thead>
+                        <tr class="text-left text-slate-400 border-b border-surface-200">
+                            <th class="pb-1 font-medium">단계</th>
+                            <th class="pb-1 font-medium">결과</th>
+                            <th class="pb-1 font-medium">상세</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-surface-100">
+                        <tr class="py-1">
+                            <td class="py-1 pr-3">RSS 검색</td>
+                            <td class="py-1 pr-3">
+                                
+                                <span class="text-emerald-600">✅ 성공</span>
+                                
+                            </td>
+                            <td class="py-1 text-slate-500">
+                                
+                                영상 1개 발견
+                                
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="py-1 pr-3">자막 추출</td>
+                            <td class="py-1 pr-3">
+                                
+                                <span class="text-emerald-600">✅ 성공</span>
+                                
+                            </td>
+                            <td class="py-1 text-slate-500">
+                                
+                                17247자
+                                
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="py-1 pr-3">AI 요약</td>
+                            <td class="py-1 pr-3">
+                                
+                                <span class="text-rose-600">❌ 실패</span>
+                                
+                            </td>
+                            <td class="py-1 text-slate-500">
+                                
+                                요약 결과 없음
+                                
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="py-1 pr-3">카카오 전송</td>
+                            <td class="py-1 pr-3">
+                                
+                                <span class="text-slate-400">— 미실행</span>
+                                
+                            </td>
+                            <td class="py-1 text-slate-500"></td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                
+            </div>
+        </div>
+        
+        
+        
+
+        <div class="bg-white rounded-xl border bg-rose-50 border-rose-200 overflow-hidden shadow-sm">
+            <!-- 요약 헤더 -->
+            <div class="px-4 py-3 flex items-center justify-between gap-3 cursor-pointer select-none
                         hover:bg-slate-50 transition-colors" onclick="toggleLog('20260317_morning_000652')">
                 <div class="flex items-center gap-3 min-w-0">
                     <span class="text-lg">❌</span>
@@ -757,6 +1772,296 @@
                 <div class="grid grid-cols-2 gap-x-4 gap-y-1">
                     <div><span class="text-slate-400">시작:</span> 2026-03-17T00:06:36.452107+09:00</div>
                     <div><span class="text-slate-400">종료:</span> 2026-03-17T00:06:42.589719+09:00</div>
+                    <div><span class="text-slate-400">Video ID:</span>
+                        
+                        <a href="https://youtube.com/watch?v=KUsqAI-lI1Q" target="_blank"
+                            class="text-indigo-500 hover:underline">KUsqAI-lI1Q</a>
+                        
+                    </div>
+                </div>
+
+                <!-- 단계별 상세 -->
+                <table class="w-full mt-2">
+                    <thead>
+                        <tr class="text-left text-slate-400 border-b border-surface-200">
+                            <th class="pb-1 font-medium">단계</th>
+                            <th class="pb-1 font-medium">결과</th>
+                            <th class="pb-1 font-medium">상세</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-surface-100">
+                        <tr class="py-1">
+                            <td class="py-1 pr-3">RSS 검색</td>
+                            <td class="py-1 pr-3">
+                                
+                                <span class="text-emerald-600">✅ 성공</span>
+                                
+                            </td>
+                            <td class="py-1 text-slate-500">
+                                
+                                영상 1개 발견
+                                
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="py-1 pr-3">자막 추출</td>
+                            <td class="py-1 pr-3">
+                                
+                                <span class="text-emerald-600">✅ 성공</span>
+                                
+                            </td>
+                            <td class="py-1 text-slate-500">
+                                
+                                17247자
+                                
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="py-1 pr-3">AI 요약</td>
+                            <td class="py-1 pr-3">
+                                
+                                <span class="text-rose-600">❌ 실패</span>
+                                
+                            </td>
+                            <td class="py-1 text-slate-500">
+                                
+                                요약 결과 없음
+                                
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="py-1 pr-3">카카오 전송</td>
+                            <td class="py-1 pr-3">
+                                
+                                <span class="text-slate-400">— 미실행</span>
+                                
+                            </td>
+                            <td class="py-1 text-slate-500"></td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                
+            </div>
+        </div>
+        
+        
+        
+
+        <div class="bg-white rounded-xl border bg-rose-50 border-rose-200 overflow-hidden shadow-sm">
+            <!-- 요약 헤더 -->
+            <div class="px-4 py-3 flex items-center justify-between gap-3 cursor-pointer select-none
+                        hover:bg-slate-50 transition-colors" onclick="toggleLog('20260317_morning_000616')">
+                <div class="flex items-center gap-3 min-w-0">
+                    <span class="text-lg">❌</span>
+                    <div class="min-w-0">
+                        <div class="flex items-center gap-2 flex-wrap">
+                            <span class="font-semibold text-slate-800 text-sm">2026-03-17</span>
+                            <span class="text-xs px-2 py-0.5 rounded-full font-medium
+                                         bg-amber-100 text-amber-700
+                                         ">
+                                🌅 모닝
+                            </span>
+                            <span class="text-xs font-medium text-rose-700">오류</span>
+                        </div>
+                        
+                        <p class="text-xs text-slate-400 truncate mt-0.5">한국경제신문 30분 만에 읽기 | 20260316🌞#모닝루틴 | 아침 8시 라이브</p>
+                        
+                    </div>
+                </div>
+
+                <!-- 단계 아이콘 -->
+                <div class="flex items-center gap-1.5 shrink-0">
+                    
+                    
+                    
+                    <div class="flex flex-col items-center">
+                        <span class="text-xs">
+                            ✅
+                        </span>
+                        <span class="text-[10px] text-slate-400 leading-none">RSS</span>
+                    </div>
+                    
+                    
+                    <div class="flex flex-col items-center">
+                        <span class="text-xs">
+                            ✅
+                        </span>
+                        <span class="text-[10px] text-slate-400 leading-none">자막</span>
+                    </div>
+                    
+                    
+                    <div class="flex flex-col items-center">
+                        <span class="text-xs">
+                            ❌
+                        </span>
+                        <span class="text-[10px] text-slate-400 leading-none">AI</span>
+                    </div>
+                    
+                    
+                    <div class="flex flex-col items-center">
+                        <span class="text-xs">
+                            ⬜
+                        </span>
+                        <span class="text-[10px] text-slate-400 leading-none">카톡</span>
+                    </div>
+                    
+                    <span class="text-slate-300 ml-1 text-xs" id="arrow-20260317_morning_000616">▼</span>
+                </div>
+            </div>
+
+            <!-- 상세 정보 (접기/펼치기) -->
+            <div class="hidden border-t border-surface-200 bg-slate-50 px-4 py-3 text-xs text-slate-600 space-y-2"
+                id="detail-20260317_morning_000616">
+
+                <div class="grid grid-cols-2 gap-x-4 gap-y-1">
+                    <div><span class="text-slate-400">시작:</span> 2026-03-17T00:06:16.520996+09:00</div>
+                    <div><span class="text-slate-400">종료:</span> 2026-03-17T00:09:53.621415+09:00</div>
+                    <div><span class="text-slate-400">Video ID:</span>
+                        
+                        <a href="https://youtube.com/watch?v=KUsqAI-lI1Q" target="_blank"
+                            class="text-indigo-500 hover:underline">KUsqAI-lI1Q</a>
+                        
+                    </div>
+                </div>
+
+                <!-- 단계별 상세 -->
+                <table class="w-full mt-2">
+                    <thead>
+                        <tr class="text-left text-slate-400 border-b border-surface-200">
+                            <th class="pb-1 font-medium">단계</th>
+                            <th class="pb-1 font-medium">결과</th>
+                            <th class="pb-1 font-medium">상세</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-surface-100">
+                        <tr class="py-1">
+                            <td class="py-1 pr-3">RSS 검색</td>
+                            <td class="py-1 pr-3">
+                                
+                                <span class="text-emerald-600">✅ 성공</span>
+                                
+                            </td>
+                            <td class="py-1 text-slate-500">
+                                
+                                영상 1개 발견
+                                
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="py-1 pr-3">자막 추출</td>
+                            <td class="py-1 pr-3">
+                                
+                                <span class="text-emerald-600">✅ 성공</span>
+                                
+                            </td>
+                            <td class="py-1 text-slate-500">
+                                
+                                17247자
+                                
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="py-1 pr-3">AI 요약</td>
+                            <td class="py-1 pr-3">
+                                
+                                <span class="text-rose-600">❌ 실패</span>
+                                
+                            </td>
+                            <td class="py-1 text-slate-500">
+                                
+                                요약 결과 없음
+                                
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="py-1 pr-3">카카오 전송</td>
+                            <td class="py-1 pr-3">
+                                
+                                <span class="text-slate-400">— 미실행</span>
+                                
+                            </td>
+                            <td class="py-1 text-slate-500"></td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                
+            </div>
+        </div>
+        
+        
+        
+
+        <div class="bg-white rounded-xl border bg-rose-50 border-rose-200 overflow-hidden shadow-sm">
+            <!-- 요약 헤더 -->
+            <div class="px-4 py-3 flex items-center justify-between gap-3 cursor-pointer select-none
+                        hover:bg-slate-50 transition-colors" onclick="toggleLog('20260317_morning_000557')">
+                <div class="flex items-center gap-3 min-w-0">
+                    <span class="text-lg">❌</span>
+                    <div class="min-w-0">
+                        <div class="flex items-center gap-2 flex-wrap">
+                            <span class="font-semibold text-slate-800 text-sm">2026-03-17</span>
+                            <span class="text-xs px-2 py-0.5 rounded-full font-medium
+                                         bg-amber-100 text-amber-700
+                                         ">
+                                🌅 모닝
+                            </span>
+                            <span class="text-xs font-medium text-rose-700">오류</span>
+                        </div>
+                        
+                        <p class="text-xs text-slate-400 truncate mt-0.5">한국경제신문 30분 만에 읽기 | 20260316🌞#모닝루틴 | 아침 8시 라이브</p>
+                        
+                    </div>
+                </div>
+
+                <!-- 단계 아이콘 -->
+                <div class="flex items-center gap-1.5 shrink-0">
+                    
+                    
+                    
+                    <div class="flex flex-col items-center">
+                        <span class="text-xs">
+                            ✅
+                        </span>
+                        <span class="text-[10px] text-slate-400 leading-none">RSS</span>
+                    </div>
+                    
+                    
+                    <div class="flex flex-col items-center">
+                        <span class="text-xs">
+                            ✅
+                        </span>
+                        <span class="text-[10px] text-slate-400 leading-none">자막</span>
+                    </div>
+                    
+                    
+                    <div class="flex flex-col items-center">
+                        <span class="text-xs">
+                            ❌
+                        </span>
+                        <span class="text-[10px] text-slate-400 leading-none">AI</span>
+                    </div>
+                    
+                    
+                    <div class="flex flex-col items-center">
+                        <span class="text-xs">
+                            ⬜
+                        </span>
+                        <span class="text-[10px] text-slate-400 leading-none">카톡</span>
+                    </div>
+                    
+                    <span class="text-slate-300 ml-1 text-xs" id="arrow-20260317_morning_000557">▼</span>
+                </div>
+            </div>
+
+            <!-- 상세 정보 (접기/펼치기) -->
+            <div class="hidden border-t border-surface-200 bg-slate-50 px-4 py-3 text-xs text-slate-600 space-y-2"
+                id="detail-20260317_morning_000557">
+
+                <div class="grid grid-cols-2 gap-x-4 gap-y-1">
+                    <div><span class="text-slate-400">시작:</span> 2026-03-17T00:05:57.916681+09:00</div>
+                    <div><span class="text-slate-400">종료:</span> 2026-03-17T00:09:34.666617+09:00</div>
                     <div><span class="text-slate-400">Video ID:</span>
                         
                         <a href="https://youtube.com/watch?v=KUsqAI-lI1Q" target="_blank"
@@ -3579,7 +4884,7 @@
                 AI 기반 경제 뉴스 브리핑 · 투자 조언이 아닌 정보 제공 목적
             </p>
             <p class="text-xs text-slate-300 mt-1">
-                빌드: 2026-03-17 00:08 KST
+                빌드: 2026-03-17 00:25 KST
             </p>
         </div>
     </footer>
