@@ -177,6 +177,13 @@ def summarize(transcript, video_id):
                 return result
 
             log.error("JSON 파싱 실패: 응답에서 JSON을 찾을 수 없습니다.")
+            try:
+                candidates = response.candidates
+                if candidates:
+                    log.debug(f"Finish Reason: {candidates[0].finish_reason}")
+                log.debug(f"Usage Metadata: {response.usage_metadata}")
+            except:
+                pass
             return None
 
         except Exception as e:
