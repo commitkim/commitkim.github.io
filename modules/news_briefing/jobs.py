@@ -17,7 +17,7 @@ def register_jobs(registry):
         schedule="0 9 * * 1-5",
         command="apps.cli run news --mode morning",
         tags=["news", "morning"],
-        enabled=enabled,
+        enabled=enabled and cfg.get("news_briefing.morning_enabled", True),
     ))
     registry.register(JobDefinition(
         name="news_evening",
@@ -25,5 +25,5 @@ def register_jobs(registry):
         schedule="30 19 * * 1-5",
         command="apps.cli run news --mode evening",
         tags=["news", "evening"],
-        enabled=enabled,
+        enabled=enabled and cfg.get("news_briefing.evening_enabled", True),
     ))

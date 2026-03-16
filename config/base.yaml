@@ -16,6 +16,8 @@ github:
 # =============================================================================
 news_briefing:
   schedule_enabled: true
+  morning_enabled: true
+  evening_enabled: false
   youtube_channel_id: "UCGCGxsbmG_9nincyI7xypow"
   modes:
     morning:
@@ -56,7 +58,7 @@ crypto_trader:
 # 🤖 AI Settings
 # =============================================================================
 ai:
-  model: "gemini-3-flash-preview"
+  model: "gemini-3.1-flash-preview"
 
 # =============================================================================
 # 💬 Messenger (KakaoTalk)

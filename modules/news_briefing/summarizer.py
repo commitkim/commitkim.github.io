@@ -140,7 +140,7 @@ def summarize(transcript, video_id):
                 contents=prompt,
                 config=types.GenerateContentConfig(
                     response_mime_type="application/json",
-                    max_output_tokens=4096,
+                    max_output_tokens=65535,
                 )
             )
             text = response.text
@@ -182,7 +182,7 @@ def summarize(transcript, video_id):
                 if candidates:
                     log.debug(f"Finish Reason: {candidates[0].finish_reason}")
                 log.debug(f"Usage Metadata: {response.usage_metadata}")
-            except:
+            except Exception:
                 pass
             return None
 
