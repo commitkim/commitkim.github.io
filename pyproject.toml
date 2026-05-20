@@ -5,26 +5,27 @@ description = "AI-powered personal assistant: news briefing, crypto trading, and
 requires-python = ">=3.11"
 readme = "README.md"
 
-[project.dependencies]
-# Core
-pyyaml = ">=6.0"
-python-dotenv = ">=1.0"
+dependencies = [
+    # Core
+    "pyyaml>=6.0",
+    "python-dotenv>=1.0",
 
-# News Briefing
-google-genai = ">=0.1"
-youtube-transcript-api = ">=0.6"
-google-api-python-client = ">=2.0"
+    # News Briefing
+    "google-genai>=0.1",
+    "youtube-transcript-api>=0.6",
+    "google-api-python-client>=2.0",
 
-# Crypto Trader
-pyupbit = ">=0.2"
-schedule = ">=1.2"
+    # Crypto Trader
+    "pyupbit>=0.2",
+    "schedule>=1.2",
 
-# Site Builder
-jinja2 = ">=3.1"
-markdown = ">=3.5"
+    # Site Builder
+    "jinja2>=3.1",
+    "markdown>=3.5",
 
-# Messenger
-requests = ">=2.31"
+    # Messenger
+    "requests>=2.31",
+]
 
 [project.optional-dependencies]
 dev = [

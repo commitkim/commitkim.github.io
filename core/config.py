@@ -13,7 +13,7 @@ Usage:
 
     model = cfg.get("ai.model")           # "gemini-2.5-flash"
     coins = cfg.get("crypto_trader.coins") # ["KRW-BTC", ...]
-    url = cfg.get("github.pages_url")     # "https://commitkim.github.io"
+    url = cfg.get("github.pages_url")     # "https://commitkim.pages.dev"
 """
 
 import copy
