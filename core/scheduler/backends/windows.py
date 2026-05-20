@@ -69,7 +69,7 @@ class WindowsSchedulerBackend(SchedulerBackend):
                 ps_cmd = [
                     "powershell", "-Command",
                     (f"Set-ScheduledTask -TaskName {task_name} "
-                     "-Settings (New-ScheduledTaskSettingsSet -StartWhenAvailable)")
+                     "-Settings (New-ScheduledTaskSettingsSet -StartWhenAvailable -WakeToRun)")
                 ]
                 self._run_schtasks(ps_cmd, ignore_errors=True)
                 log.info(f"[OK] Registered: {task_name} ({job.schedule})")

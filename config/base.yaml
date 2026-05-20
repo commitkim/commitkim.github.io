@@ -23,7 +23,7 @@ news_briefing:
     morning:
       keyword: "모닝루틴"
       title_prefix: "모닝루틴 요약"
-      schedule: "0 9 * * 1-5"
+      schedule: "0 10 * * 1-5"
     evening:
       keyword: "퇴근요정"
       title_prefix: "퇴근요정 요약"

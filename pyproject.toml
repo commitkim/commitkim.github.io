@@ -61,3 +61,6 @@ exclude = ["test_gemini.py"]
 python_version = "3.11"
 warn_return_any = true
 warn_unused_configs = true
+
+[tool.setuptools.packages.find]
+include = ["apps*", "core*", "modules*"]
